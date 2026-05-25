@@ -85,7 +85,7 @@ export default function HomePage() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">🔥</span>
+                <img src="/logo-cat.svg" alt="NyinyiStore" className="h-7 w-7" />
                 <span className="text-base font-bold text-[#c8a45c]">NyinyiStore</span>
               </div>
               <p className="text-xs text-[#777] leading-relaxed">
