@@ -1,9 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface GameCardProps {
   name: string;
   slug: string;
-  icon: string;
   image: string;
   description: string;
 }
@@ -11,18 +11,21 @@ interface GameCardProps {
 export default function GameCard({ name, slug, image, description }: GameCardProps) {
   return (
     <Link href={`/topup/${slug}`}>
-      <div className="group relative overflow-hidden rounded-xl border border-gray-700 bg-gray-800 p-6 transition-all duration-300 hover:border-violet-500 hover:shadow-lg hover:shadow-violet-500/20 hover:-translate-y-1">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-purple-600/10 opacity-0 transition-opacity group-hover:opacity-100" />
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <div className="mb-3 h-16 w-16 overflow-hidden rounded-xl">
-            <img
-              src={image}
-              alt={name}
-              className="h-full w-full object-cover"
-            />
+      <div className="game-card group relative overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-800/50 transition-all hover:border-indigo-500/50">
+        {/* Game Image - Portrait 3:4 ratio like ourastore */}
+        <div className="relative aspect-[3/4] w-full overflow-hidden">
+          <img
+            src={image}
+            alt={name}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          {/* Gradient overlay at bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" />
+          {/* Game name overlay */}
+          <div className="absolute inset-x-0 bottom-0 p-4">
+            <h3 className="text-lg font-bold text-white drop-shadow-lg">{name}</h3>
+            <p className="mt-0.5 text-xs text-slate-300 drop-shadow">{description}</p>
           </div>
-          <h3 className="text-lg font-bold text-white">{name}</h3>
-          <p className="mt-1 text-sm text-gray-400">{description}</p>
         </div>
       </div>
     </Link>
