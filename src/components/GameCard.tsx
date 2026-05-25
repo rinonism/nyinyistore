@@ -10,21 +10,19 @@ interface GameCardProps {
 export default function GameCard({ name, slug, image, description }: GameCardProps) {
   return (
     <Link href={`/topup/${slug}`}>
-      <div className="game-card overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] transition-all">
-        {/* Game Image - Portrait 3:4 ratio */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden">
+      <div className="game-card flex items-center gap-3 rounded-2xl border border-[#2a2a2a] bg-[#1e1e1e] p-3 transition-all hover:border-[#c8a45c40]">
+        {/* Square game icon */}
+        <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-[#3a3a3a]">
           <img
             src={image}
             alt={name}
             className="h-full w-full object-cover"
           />
-          {/* Gradient overlay */}
-          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-          {/* Game name */}
-          <div className="absolute inset-x-0 bottom-0 p-3">
-            <h3 className="text-sm font-bold text-white leading-tight">{name}</h3>
-            <p className="mt-0.5 text-[11px] text-[#b0b0b0]">{description}</p>
-          </div>
+        </div>
+        {/* Name + Developer */}
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold text-white truncate">{name}</h3>
+          <p className="text-[11px] text-[#777] truncate">{description}</p>
         </div>
       </div>
     </Link>

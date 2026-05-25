@@ -4,41 +4,41 @@ import { games } from "@/lib/games";
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Banner */}
+      {/* Hero Banner Carousel */}
       <section className="mx-auto max-w-[1200px] px-4 pt-5">
-        <div className="relative overflow-hidden rounded-xl aspect-[2.5/1] bg-[#1e1e1e]">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0f00] via-[#2a1800] to-[#1a0f00]" />
+        <div className="relative overflow-hidden rounded-2xl aspect-[3.5/1] bg-[#1e1e1e]">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0f00] via-[#0d1a2a] to-[#1a0f00]" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-6">
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2">
-                TOP UP GAME <span className="text-[#c8a45c]">TERMURAH</span> 🔥
+              <p className="text-xs text-[#c8a45c] uppercase tracking-widest mb-2">NyinyiStore</p>
+              <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                TOP UP GAME <span className="text-[#c8a45c]">KILAT</span>
               </h1>
-              <p className="text-sm md:text-base text-[#b0b0b0]">
-                Proses cepat 1-3 detik • Payment terlengkap • Open 24 jam
+              <p className="text-xs md:text-sm text-[#b0b0b0]">
+                PROSES CEPAT! HANYA DI WWW.NYINYISTORE.COM
               </p>
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-                <span className="rounded-full bg-[#2a2a2a] border border-[#3a3a3a] px-3 py-1 text-xs text-[#ccc]">
-                  ⚡ Proses Instan
-                </span>
-                <span className="rounded-full bg-[#2a2a2a] border border-[#3a3a3a] px-3 py-1 text-xs text-[#ccc]">
-                  🔒 Pembayaran Aman
-                </span>
-                <span className="rounded-full bg-[#2a2a2a] border border-[#3a3a3a] px-3 py-1 text-xs text-[#ccc]">
-                  💰 Harga Termurah
-                </span>
-              </div>
             </div>
           </div>
+          {/* Carousel Arrows */}
+          <button className="absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full border border-[#555] bg-black/40 text-white/70 hover:bg-black/60 hover:text-white transition-colors">
+            ‹
+          </button>
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full border border-[#555] bg-black/40 text-white/70 hover:bg-black/60 hover:text-white transition-colors">
+            ›
+          </button>
         </div>
       </section>
 
-      {/* Popular Section */}
+      {/* Rekomendasi Section */}
       <section className="mx-auto max-w-[1200px] px-4 pt-8 pb-4">
-        <h2 className="mb-5 text-base font-bold text-white flex items-center gap-2">
-          <span className="text-[#c8a45c]">🔥</span> POPULER SEKARANG!
+        <h2 className="mb-1 text-base font-bold text-white flex items-center gap-2">
+          <span>✨</span> REKOMENDASI
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {games.slice(0, 5).map((game) => (
+        <p className="mb-4 text-xs text-[#777]">
+          Berikut adalah beberapa produk yang kami rekomendasikan untuk kamu.
+        </p>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {games.slice(0, 3).map((game) => (
             <GameCard
               key={game.slug}
               name={game.name}
@@ -50,12 +50,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* All Games Section */}
+      {/* Populer Sekarang Section */}
       <section className="mx-auto max-w-[1200px] px-4 py-6">
-        <h2 className="mb-5 text-base font-bold text-white flex items-center gap-2">
-          <span className="text-[#c8a45c]">🎮</span> SEMUA GAME
+        <h2 className="mb-1 text-base font-bold text-white flex items-center gap-2">
+          <span>🔥</span> POPULER SEKARANG!
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <p className="mb-4 text-xs text-[#777]">
+          Berikut adalah beberapa produk yang paling populer saat ini.
+        </p>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {games.map((game) => (
             <GameCard
               key={game.slug}
@@ -79,7 +82,7 @@ export default function HomePage() {
             "Apakah top up di NyinyiStore aman?",
             "Bagaimana cara cek transaksi?",
           ].map((q, i) => (
-            <details key={i} className="group rounded-lg border border-[#2a2a2a] bg-[#1e1e1e]">
+            <details key={i} className="group rounded-xl border border-[#2a2a2a] bg-[#1e1e1e]">
               <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm text-white">
                 {q}
                 <svg className="h-4 w-4 text-[#777] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
