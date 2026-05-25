@@ -48,7 +48,7 @@ export default function BannerCarousel() {
   const next = () => setCurrent((current + 1) % banners.length);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl aspect-[3.5/1] bg-[#1e1e1e]">
+    <div className="relative overflow-hidden rounded-2xl aspect-[2/1] sm:aspect-[3/1] lg:aspect-[3.5/1] bg-[#1e1e1e]">
       {/* Slides */}
       <div
         className="flex h-full transition-transform duration-500 ease-in-out"
@@ -61,11 +61,11 @@ export default function BannerCarousel() {
           >
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center px-6">
-                <p className="text-xs text-[#c8a45c] uppercase tracking-widest mb-2">NyinyiStore</p>
-                <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                <p className="text-xs text-[#c8a45c] uppercase tracking-widest mb-1 sm:mb-2">NyinyiStore</p>
+                <h2 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-extrabold text-white mb-1 sm:mb-2">
                   {banner.accent} {banner.title}
                 </h2>
-                <p className="text-xs md:text-sm text-[#b0b0b0]">
+                <p className="text-[11px] sm:text-xs md:text-sm text-[#b0b0b0]">
                   {banner.subtitle}
                 </p>
               </div>

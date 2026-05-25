@@ -6,19 +6,19 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Banner Carousel */}
-      <section className="mx-auto max-w-[1200px] px-4 pt-5">
+      <section className="mx-auto max-w-[1200px] px-3 sm:px-4 pt-3 sm:pt-5">
         <BannerCarousel />
       </section>
 
       {/* Rekomendasi Section */}
-      <section className="mx-auto max-w-[1200px] px-4 pt-8 pb-4">
-        <h2 className="mb-1 text-base font-bold text-white flex items-center gap-2">
+      <section className="mx-auto max-w-[1200px] px-3 sm:px-4 pt-6 sm:pt-8 pb-4">
+        <h2 className="mb-1 text-sm sm:text-base font-bold text-white flex items-center gap-2">
           <span>✨</span> REKOMENDASI
         </h2>
-        <p className="mb-4 text-xs text-[#777]">
+        <p className="mb-3 sm:mb-4 text-xs text-[#777]">
           Berikut adalah beberapa produk yang kami rekomendasikan untuk kamu.
         </p>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {games.slice(0, 3).map((game) => (
             <GameCard
               key={game.slug}
@@ -32,14 +32,14 @@ export default function HomePage() {
       </section>
 
       {/* Populer Sekarang Section */}
-      <section className="mx-auto max-w-[1200px] px-4 py-6">
-        <h2 className="mb-1 text-base font-bold text-white flex items-center gap-2">
+      <section className="mx-auto max-w-[1200px] px-3 sm:px-4 py-4 sm:py-6">
+        <h2 className="mb-1 text-sm sm:text-base font-bold text-white flex items-center gap-2">
           <span>🔥</span> POPULER SEKARANG!
         </h2>
-        <p className="mb-4 text-xs text-[#777]">
+        <p className="mb-3 sm:mb-4 text-xs text-[#777]">
           Berikut adalah beberapa produk yang paling populer saat ini.
         </p>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {games.map((game) => (
             <GameCard
               key={game.slug}
