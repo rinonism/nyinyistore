@@ -18,7 +18,7 @@ export const games: Game[] = [
     name: "Mobile Legends",
     slug: "mobile-legends",
     icon: "⚔️",
-    image: "/games/mobile-legends.svg",
+    image: "/games/mobile-legends.jpg",
     description: "Mobile Legends: Bang Bang Diamond Top Up",
     denominations: [
       { amount: "86 Diamonds", price: 19000, label: "86 💎" },
@@ -33,7 +33,7 @@ export const games: Game[] = [
     name: "Free Fire",
     slug: "free-fire",
     icon: "🔥",
-    image: "/games/free-fire.svg",
+    image: "/games/free-fire.jpg",
     description: "Garena Free Fire Diamond Top Up",
     denominations: [
       { amount: "70 Diamonds", price: 15000, label: "70 💎" },
@@ -48,7 +48,7 @@ export const games: Game[] = [
     name: "Genshin Impact",
     slug: "genshin-impact",
     icon: "🌟",
-    image: "/games/genshin-impact.svg",
+    image: "/games/genshin-impact.jpg",
     description: "Genshin Impact Genesis Crystal Top Up",
     denominations: [
       { amount: "60 Crystals", price: 16000, label: "60 💠" },
@@ -63,7 +63,7 @@ export const games: Game[] = [
     name: "Valorant",
     slug: "valorant",
     icon: "🎯",
-    image: "/games/valorant.svg",
+    image: "/games/valorant.jpg",
     description: "Valorant Points (VP) Top Up",
     denominations: [
       { amount: "125 VP", price: 15000, label: "125 VP" },
@@ -78,7 +78,7 @@ export const games: Game[] = [
     name: "PUBG Mobile",
     slug: "pubg-mobile",
     icon: "🪖",
-    image: "/games/pubg-mobile.svg",
+    image: "/games/pubg-mobile.png",
     description: "PUBG Mobile UC Top Up",
     denominations: [
       { amount: "60 UC", price: 15000, label: "60 UC" },
@@ -93,7 +93,7 @@ export const games: Game[] = [
     name: "Honkai Star Rail",
     slug: "honkai-star-rail",
     icon: "🚀",
-    image: "/games/honkai-star-rail.svg",
+    image: "/games/honkai-star-rail.jpg",
     description: "Honkai: Star Rail Oneiric Shard Top Up",
     denominations: [
       { amount: "60 Shards", price: 16000, label: "60 ✨" },
