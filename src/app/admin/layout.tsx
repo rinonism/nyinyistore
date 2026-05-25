@@ -23,10 +23,21 @@ export default function AdminLayout({
 
     const hasToken = document.cookie.includes("admin_token=");
     if (!hasToken) {
-      router.push("/admin/login");
-    } else {
-      setAuthenticated(true);
+      // Try API check since cookie is httpOnly
+      fetch("/api/admin/orders").then(res => {
+        if (!res.ok) {
+          router.push("/admin/login");
+        } else {
+          setAuthenticated(true);
+        }
+        setChecking(false);
+      }).catch(() => {
+        router.push("/admin/login");
+        setChecking(false);
+      });
+      return;
     }
+    setAuthenticated(true);
     setChecking(false);
   }, [pathname, router]);
 
