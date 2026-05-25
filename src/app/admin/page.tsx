@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { promoCodes } from "@/lib/promo";
+import type { PromoCode } from "@/lib/promo";
 
 interface Order {
   id: string;
@@ -43,6 +45,7 @@ export default function AdminDashboard() {
     failedOrders: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"orders" | "promo">("orders");
 
   useEffect(() => {
     fetchOrders();
@@ -65,18 +68,11 @@ export default function AdminDashboard() {
 
   const calculateStats = (orderList: Order[]) => {
     const totalOrders = orderList.length;
-    const completedOrders = orderList.filter(
-      (o) => o.status === "completed"
-    ).length;
-    const pendingOrders = orderList.filter(
-      (o) => o.status === "pending"
-    ).length;
+    const completedOrders = orderList.filter((o) => o.status === "completed").length;
+    const pendingOrders = orderList.filter((o) => o.status === "pending").length;
     const paidOrders = orderList.filter((o) => o.status === "paid").length;
-    const failedOrders = orderList.filter(
-      (o) => o.status === "failed" || o.status === "expired"
-    ).length;
+    const failedOrders = orderList.filter((o) => o.status === "failed" || o.status === "expired").length;
 
-    // Revenue from completed + paid + processing orders
     const revenueOrders = orderList.filter((o) =>
       ["completed", "paid", "processing"].includes(o.status)
     );
@@ -89,33 +85,15 @@ export default function AdminDashboard() {
       .filter((o) => o.amount_crypto)
       .reduce((sum, o) => sum + parseFloat(o.amount_crypto || "0"), 0);
 
-    setStats({
-      totalOrders,
-      totalRevenueIDR,
-      totalRevenueCrypto,
-      pendingOrders,
-      completedOrders,
-      paidOrders,
-      failedOrders,
-    });
+    setStats({ totalOrders, totalRevenueIDR, totalRevenueCrypto, pendingOrders, completedOrders, paidOrders, failedOrders });
   };
 
   const formatIDR = (amount: number) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
+    new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(amount);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return date.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
   };
 
   const getStatusBadge = (status: string) => {
@@ -125,14 +103,10 @@ export default function AdminDashboard() {
       processing: "bg-purple-900/30 text-purple-300 border-purple-700",
       completed: "bg-green-900/30 text-green-300 border-green-700",
       failed: "bg-red-900/30 text-red-300 border-red-700",
-      expired: "bg-gray-800/30 text-gray-400 border-gray-600",
+      expired: "bg-[#252525] text-[#777] border-[#3a3a3a]",
     };
     return (
-      <span
-        className={`px-2 py-1 text-xs rounded-full border ${
-          styles[status] || styles.pending
-        }`}
-      >
+      <span className={`px-2 py-1 text-[10px] rounded-full border ${styles[status] || styles.pending}`}>
         {status}
       </span>
     );
@@ -141,138 +115,162 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-violet-400">Loading dashboard...</div>
+        <div className="text-[#c8a45c]">Loading dashboard...</div>
       </div>
     );
   }
 
-  const recentOrders = orders.slice(-10).reverse();
+  const recentOrders = orders.slice(-20).reverse();
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-8">Dashboard</h1>
+      <h1 className="text-xl font-bold text-white mb-6">📊 Admin Dashboard</h1>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
-          <p className="text-gray-400 text-sm">Total Orders</p>
-          <p className="text-3xl font-bold text-white mt-2">
-            {stats.totalOrders}
-          </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+          <p className="text-[#777] text-xs">Total Orders</p>
+          <p className="text-2xl font-bold text-white mt-1">{stats.totalOrders}</p>
         </div>
-        <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
-          <p className="text-gray-400 text-sm">Revenue (IDR)</p>
-          <p className="text-2xl font-bold text-green-400 mt-2">
-            {formatIDR(stats.totalRevenueIDR)}
-          </p>
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+          <p className="text-[#777] text-xs">Revenue (IDR)</p>
+          <p className="text-xl font-bold text-[#4caf50] mt-1">{formatIDR(stats.totalRevenueIDR)}</p>
           {stats.totalRevenueCrypto > 0 && (
-            <p className="text-sm text-gray-400 mt-1">
-              + ${stats.totalRevenueCrypto.toFixed(2)} crypto
-            </p>
+            <p className="text-[10px] text-[#777] mt-0.5">+ ${stats.totalRevenueCrypto.toFixed(2)} crypto</p>
           )}
         </div>
-        <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
-          <p className="text-gray-400 text-sm">Pending / Paid</p>
-          <p className="text-3xl font-bold text-yellow-400 mt-2">
-            {stats.pendingOrders}{" "}
-            <span className="text-blue-400 text-xl">/ {stats.paidOrders}</span>
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+          <p className="text-[#777] text-xs">Pending / Paid</p>
+          <p className="text-2xl font-bold text-yellow-400 mt-1">
+            {stats.pendingOrders} <span className="text-blue-400 text-lg">/ {stats.paidOrders}</span>
           </p>
         </div>
-        <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
-          <p className="text-gray-400 text-sm">Completed</p>
-          <p className="text-3xl font-bold text-violet-400 mt-2">
-            {stats.completedOrders}
-          </p>
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+          <p className="text-[#777] text-xs">Completed</p>
+          <p className="text-2xl font-bold text-[#c8a45c] mt-1">{stats.completedOrders}</p>
           {stats.failedOrders > 0 && (
-            <p className="text-sm text-red-400 mt-1">
-              {stats.failedOrders} failed/expired
-            </p>
+            <p className="text-[10px] text-red-400 mt-0.5">{stats.failedOrders} failed/expired</p>
           )}
         </div>
       </div>
 
-      {/* Recent Orders */}
-      <div className="bg-gray-800 rounded-xl border border-gray-700">
-        <div className="p-6 border-b border-gray-700">
-          <h2 className="text-lg font-semibold text-white">Recent Orders</h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-700">
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Order ID
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Game
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  User ID
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Amount
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Payment
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Status
-                </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
-                  Time
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700">
-              {recentOrders.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="px-6 py-8 text-center text-gray-500"
-                  >
-                    No orders yet
-                  </td>
+      {/* Tabs */}
+      <div className="flex gap-2 mb-4">
+        <button
+          onClick={() => setActiveTab("orders")}
+          className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+            activeTab === "orders" ? "bg-[#c8a45c] text-white" : "bg-[#252525] text-[#777] hover:text-white"
+          }`}
+        >
+          📋 Orders
+        </button>
+        <button
+          onClick={() => setActiveTab("promo")}
+          className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+            activeTab === "promo" ? "bg-[#c8a45c] text-white" : "bg-[#252525] text-[#777] hover:text-white"
+          }`}
+        >
+          🎫 Promo Codes
+        </button>
+      </div>
+
+      {/* Orders Tab */}
+      {activeTab === "orders" && (
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
+          <div className="p-4 border-b border-[#2a2a2a]">
+            <h2 className="text-sm font-semibold text-white">Recent Orders</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#2a2a2a]">
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Order ID</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Game</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">User</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Amount</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Payment</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Status</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Time</th>
                 </tr>
-              ) : (
-                recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-750">
-                    <td className="px-6 py-4 text-sm font-mono text-violet-300">
-                      {order.id}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-300">
-                      {order.game_slug}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-300">
-                      {order.user_id}
-                      {order.server_id && (
-                        <span className="text-gray-500">
-                          ({order.server_id})
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-300">
-                      {order.amount_crypto
-                        ? `$${order.amount_crypto}`
-                        : formatIDR(order.amount_idr)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-300">
-                      {order.payment_channel ||
-                        order.payment_token?.toUpperCase() ||
-                        "—"}
-                    </td>
-                    <td className="px-6 py-4">
-                      {getStatusBadge(order.status)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-400">
-                      {formatDate(order.created_at)}
+              </thead>
+              <tbody className="divide-y divide-[#2a2a2a]">
+                {recentOrders.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-4 py-8 text-center text-xs text-[#777]">
+                      Belum ada order
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  recentOrders.map((order) => (
+                    <tr key={order.id} className="hover:bg-[#252525]">
+                      <td className="px-4 py-3 text-xs font-mono text-[#c8a45c]">{order.id}</td>
+                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">{order.game_slug}</td>
+                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">
+                        {order.user_id}
+                        {order.server_id && <span className="text-[#555]"> ({order.server_id})</span>}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">
+                        {order.amount_crypto ? `$${order.amount_crypto}` : formatIDR(order.amount_idr)}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">
+                        {order.payment_channel || order.payment_token?.toUpperCase() || "—"}
+                      </td>
+                      <td className="px-4 py-3">{getStatusBadge(order.status)}</td>
+                      <td className="px-4 py-3 text-xs text-[#777]">{formatDate(order.created_at)}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Promo Codes Tab */}
+      {activeTab === "promo" && (
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
+          <div className="p-4 border-b border-[#2a2a2a] flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-white">Promo Codes</h2>
+            <span className="text-[10px] text-[#777]">{promoCodes.length} total</span>
+          </div>
+          <div className="divide-y divide-[#2a2a2a]">
+            {promoCodes.map((promo: PromoCode) => (
+              <div key={promo.code} className="p-4 hover:bg-[#252525]">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-lg bg-[#c8a45c]/10 border border-[#c8a45c]/30 px-3 py-1 text-xs font-mono font-bold text-[#c8a45c]">
+                      {promo.code}
+                    </span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${promo.active ? "bg-green-900/30 text-green-400 border border-green-700" : "bg-red-900/30 text-red-400 border border-red-700"}`}>
+                      {promo.active ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[#777]">
+                    {promo.used_count}/{promo.usage_limit} used
+                  </span>
+                </div>
+                <p className="text-xs text-[#b0b0b0] mb-1">{promo.description}</p>
+                <div className="flex items-center gap-4 text-[10px] text-[#777]">
+                  <span>
+                    {promo.discount_type === "percentage"
+                      ? `${promo.discount_value}% off (max Rp ${promo.max_discount.toLocaleString("id-ID")})`
+                      : `Rp ${promo.discount_value.toLocaleString("id-ID")} off`}
+                  </span>
+                  <span>Min: Rp {promo.min_purchase.toLocaleString("id-ID")}</span>
+                  <span>Exp: {promo.valid_until}</span>
+                </div>
+                {/* Usage bar */}
+                <div className="mt-2 h-1.5 rounded-full bg-[#252525] overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-[#c8a45c]"
+                    style={{ width: `${(promo.used_count / promo.usage_limit) * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -15,14 +15,12 @@ export default function AdminLayout({
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    // Skip auth check on login page
     if (pathname === "/admin/login") {
       setChecking(false);
       setAuthenticated(true);
       return;
     }
 
-    // Check for admin cookie (simple check - cookie existence)
     const hasToken = document.cookie.includes("admin_token=");
     if (!hasToken) {
       router.push("/admin/login");
@@ -34,8 +32,8 @@ export default function AdminLayout({
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-violet-400 text-lg">Loading...</div>
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
+        <div className="text-[#c8a45c]">Loading...</div>
       </div>
     );
   }
@@ -44,7 +42,6 @@ export default function AdminLayout({
     return null;
   }
 
-  // Don't show sidebar on login page
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
@@ -56,24 +53,24 @@ export default function AdminLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="min-h-screen bg-[#121212] flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
-        <div className="p-6 border-b border-gray-700">
-          <h1 className="text-xl font-bold text-violet-400">NyinyiStore</h1>
-          <p className="text-sm text-gray-400 mt-1">Admin Panel</p>
+      <aside className="w-60 bg-[#1a1a1a] border-r border-[#2a2a2a] flex flex-col">
+        <div className="p-5 border-b border-[#2a2a2a]">
+          <h1 className="text-lg font-bold text-[#c8a45c]">NyinyiStore</h1>
+          <p className="text-[10px] text-[#777] mt-0.5">Admin Panel</p>
         </div>
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-3 space-y-1">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-xs transition-colors ${
                   isActive
-                    ? "bg-violet-600/20 text-violet-300 border border-violet-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
+                    ? "bg-[#c8a45c]/10 text-[#c8a45c] border border-[#c8a45c]/30"
+                    : "text-[#b0b0b0] hover:bg-[#252525] hover:text-white"
                 }`}
               >
                 <span>{item.icon}</span>
@@ -82,14 +79,13 @@ export default function AdminLayout({
             );
           })}
         </nav>
-        <div className="p-4 border-t border-gray-700">
+        <div className="p-3 border-t border-[#2a2a2a]">
           <button
             onClick={() => {
-              document.cookie =
-                "admin_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              document.cookie = "admin_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               router.push("/admin/login");
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:bg-red-900/20 hover:text-red-300 transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-xs text-[#777] hover:bg-red-900/20 hover:text-red-400 transition-colors"
           >
             <span>🚪</span>
             <span>Logout</span>
@@ -99,7 +95,7 @@ export default function AdminLayout({
 
       {/* Main content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-8">{children}</div>
+        <div className="p-6">{children}</div>
       </main>
     </div>
   );

@@ -146,7 +146,7 @@ export default function HomePage() {
       {/* Floating WhatsApp CS Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <a
-          href="https://wa.me/6285718100782?text=Halo%20NyinyiStore%2C%20saya%20butuh%20bantuan"
+          href="https://wa.me/6285157434365?text=Halo%20NyinyiStore%2C%20saya%20butuh%20bantuan"
           target="_blank"
           rel="noopener noreferrer"
           className="chat-pulse relative flex items-center gap-2 rounded-full bg-[#25d366] px-4 py-2.5 text-xs font-semibold text-white shadow-lg transition-all hover:bg-[#1da851]"
