@@ -42,6 +42,7 @@ export default function HomePage() {
               name={game.name}
               slug={game.slug}
               icon={game.icon}
+              image={game.image}
               description={game.description}
             />
           ))}

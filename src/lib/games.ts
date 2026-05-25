@@ -8,6 +8,7 @@ export interface Game {
   name: string;
   slug: string;
   icon: string;
+  image: string;
   description: string;
   denominations: Denomination[];
 }
@@ -17,6 +18,7 @@ export const games: Game[] = [
     name: "Mobile Legends",
     slug: "mobile-legends",
     icon: "⚔️",
+    image: "https://play-lh.googleusercontent.com/Ej3x6GnONfRES2n9y3ZLSBPn4YS0XJMN3GAB_hwSCoYKjRI-dEIFCzqMfTmE6xSOBE8",
     description: "Mobile Legends: Bang Bang Diamond Top Up",
     denominations: [
       { amount: "86 Diamonds", price: 19000, label: "86 💎" },
@@ -31,6 +33,7 @@ export const games: Game[] = [
     name: "Free Fire",
     slug: "free-fire",
     icon: "🔥",
+    image: "https://play-lh.googleusercontent.com/WWcssdzTZvx3qJ4GQHX_dE_-mBBbzMCiE5kzlOFMfRTiEVbXqOaQ_cGKMeSFHmJkBdx",
     description: "Garena Free Fire Diamond Top Up",
     denominations: [
       { amount: "70 Diamonds", price: 15000, label: "70 💎" },
@@ -45,6 +48,7 @@ export const games: Game[] = [
     name: "Genshin Impact",
     slug: "genshin-impact",
     icon: "🌟",
+    image: "https://play-lh.googleusercontent.com/4Mw0bBEGCkMrZ0aXGXpNeIzKnYDnMqo3QL7YIP3MBaAuaRHvEbBDYJHn5rJUCmGOqA",
     description: "Genshin Impact Genesis Crystal Top Up",
     denominations: [
       { amount: "60 Crystals", price: 16000, label: "60 💠" },
@@ -59,6 +63,7 @@ export const games: Game[] = [
     name: "Valorant",
     slug: "valorant",
     icon: "🎯",
+    image: "https://play-lh.googleusercontent.com/JnKd8KGQN3GFxMKJFMxo9DQOZ_GnW0GqSEuaYoblMGEFMbCqIH-8tUK7VV3vkOXJ_g",
     description: "Valorant Points (VP) Top Up",
     denominations: [
       { amount: "125 VP", price: 15000, label: "125 VP" },
@@ -73,6 +78,7 @@ export const games: Game[] = [
     name: "PUBG Mobile",
     slug: "pubg-mobile",
     icon: "🪖",
+    image: "https://play-lh.googleusercontent.com/JRd05pyBH41qjgsJuWduRJpDeZG0Hnb0yjf2nWqO7VDr_K9XpgQzRcAIhJVklnKGBA",
     description: "PUBG Mobile UC Top Up",
     denominations: [
       { amount: "60 UC", price: 15000, label: "60 UC" },
@@ -87,6 +93,7 @@ export const games: Game[] = [
     name: "Honkai Star Rail",
     slug: "honkai-star-rail",
     icon: "🚀",
+    image: "https://play-lh.googleusercontent.com/ulsMP0no-0Kp1mxGEXMOBT7MKPAO3kFJd6YE1O0j_-U6WRe-3-WqzCHbE3Ij3rERYc",
     description: "Honkai: Star Rail Oneiric Shard Top Up",
     denominations: [
       { amount: "60 Shards", price: 16000, label: "60 ✨" },
