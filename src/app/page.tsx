@@ -86,7 +86,7 @@ export default function HomePage() {
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
                 <img src="/logo-cat.png" alt="NyinyiStore" className="h-9 w-9 object-contain" />
-                <span className="text-base font-bold text-[#c8a45c]">NyinyiStore</span>
+                <span className="text-base font-bold text-[#EF8F8F]" style={{ fontFamily: "var(--font-fredoka), sans-serif" }}>NyinyiStore</span>
               </div>
               <p className="text-xs text-[#777] leading-relaxed">
                 NyinyiStore adalah tempat top up games yang aman, murah dan terpercaya.

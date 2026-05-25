@@ -42,8 +42,8 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1">
-          <img src="/logo-cat.png" alt="NyinyiStore" className="h-10 w-10 object-contain" />
-          <span className="text-lg font-bold text-[#c8a45c]">
+          <img src="/logo-cat.png" alt="NyinyiStore" className="h-8 w-8 object-contain" />
+          <span className="text-lg font-bold text-[#EF8F8F]" style={{ fontFamily: "var(--font-fredoka), sans-serif" }}>
             NyinyiStore
           </span>
         </Link>

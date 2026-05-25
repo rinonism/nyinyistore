@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fredoka } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
+const fredoka = Fredoka({ subsets: ["latin"], variable: "--font-fredoka" });
 
 export const metadata: Metadata = {
   title: "NyinyiStore - Top Up Game Termurah & Tercepat",
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={`${inter.className} bg-[#121212] text-[#f5f5f5] antialiased`}>
+      <body className={`${inter.className} ${fredoka.variable} bg-[#121212] text-[#f5f5f5] antialiased`}>
         <Navbar />
         <main className="min-h-screen">{children}</main>
       </body>
