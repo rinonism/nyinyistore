@@ -3,70 +3,98 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f1923;
-  --foreground: #f1f5f9;
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --card-bg: #1e293b;
-  --card-border: #334155;
-  --nav-bg: #0f1923;
+  --background: #121212;
+  --foreground: #f5f5f5;
+  --card-bg: #1e1e1e;
+  --card-border: #2a2a2a;
+  --input-bg: #1a1a1a;
+  --input-border: #3a3a3a;
+  --gold: #c8a45c;
+  --gold-hover: #d4a843;
+  --gold-dim: #a0833a;
+  --nav-bg: #1a1a1a;
+  --text-secondary: #b0b0b0;
+  --text-muted: #777777;
+  --green: #4caf50;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #1a1a1a;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #6366f1;
+  background: #c8a45c;
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
-}
-
-/* Banner carousel */
-.banner-carousel {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-}
-
-.banner-carousel > * {
-  scroll-snap-align: start;
+  background: #d4a843;
 }
 
 /* Game card hover */
 .game-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-
 .game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(200, 164, 92, 0.1);
+  border-color: #c8a45c40;
 }
 
-/* Floating button pulse */
+/* Step number */
+.step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c8a45c, #d4a843);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: white;
+  flex-shrink: 0;
+}
+
+/* Gold button */
+.btn-gold {
+  background: linear-gradient(135deg, #a0833a, #c8a45c);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #c8a45c, #d4a843);
+  box-shadow: 0 4px 15px rgba(200, 164, 92, 0.3);
+}
+
+/* Product card selected state */
+.product-card.selected {
+  border-color: #c8a45c;
+  box-shadow: 0 0 0 1px #c8a45c;
+}
+
+/* Floating chat pulse */
 @keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 1; }
-  100% { transform: scale(1.3); opacity: 0; }
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
-
 .chat-pulse::before {
   content: '';
   position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: #22c55e;
-  animation: pulse-ring 1.5s ease-out infinite;
+  inset: -3px;
+  border-radius: inherit;
+  background: #4caf50;
+  animation: pulse-ring 2s ease-out infinite;
+  z-index: -1;
 }
