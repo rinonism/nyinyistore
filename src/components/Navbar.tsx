@@ -52,16 +52,22 @@ export default function Navbar() {
             Topup
           </Link>
           <Link
-            href="/"
+            href="/cek-transaksi"
             className="hidden sm:block rounded-lg px-3 py-2 text-xs font-medium text-[#ccc] transition-colors hover:text-white"
           >
             Cek Transaksi
           </Link>
           <Link
-            href="/"
+            href="/leaderboard"
             className="hidden lg:block rounded-lg px-3 py-2 text-xs font-medium text-[#ccc] transition-colors hover:text-white"
           >
             Leaderboard
+          </Link>
+          <Link
+            href="/kalkulator"
+            className="hidden lg:block rounded-lg px-3 py-2 text-xs font-medium text-[#ccc] transition-colors hover:text-white"
+          >
+            Kalkulator
           </Link>
           <Link
             href="/"
