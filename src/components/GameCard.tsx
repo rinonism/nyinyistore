@@ -4,10 +4,10 @@ interface GameCardProps {
   name: string;
   slug: string;
   image: string;
-  description: string;
+  developer: string;
 }
 
-export default function GameCard({ name, slug, image, description }: GameCardProps) {
+export default function GameCard({ name, slug, image, developer }: GameCardProps) {
   return (
     <Link href={`/topup/${slug}`}>
       <div className="game-card flex items-center gap-3 rounded-2xl border border-[#2a2a2a] bg-[#1e1e1e] p-3 transition-all hover:border-[#c8a45c40]">
@@ -22,7 +22,7 @@ export default function GameCard({ name, slug, image, description }: GameCardPro
         {/* Name + Developer */}
         <div className="min-w-0">
           <h3 className="text-sm font-semibold text-white truncate">{name}</h3>
-          <p className="text-[11px] text-[#777] truncate">{description}</p>
+          <p className="text-[11px] text-[#777] truncate">{developer}</p>
         </div>
       </div>
     </Link>

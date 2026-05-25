@@ -44,7 +44,7 @@ export default function HomePage() {
               name={game.name}
               slug={game.slug}
               image={game.image}
-              description={game.description}
+              developer={game.developer}
             />
           ))}
         </div>
@@ -65,7 +65,7 @@ export default function HomePage() {
               name={game.name}
               slug={game.slug}
               image={game.image}
-              description={game.description}
+              developer={game.developer}
             />
           ))}
         </div>
