@@ -41,8 +41,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-[#2a2a2a] bg-[#1a1a1a]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <img src="/logo-cat.png" alt="NyinyiStore" className="h-8 w-8 rounded-full object-cover" />
+        <Link href="/" className="flex items-center gap-1">
+          <img src="/logo-cat.png" alt="NyinyiStore" className="h-10 w-10 rounded-full object-cover" />
           <span className="text-lg font-bold text-[#c8a45c]">
             NyinyiStore
           </span>
