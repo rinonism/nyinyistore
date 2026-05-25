@@ -85,7 +85,7 @@ export default function HomePage() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <img src="/logo-cat.jpg" alt="NyinyiStore" className="h-7 w-7 rounded-full object-cover" />
+                <img src="/logo-cat.png" alt="NyinyiStore" className="h-7 w-7 rounded-full object-cover" />
                 <span className="text-base font-bold text-[#c8a45c]">NyinyiStore</span>
               </div>
               <p className="text-xs text-[#777] leading-relaxed">
