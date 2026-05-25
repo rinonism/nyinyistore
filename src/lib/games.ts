@@ -13,8 +13,7 @@ export interface Game {
   denominations: Denomination[];
 }
 
-export const games: Game[] = [
-  {
+export const games: Game[] = [{
     name: "Mobile Legends",
     slug: "mobile-legends",
     developer: "Moonton",
@@ -28,8 +27,7 @@ export const games: Game[] = [
       { amount: "514 Diamonds", price: 114000, label: "514 💎" },
       { amount: "706 Diamonds", price: 152000, label: "706 💎" },
     ],
-  },
-  {
+  },{
     name: "Mobile Legends Paket Irit",
     slug: "mobile-legends-paket-irit",
     developer: "Moonton",
@@ -40,8 +38,7 @@ export const games: Game[] = [
       { amount: "172 Diamonds", price: 36000, label: "172 💎" },
       { amount: "257 Diamonds", price: 54000, label: "257 💎" },
     ],
-  },
-  {
+  },{
     name: "Free Fire",
     slug: "free-fire",
     developer: "Garena",
@@ -54,8 +51,7 @@ export const games: Game[] = [
       { amount: "720 Diamonds", price: 139000, label: "720 💎" },
       { amount: "1450 Diamonds", price: 279000, label: "1450 💎" },
     ],
-  },
-  {
+  },{
     name: "Free Fire MAX",
     slug: "free-fire-max",
     developer: "Garena",
@@ -67,8 +63,7 @@ export const games: Game[] = [
       { amount: "355 Diamonds", price: 69000, label: "355 💎" },
       { amount: "720 Diamonds", price: 139000, label: "720 💎" },
     ],
-  },
-  {
+  },{
     name: "PUBG Mobile",
     slug: "pubg-mobile",
     developer: "Tencent Games",
@@ -80,8 +75,7 @@ export const games: Game[] = [
       { amount: "660 UC", price: 149000, label: "660 UC" },
       { amount: "1800 UC", price: 379000, label: "1800 UC" },
     ],
-  },
-  {
+  },{
     name: "Valorant",
     slug: "valorant",
     developer: "Riot Games",
@@ -94,8 +88,7 @@ export const games: Game[] = [
       { amount: "1375 VP", price: 149000, label: "1375 VP" },
       { amount: "2400 VP", price: 249000, label: "2400 VP" },
     ],
-  },
-  {
+  },{
     name: "Genshin Impact",
     slug: "genshin-impact",
     developer: "HoYoverse",
@@ -108,8 +101,7 @@ export const games: Game[] = [
       { amount: "2240 Crystals", price: 479000, label: "2240 💠" },
       { amount: "3880 Crystals", price: 799000, label: "3880 💠" },
     ],
-  },
-  {
+  },{
     name: "Honkai Star Rail",
     slug: "honkai-star-rail",
     developer: "HoYoverse",
@@ -122,8 +114,7 @@ export const games: Game[] = [
       { amount: "2240 Shards", price: 479000, label: "2240 ✨" },
       { amount: "3880 Shards", price: 799000, label: "3880 ✨" },
     ],
-  },
-  {
+  },{
     name: "ROBLOX",
     slug: "roblox",
     developer: "Roblox Corporation",
@@ -136,8 +127,7 @@ export const games: Game[] = [
       { amount: "800 Robux", price: 135000, label: "800 R$" },
       { amount: "1700 Robux", price: 269000, label: "1700 R$" },
     ],
-  },
-  {
+  },{
     name: "Mobile Legends Global",
     slug: "mobile-legends-global",
     developer: "Moonton",
@@ -148,8 +138,7 @@ export const games: Game[] = [
       { amount: "172 Diamonds", price: 40000, label: "172 💎" },
       { amount: "257 Diamonds", price: 60000, label: "257 💎" },
     ],
-  },
-  {
+  },{
     name: "Magic Chess Go Go",
     slug: "magic-chess-go-go",
     developer: "Vizta Games",
@@ -159,8 +148,7 @@ export const games: Game[] = [
       { amount: "86 Diamonds", price: 19000, label: "86 💎" },
       { amount: "172 Diamonds", price: 38000, label: "172 💎" },
     ],
-  },
-  {
+  },{
     name: "Blood Strike",
     slug: "blood-strike",
     developer: "Wizard Games",
@@ -171,8 +159,7 @@ export const games: Game[] = [
       { amount: "325 Gold", price: 75000, label: "325 🪙" },
       { amount: "660 Gold", price: 149000, label: "660 🪙" },
     ],
-  },
-  {
+  },{
     name: "Call of Duty Mobile",
     slug: "call-of-duty-mobile",
     developer: "Garena",
@@ -184,8 +171,7 @@ export const games: Game[] = [
       { amount: "880 CP", price: 149000, label: "880 CP" },
       { amount: "2400 CP", price: 379000, label: "2400 CP" },
     ],
-  },
-  {
+  },{
     name: "Delta Force Garena",
     slug: "delta-force-garena",
     developer: "Garena",
@@ -196,8 +182,7 @@ export const games: Game[] = [
       { amount: "325 Token", price: 75000, label: "325 🎯" },
       { amount: "660 Token", price: 149000, label: "660 🎯" },
     ],
-  },
-  {
+  },{
     name: "Delta Force Steam",
     slug: "delta-force-steam",
     developer: "Team Jade",
@@ -207,8 +192,7 @@ export const games: Game[] = [
       { amount: "60 Token", price: 15000, label: "60 🎯" },
       { amount: "325 Token", price: 75000, label: "325 🎯" },
     ],
-  },
-  {
+  },{
     name: "Stumble Guys",
     slug: "stumble-guys",
     developer: "Kitka Games",
@@ -219,8 +203,7 @@ export const games: Game[] = [
       { amount: "1250 Gems", price: 69000, label: "1250 💎" },
       { amount: "2500 Gems", price: 135000, label: "2500 💎" },
     ],
-  },
-  {
+  },{
     name: "Arena of Valor",
     slug: "arena-of-valor",
     developer: "Garena",
@@ -232,8 +215,7 @@ export const games: Game[] = [
       { amount: "470 Voucher", price: 69000, label: "470 🎫" },
       { amount: "950 Voucher", price: 135000, label: "950 🎫" },
     ],
-  },
-  {
+  },{
     name: "Clash of Clans",
     slug: "clash-of-clans",
     developer: "Supercell",
@@ -245,8 +227,7 @@ export const games: Game[] = [
       { amount: "1200 Gems", price: 159000, label: "1200 💎" },
       { amount: "2500 Gems", price: 319000, label: "2500 💎" },
     ],
-  },
-  {
+  },{
     name: "Clash Royale",
     slug: "clash-royale",
     developer: "Supercell",
@@ -257,8 +238,7 @@ export const games: Game[] = [
       { amount: "500 Gems", price: 79000, label: "500 💎" },
       { amount: "1200 Gems", price: 159000, label: "1200 💎" },
     ],
-  },
-  {
+  },{
     name: "Honor of Kings",
     slug: "honor-of-kings",
     developer: "TiMi Studio",
@@ -269,8 +249,7 @@ export const games: Game[] = [
       { amount: "325 Token", price: 75000, label: "325 🪙" },
       { amount: "660 Token", price: 149000, label: "660 🪙" },
     ],
-  },
-  {
+  },{
     name: "Zenless Zone Zero",
     slug: "zenless-zone-zero",
     developer: "HoYoverse",
@@ -282,8 +261,7 @@ export const games: Game[] = [
       { amount: "1090 Polychrome", price: 249000, label: "1090 🔮" },
       { amount: "2240 Polychrome", price: 479000, label: "2240 🔮" },
     ],
-  },
-  {
+  },{
     name: "Super Sus",
     slug: "super-sus",
     developer: "PI Studio",
@@ -294,8 +272,7 @@ export const games: Game[] = [
       { amount: "300 Stars", price: 69000, label: "300 ⭐" },
       { amount: "680 Stars", price: 149000, label: "680 ⭐" },
     ],
-  },
-  {
+  },{
     name: "Tower of Fantasy",
     slug: "tower-of-fantasy",
     developer: "Level Infinite",
@@ -306,8 +283,7 @@ export const games: Game[] = [
       { amount: "330 Tanium", price: 79000, label: "330 💠" },
       { amount: "1090 Tanium", price: 249000, label: "1090 💠" },
     ],
-  },
-  {
+  },{
     name: "Ragnarok M",
     slug: "ragnarok-m",
     developer: "Gravity",
@@ -318,8 +294,7 @@ export const games: Game[] = [
       { amount: "370 BCC", price: 69000, label: "370 BCC" },
       { amount: "750 BCC", price: 135000, label: "750 BCC" },
     ],
-  },
-  {
+  },{
     name: "Apex Legends Mobile",
     slug: "apex-legends-mobile",
     developer: "EA",
@@ -330,8 +305,7 @@ export const games: Game[] = [
       { amount: "600 Coins", price: 89000, label: "600 🪙" },
       { amount: "1200 Coins", price: 169000, label: "1200 🪙" },
     ],
-  },
-  {
+  },{
     name: "League of Legends Wild Rift",
     slug: "league-of-legends-wild-rift",
     developer: "Riot Games",
@@ -343,8 +317,7 @@ export const games: Game[] = [
       { amount: "700 Cores", price: 79000, label: "700 🔮" },
       { amount: "1375 Cores", price: 149000, label: "1375 🔮" },
     ],
-  },
-  {
+  },{
     name: "Minecraft",
     slug: "minecraft",
     developer: "Mojang",
@@ -355,8 +328,7 @@ export const games: Game[] = [
       { amount: "700 Minecoins", price: 49000, label: "700 🪙" },
       { amount: "1720 Minecoins", price: 109000, label: "1720 🪙" },
     ],
-  },
-  {
+  },{
     name: "Point Blank",
     slug: "point-blank",
     developer: "Zepetto",
@@ -367,8 +339,7 @@ export const games: Game[] = [
       { amount: "6000 Cash", price: 69000, label: "6000 💰" },
       { amount: "12000 Cash", price: 135000, label: "12000 💰" },
     ],
-  },
-  {
+  },{
     name: "Undawn",
     slug: "undawn",
     developer: "Garena",
@@ -380,210 +351,7 @@ export const games: Game[] = [
       { amount: "660 RC", price: 149000, label: "660 🪙" },
     ],
   },
-  {
-    name: "Steam Wallet",
-    slug: "steam-wallet",
-    developer: "Valve",
-    image: "/games/steam-wallet.svg",
-    description: "Wallet Code",
-    denominations: [
-      { amount: "IDR 45.000", price: 47000, label: "45rb" },
-      { amount: "IDR 60.000", price: 63000, label: "60rb" },
-      { amount: "IDR 90.000", price: 94000, label: "90rb" },
-      { amount: "IDR 120.000", price: 125000, label: "120rb" },
-      { amount: "IDR 250.000", price: 260000, label: "250rb" },
-    ],
-  },
-  {
-    name: "Google Play",
-    slug: "google-play",
-    developer: "Google",
-    image: "/games/google-play.svg",
-    description: "Gift Card",
-    denominations: [
-      { amount: "IDR 20.000", price: 21000, label: "20rb" },
-      { amount: "IDR 50.000", price: 52000, label: "50rb" },
-      { amount: "IDR 100.000", price: 103000, label: "100rb" },
-      { amount: "IDR 150.000", price: 155000, label: "150rb" },
-      { amount: "IDR 300.000", price: 310000, label: "300rb" },
-    ],
-  },
-  {
-    name: "Garena Shells",
-    slug: "garena-shells",
-    developer: "Garena",
-    image: "/games/garena-shells.svg",
-    description: "Shells Top Up",
-    denominations: [
-      { amount: "33 Shells", price: 5000, label: "33 🐚" },
-      { amount: "66 Shells", price: 10000, label: "66 🐚" },
-      { amount: "165 Shells", price: 25000, label: "165 🐚" },
-      { amount: "330 Shells", price: 50000, label: "330 🐚" },
-    ],
-  },
-  {
-    name: "Higgs Domino",
-    slug: "higgs-domino",
-    developer: "Higgs Games",
-    image: "/games/higgs-domino.svg",
-    description: "Chip Top Up",
-    denominations: [
-      { amount: "1B Chip", price: 15000, label: "1B 🎰" },
-      { amount: "3B Chip", price: 42000, label: "3B 🎰" },
-      { amount: "5B Chip", price: 69000, label: "5B 🎰" },
-      { amount: "10B Chip", price: 135000, label: "10B 🎰" },
-    ],
-  },
-  {
-    name: "Wuthering Waves",
-    slug: "wuthering-waves",
-    developer: "Kuro Games",
-    image: "/games/wuthering-waves.svg",
-    description: "Lunite Top Up",
-    denominations: [
-      { amount: "60 Lunite", price: 16000, label: "60 🌙" },
-      { amount: "330 Lunite", price: 79000, label: "330 🌙" },
-      { amount: "1090 Lunite", price: 249000, label: "1090 🌙" },
-      { amount: "2240 Lunite", price: 479000, label: "2240 🌙" },
-    ],
-  },
-  {
-    name: "NIKKE",
-    slug: "nikke",
-    developer: "Level Infinite",
-    image: "/games/nikke.svg",
-    description: "Gem Top Up",
-    denominations: [
-      { amount: "60 Gems", price: 16000, label: "60 💎" },
-      { amount: "330 Gems", price: 79000, label: "330 💎" },
-      { amount: "1090 Gems", price: 249000, label: "1090 💎" },
-    ],
-  },
-  {
-    name: "Identity V",
-    slug: "identity-v",
-    developer: "NetEase",
-    image: "/games/identity-v.svg",
-    description: "Echoes Top Up",
-    denominations: [
-      { amount: "60 Echoes", price: 16000, label: "60 🔊" },
-      { amount: "330 Echoes", price: 79000, label: "330 🔊" },
-      { amount: "1090 Echoes", price: 249000, label: "1090 🔊" },
-    ],
-  },
-  {
-    name: "ML Adventure",
-    slug: "mobile-legends-adventure",
-    developer: "Moonton",
-    image: "/games/mobile-legends-adventure.svg",
-    description: "Diamond Top Up",
-    denominations: [
-      { amount: "86 Diamonds", price: 19000, label: "86 💎" },
-      { amount: "172 Diamonds", price: 38000, label: "172 💎" },
-      { amount: "514 Diamonds", price: 114000, label: "514 💎" },
-    ],
-  },
-  {
-    name: "Lords Mobile",
-    slug: "lords-mobile",
-    developer: "IGG",
-    image: "/games/lords-mobile.svg",
-    description: "Diamonds Top Up",
-    denominations: [
-      { amount: "65 Diamonds", price: 16000, label: "65 💎" },
-      { amount: "260 Diamonds", price: 59000, label: "260 💎" },
-      { amount: "650 Diamonds", price: 139000, label: "650 💎" },
-    ],
-  },
-  {
-    name: "LifeAfter",
-    slug: "life-after",
-    developer: "NetEase",
-    image: "/games/life-after.svg",
-    description: "Credits Top Up",
-    denominations: [
-      { amount: "60 Credits", price: 16000, label: "60 🪙" },
-      { amount: "330 Credits", price: 79000, label: "330 🪙" },
-      { amount: "660 Credits", price: 149000, label: "660 🪙" },
-    ],
-  },
-  {
-    name: "Eggy Party",
-    slug: "eggy-party",
-    developer: "NetEase",
-    image: "/games/eggy-party.svg",
-    description: "Eggy Coins Top Up",
-    denominations: [
-      { amount: "60 Coins", price: 16000, label: "60 🥚" },
-      { amount: "330 Coins", price: 79000, label: "330 🥚" },
-      { amount: "660 Coins", price: 149000, label: "660 🥚" },
-    ],
-  },
-  {
-    name: "Sausage Man",
-    slug: "sausage-man",
-    developer: "XD Entertainment",
-    image: "/games/sausage-man.svg",
-    description: "Candy Top Up",
-    denominations: [
-      { amount: "60 Candy", price: 15000, label: "60 🍬" },
-      { amount: "300 Candy", price: 69000, label: "300 🍬" },
-      { amount: "680 Candy", price: 149000, label: "680 🍬" },
-    ],
-  },
-  {
-    name: "Naraka Bladepoint",
-    slug: "naraka-bladepoint",
-    developer: "NetEase",
-    image: "/games/naraka-bladepoint.svg",
-    description: "Gold Top Up",
-    denominations: [
-      { amount: "60 Gold", price: 16000, label: "60 🪙" },
-      { amount: "330 Gold", price: 79000, label: "330 🪙" },
-      { amount: "1090 Gold", price: 249000, label: "1090 🪙" },
-    ],
-  },
-  {
-    name: "Ace Racer",
-    slug: "ace-racer",
-    developer: "NetEase",
-    image: "/games/ace-racer.svg",
-    description: "Crystals Top Up",
-    denominations: [
-      { amount: "60 Crystals", price: 16000, label: "60 💠" },
-      { amount: "330 Crystals", price: 79000, label: "330 💠" },
-      { amount: "660 Crystals", price: 149000, label: "660 💠" },
-    ],
-  },
-  {
-    name: "Dragon Raja",
-    slug: "dragon-raja",
-    developer: "Archosaur Games",
-    image: "/games/dragon-raja.svg",
-    description: "Coins Top Up",
-    denominations: [
-      { amount: "60 Coins", price: 16000, label: "60 🪙" },
-      { amount: "330 Coins", price: 79000, label: "330 🪙" },
-      { amount: "660 Coins", price: 149000, label: "660 🪙" },
-    ],
-  },
-  {
-    name: "One Punch Man",
-    slug: "one-punch-man",
-    developer: "Crunchyroll Games",
-    image: "/games/one-punch-man.svg",
-    description: "Gems Top Up",
-    denominations: [
-      { amount: "60 Gems", price: 16000, label: "60 💎" },
-      { amount: "330 Gems", price: 79000, label: "330 💎" },
-      { amount: "660 Gems", price: 149000, label: "660 💎" },
-    ],
-  },
 ];
-
-export function getGameBySlug(slug: string): Game | undefined {
-  return games.find((game) => game.slug === slug);
-}
 
 export function formatPrice(price: number): string {
   return new Intl.NumberFormat("id-ID", {
@@ -591,4 +359,8 @@ export function formatPrice(price: number): string {
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(price);
+}
+
+export function getGameBySlug(slug: string): Game | undefined {
+  return games.find((g) => g.slug === slug);
 }
