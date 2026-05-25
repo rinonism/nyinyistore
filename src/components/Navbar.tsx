@@ -63,24 +63,6 @@ export default function Navbar() {
           >
             Leaderboard
           </Link>
-          <Link
-            href="/kalkulator"
-            className="hidden lg:block rounded-lg px-3 py-2 text-xs font-medium text-[#ccc] transition-colors hover:text-white"
-          >
-            Kalkulator
-          </Link>
-          <Link
-            href="/"
-            className="rounded-lg border border-[#c8a45c] px-4 py-1.5 text-xs font-medium text-[#c8a45c] transition-colors hover:bg-[#c8a45c] hover:text-white"
-          >
-            Masuk
-          </Link>
-          <Link
-            href="/"
-            className="rounded-lg bg-[#c8a45c] px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-[#d4a843]"
-          >
-            Daftar
-          </Link>
         </div>
       </div>
     </nav>
