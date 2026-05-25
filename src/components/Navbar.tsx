@@ -42,7 +42,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <img src="/logo-cat.svg" alt="NyinyiStore" className="h-8 w-8" />
+          <img src="/logo-cat.jpg" alt="NyinyiStore" className="h-8 w-8 rounded-full object-cover" />
           <span className="text-lg font-bold text-[#c8a45c]">
             NyinyiStore
           </span>
