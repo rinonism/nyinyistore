@@ -43,6 +43,39 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [promoCode, setPromoCode] = useState("");
   const [isOrdering, setIsOrdering] = useState(false);
   const [activeTab, setActiveTab] = useState<"transaksi" | "keterangan">("transaksi");
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Show toast notification
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  // Validate before selecting denomination
+  const handleSelectDenom = (denom: Denomination) => {
+    if (denom.comingSoon) return;
+    if (!userId) {
+      showToast("Silahkan isi data akun terlebih dahulu.");
+      return;
+    }
+    setSelectedDenom(denom);
+  };
+
+  // Validate before selecting payment
+  const handleSelectPayment = (methodId: string) => {
+    if (!userId) {
+      showToast("Silahkan isi data akun terlebih dahulu.");
+      return;
+    }
+    if (!selectedDenom) {
+      showToast("Silahkan pilih nominal terlebih dahulu.");
+      return;
+    }
+    setPaymentMethod(methodId);
+    if (methodId !== "crypto") {
+      setCryptoSelection(null);
+    }
+  };
 
   // Check nickname function
   const checkNickname = useCallback(async (uid: string, sid: string) => {
@@ -138,6 +171,15 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   return (
     <div className="pb-20 sm:pb-6">
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] animate-bounce-in">
+          <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 shadow-lg">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] text-white font-bold">✕</span>
+            <span className="text-sm text-gray-800 font-medium">{toast}</span>
+          </div>
+        </div>
+      )}
       {/* Hero Banner - Full width, tall on desktop */}
       <div className="relative overflow-hidden aspect-[2.5/1] sm:aspect-[3/1] lg:aspect-[3.5/1] bg-[#1e1e1e]">
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#1a0f2e] to-[#0a1525]" />
@@ -283,7 +325,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                   {game.denominations.map((denom) => (
                     <button
                       key={denom.amount}
-                      onClick={() => !denom.comingSoon && setSelectedDenom(denom)}
+                      onClick={() => handleSelectDenom(denom)}
                       disabled={denom.comingSoon}
                       className={`product-card rounded-lg border p-2.5 sm:p-3 text-left transition-all active:scale-[0.97] relative ${
                         denom.comingSoon
@@ -317,12 +359,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                   {paymentMethods.map((method) => (
                     <button
                       key={method.id}
-                      onClick={() => {
-                        setPaymentMethod(method.id);
-                        if (method.id !== "crypto") {
-                          setCryptoSelection(null);
-                        }
-                      }}
+                      onClick={() => handleSelectPayment(method.id)}
                       className={`flex items-center gap-3 rounded-lg border p-3 text-left transition-all active:scale-[0.97] ${
                         paymentMethod === method.id
                           ? "border-[#c8a45c] bg-[#c8a45c]/10"
