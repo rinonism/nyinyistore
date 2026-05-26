@@ -110,9 +110,9 @@ export default function HomePage() {
               <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Peta Situs</h3>
               <ul className="space-y-2 text-xs text-[#777]">
                 <li><a href="/" className="hover:text-white transition-colors">Beranda</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Cek Transaksi</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Hubungi Kami</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Ulasan</a></li>
+                <li><a href="/cek-transaksi" className="hover:text-white transition-colors">Cek Transaksi</a></li>
+                <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Hubungi Kami</a></li>
+                <li><a href="/ulasan" className="hover:text-white transition-colors">Ulasan</a></li>
               </ul>
             </div>
 
@@ -120,9 +120,9 @@ export default function HomePage() {
             <div>
               <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Dukungan</h3>
               <ul className="space-y-2 text-xs text-[#777]">
-                <li><a href="#" className="hover:text-white transition-colors">Whatsapp</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Instagram</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Email</a></li>
+                <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Whatsapp</a></li>
+                <li><a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
+                <li><a href="mailto:lakbankuning01@gmail.com" className="hover:text-white transition-colors">Email</a></li>
               </ul>
             </div>
 
