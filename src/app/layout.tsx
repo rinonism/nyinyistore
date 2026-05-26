@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Top up game favorit kamu dengan harga termurah. Mobile Legends, Free Fire, PUBG, Genshin Impact, Valorant. Proses cepat 1-3 detik. Support Crypto, QRIS, dan Bank Transfer. Open 24 jam.",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.ico",
     apple: "/apple-icon.png",
   },
   keywords: [
