@@ -45,6 +45,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [activeTab, setActiveTab] = useState<"transaksi" | "keterangan">("transaksi");
   const [toast, setToast] = useState<string | null>(null);
   const [usdRate, setUsdRate] = useState<number>(17800); // fallback rate
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // Show toast notification
   const showToast = (msg: string) => {
@@ -132,16 +133,23 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   const handleOrder = async () => {
     if (!userId || !selectedDenom || !paymentMethod) {
-      alert("Mohon lengkapi semua field!");
+      showToast("Mohon lengkapi semua field!");
       return;
     }
 
-    if (paymentMethod === "crypto") {
-      if (!cryptoSelection) {
-        alert("Pilih network dan token terlebih dahulu!");
-        return;
-      }
+    if (paymentMethod === "crypto" && !cryptoSelection) {
+      showToast("Pilih network dan token terlebih dahulu!");
+      return;
+    }
 
+    // Show confirmation modal
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmOrder = async () => {
+    setShowConfirmModal(false);
+
+    if (paymentMethod === "crypto") {
       setIsOrdering(true);
       try {
         const res = await fetch("/api/orders", {
@@ -150,11 +158,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           body: JSON.stringify({
             action: "create",
             game_slug: game.slug,
-            denomination_id: selectedDenom.amount,
+            denomination_id: selectedDenom!.amount,
             user_id: userId,
             server_id: serverId || undefined,
-            payment_chain: cryptoSelection.chain,
-            payment_token: cryptoSelection.token,
+            payment_chain: cryptoSelection!.chain,
+            payment_token: cryptoSelection!.token,
           }),
         });
 
@@ -174,7 +182,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     }
 
     alert(
-      `Order berhasil!\n\nGame: ${game.name}\nUser ID: ${userId}${serverId ? ` (${serverId})` : ""}\nItem: ${selectedDenom.amount}\nHarga: ${formatPrice(selectedDenom.price)}\nPembayaran: ${paymentMethod.toUpperCase()}`
+      `Order berhasil!\n\nGame: ${game.name}\nUser ID: ${userId}${serverId ? ` (${serverId})` : ""}\nItem: ${selectedDenom!.amount}\nHarga: ${formatPrice(selectedDenom!.price)}\nPembayaran: ${paymentMethod.toUpperCase()}`
     );
   };
 
@@ -702,6 +710,82 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           </button>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && selectedDenom && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-sm rounded-2xl bg-[#1e1e1e] border border-[#2a2a2a] p-6 shadow-2xl">
+            {/* Checkmark */}
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
+                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-center text-lg font-bold text-white mb-1">Buat Pesanan</h3>
+            <p className="text-center text-[11px] text-[#999] mb-4">
+              Pastikan data akun dan produk yang kamu pilih sudah benar.
+            </p>
+
+            {/* Order Details */}
+            <div className="rounded-xl border border-[#2a2a2a] bg-[#151515] p-4 space-y-2.5 text-xs mb-5">
+              {nickname && (
+                <div className="flex justify-between">
+                  <span className="text-[#777]">Username</span>
+                  <span className="text-white font-medium">{nickname}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="text-[#777]">ID</span>
+                <span className="text-white font-medium">{userId}</span>
+              </div>
+              {serverId && (
+                <div className="flex justify-between">
+                  <span className="text-[#777]">Server</span>
+                  <span className="text-white font-medium">{serverId}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="text-[#777]">Item</span>
+                <span className="text-white font-medium">{selectedDenom.label}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#777]">Game</span>
+                <span className="text-white font-medium">{game.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#777]">Pembayaran</span>
+                <span className="text-white font-medium">
+                  {paymentMethod === "crypto" ? `Crypto (${cryptoSelection?.chain})` : paymentMethod.toUpperCase()}
+                </span>
+              </div>
+              <div className="flex justify-between border-t border-[#2a2a2a] pt-2">
+                <span className="text-[#777]">Total</span>
+                <span className="text-[#c8a45c] font-bold">
+                  {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
+                </span>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <button
+              onClick={handleConfirmOrder}
+              className="w-full rounded-lg bg-gradient-to-r from-[#a0833a] to-[#c8a45c] py-3 text-sm font-semibold text-white shadow active:scale-[0.97] transition-transform mb-2"
+            >
+              Pesan Sekarang!
+            </button>
+            <button
+              onClick={() => setShowConfirmModal(false)}
+              className="w-full rounded-lg border border-[#3a3a3a] bg-[#252525] py-3 text-sm font-medium text-[#999] active:scale-[0.97] transition-transform"
+            >
+              Batalkan
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
