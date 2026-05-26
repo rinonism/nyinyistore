@@ -9,11 +9,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           {/* Brand */}
           <div>
-            <h2 className="text-sm font-bold text-white mb-2" style={{ fontFamily: "var(--font-fredoka)" }}>
-              🐱 NyinyiStore
-            </h2>
+            <div className="flex items-center gap-2 mb-2">
+              <img src="/logo-cat.png" alt="NyinyiStore" className="h-8 w-8 object-contain" />
+              <span className="text-sm font-bold text-[#EF8F8F]" style={{ fontFamily: "var(--font-fredoka)" }}>NyinyiStore</span>
+            </div>
             <p className="text-[11px] text-[#777] leading-relaxed">
-              Top up game favorit kamu dengan harga termurah. Proses cepat & aman.
+              Top up game favorit kamu dengan harga termurah. Proses cepat & aman. Melayani 24/7. Mendukung pembayaran menggunakan Crypto.
             </p>
             <div className="mt-3 flex gap-2">
               <a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="rounded-full bg-[#2a2a2a] p-2 text-[#777] hover:text-[#c8a45c] transition-colors">
