@@ -268,7 +268,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <div className={`grid ${game.needsServerId ? "grid-cols-2" : "grid-cols-1"} gap-2 sm:gap-3`}>
                   <div>
                     <label htmlFor="userId" className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
-                      ID
+                      {game.idLabel || "ID"}
                     </label>
                     <input
                       id="userId"
@@ -276,7 +276,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       onBlur={() => { if (userId) checkNickname(userId, serverId); }}
-                      placeholder="Masukkan ID"
+                      placeholder={game.idPlaceholder || "Masukkan ID"}
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
                     />
                   </div>

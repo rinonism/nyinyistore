@@ -14,6 +14,8 @@ export interface Game {
   description: string;
   region?: string;
   needsServerId?: boolean;
+  idLabel?: string;
+  idPlaceholder?: string;
   denominations: Denomination[];
 }
 
@@ -43,6 +45,7 @@ export const games: Game[] = [
     name: "Mobile Legends Paket Irit",
     slug: "mobile-legends-paket-irit",
     developer: "Moonton",
+    needsServerId: true,
     image: "/games/mobile-legends-paket-irit.jpg",
     description: "Paket Irit Diamond",
     denominations: [
@@ -103,6 +106,8 @@ export const games: Game[] = [
     slug: "valorant",
     developer: "Riot Games",
     image: "/games/valorant.jpg",
+    idLabel: "Riot ID",
+    idPlaceholder: "Name#TAG",
     description: "VP Top Up",
     denominations: [
       { amount: "125 VP", price: 15000, label: "125 VP", comingSoon: true },
@@ -116,6 +121,8 @@ export const games: Game[] = [
     slug: "genshin-impact",
     developer: "HoYoverse",
     image: "/games/genshin-impact.jpg",
+    idLabel: "UID",
+    idPlaceholder: "Masukkan UID",
     description: "Genesis Crystal Top Up",
     denominations: [
       { amount: "60 Crystals", price: 16000, label: "60 💠", comingSoon: true },
@@ -129,6 +136,8 @@ export const games: Game[] = [
     slug: "honkai-star-rail",
     developer: "HoYoverse",
     image: "/games/honkai-star-rail.jpg",
+    idLabel: "UID",
+    idPlaceholder: "Masukkan UID",
     description: "Oneiric Shard Top Up",
     denominations: [
       { amount: "60 Shards", price: 16000, label: "60 ✨", comingSoon: true },
@@ -142,6 +151,8 @@ export const games: Game[] = [
     slug: "roblox",
     developer: "Roblox Corporation",
     image: "/games/roblox.jpg",
+    idLabel: "Username",
+    idPlaceholder: "Masukkan Username",
     description: "Robux Top Up",
     denominations: [
       { amount: "80 Robux", price: 15000, label: "80 R$", comingSoon: true },
@@ -154,6 +165,7 @@ export const games: Game[] = [
     name: "Mobile Legends Global",
     slug: "mobile-legends-global",
     developer: "Moonton",
+    needsServerId: true,
     image: "/games/mobile-legends-global.jpg",
     description: "Diamond Global Server",
     denominations: [
@@ -240,6 +252,8 @@ export const games: Game[] = [
     slug: "clash-of-clans",
     developer: "Supercell",
     image: "/games/clash-of-clans.jpg",
+    idLabel: "Player Tag",
+    idPlaceholder: "#XXXXXXXX",
     description: "Gems Top Up",
     denominations: [
       { amount: "80 Gems", price: 16000, label: "80 💎", comingSoon: true },
