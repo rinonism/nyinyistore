@@ -361,7 +361,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 {/* Special Items section - on top */}
                 {game.denominations.some(d => d.amount.includes("Pass") || d.amount.includes("Special")) && (
                   <div className="mb-4">
-                    <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Spesial Item</p>
+                    <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Spesial Item 🎁</p>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                       {game.denominations.filter(d => d.amount.includes("Pass") || d.amount.includes("Special")).map((denom) => (
                         <button
