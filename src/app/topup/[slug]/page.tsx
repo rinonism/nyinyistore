@@ -381,7 +381,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                               ⚡ Instan
                             </span>
                           )}
-                          <div className="text-sm sm:text-base font-bold text-white leading-tight mt-4">🎁 {denom.label}</div>
+                          <div className="text-sm sm:text-base font-bold text-white leading-tight mt-4">{denom.label}</div>
                           <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
                         </button>
                       ))}
