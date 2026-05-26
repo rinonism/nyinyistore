@@ -122,7 +122,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   }, []);
 
   const paymentMethods = [
-    { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC / SOL", fee: "+Rp3.000" },
+    { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC", fee: "+Rp3.000" },
     { id: "qris", name: "QRIS", icon: "📱", description: "Scan QR Code" },
     { id: "bank", name: "Bank Transfer", icon: "🏦", description: "BCA, Mandiri, BNI" },
   ];

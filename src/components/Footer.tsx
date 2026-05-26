@@ -54,7 +54,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Metode Pembayaran</h3>
             <div className="flex flex-wrap gap-2">
-              {["USDT", "USDC", "SOL"].map((token) => (
+              {["USDT", "USDC"].map((token) => (
                 <span
                   key={token}
                   className="inline-flex items-center gap-1 rounded-lg border border-[#2a2a2a] bg-[#1e1e1e] px-2.5 py-1.5 text-[10px] font-medium text-[#b0b0b0]"

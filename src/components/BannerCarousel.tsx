@@ -20,7 +20,7 @@ const banners = [
   {
     id: 3,
     title: "BAYAR PAKAI CRYPTO",
-    subtitle: "Support USDT, USDC, SOL • Rate terbaik • Tanpa ribet",
+    subtitle: "Support USDT, USDC • Rate terbaik • Tanpa ribet",
     gradient: "from-[#0f1a0a] via-[#0a1a1a] to-[#0f1a0a]",
     accent: "🪙",
   },
