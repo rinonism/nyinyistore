@@ -44,13 +44,15 @@ export default function ContactModal() {
                 </div>
               </a>
               <a
-                href="mailto:lakbankuning01@gmail.com"
+                href="https://t.me/NyinyiStore_bot"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 rounded-lg border border-[#3a3a3a] bg-[#252525] p-3 hover:border-[#c8a45c] transition-colors"
               >
-                <span className="text-xl">📧</span>
+                <span className="text-xl">✈️</span>
                 <div>
-                  <div className="text-xs font-medium text-white">Email</div>
-                  <div className="text-[10px] text-[#777]">lakbankuning01@gmail.com</div>
+                  <div className="text-xs font-medium text-white">Telegram</div>
+                  <div className="text-[10px] text-[#777]">@NyinyiStore_bot</div>
                 </div>
               </a>
             </div>

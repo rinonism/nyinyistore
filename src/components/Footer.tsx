@@ -40,9 +40,9 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Dukungan</h3>
             <ul className="space-y-2 text-xs text-[#777]">
-              <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Whatsapp</a></li>
-              <li><a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
-              <li><a href="mailto:lakbankuning01@gmail.com" className="hover:text-white transition-colors">Email</a></li>
+                <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Whatsapp</a></li>
+                <li><a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
+                <li><a href="https://t.me/NyinyiStore_bot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Telegram</a></li>
             </ul>
           </div>
 
