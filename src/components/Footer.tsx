@@ -5,8 +5,8 @@ import ContactModal from "./ContactModal";
 export default function Footer() {
   return (
     <footer className="border-t border-[#2a2a2a] bg-[#0a0a0a] mt-12">
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+      <div className="mx-auto max-w-[1200px] px-4 py-10">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -44,17 +44,49 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Dukungan</h3>
             <ul className="space-y-2 text-xs text-[#777]">
-                <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Whatsapp</a></li>
-                <li><a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
-                <li><a href="https://t.me/NyinyiStore_bot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Telegram</a></li>
+              <li><a href="https://wa.me/6285157434365" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Whatsapp</a></li>
+              <li><a href="https://instagram.com/nyinyistore" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
+              <li><a href="https://t.me/NyinyiStore_bot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Telegram</a></li>
             </ul>
           </div>
 
+          {/* Payment Methods */}
+          <div>
+            <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Metode Pembayaran</h3>
+            <div className="flex flex-wrap gap-2">
+              {["USDT", "USDC", "SOL"].map((token) => (
+                <span
+                  key={token}
+                  className="inline-flex items-center gap-1 rounded-lg border border-[#2a2a2a] bg-[#1e1e1e] px-2.5 py-1.5 text-[10px] font-medium text-[#b0b0b0]"
+                >
+                  {token}
+                </span>
+              ))}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Ethereum", "BSC", "Base", "Arbitrum", "Solana"].map((chain) => (
+                <span
+                  key={chain}
+                  className="inline-flex items-center rounded-md border border-[#2a2a2a] bg-[#151515] px-2 py-1 text-[9px] text-[#555]"
+                >
+                  {chain}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-[10px] text-[#555]">
+              QRIS & Bank Transfer — segera hadir
+            </p>
+          </div>
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 border-t border-[#2a2a2a] pt-6 text-center text-xs text-[#555]">
-          © 2024 NyinyiStore. All rights reserved.
+        <div className="mt-8 border-t border-[#2a2a2a] pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-[11px] text-[#555]">
+            © 2024 NyinyiStore. All rights reserved.
+          </p>
+          <p className="text-[10px] text-[#444]">
+            Proses otomatis 24/7 • Harga termurah se-Indonesia
+          </p>
         </div>
       </div>
     </footer>

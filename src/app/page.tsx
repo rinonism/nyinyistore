@@ -3,6 +3,29 @@ import BannerCarousel from "@/components/BannerCarousel";
 import Footer from "@/components/Footer";
 import { games } from "@/lib/games";
 
+const faqData = [
+  {
+    q: "Bagaimana cara top up di NyinyiStore?",
+    a: "Pilih game yang ingin di-top up, masukkan User ID, pilih nominal, lalu pilih metode pembayaran. Proses otomatis 1-3 detik setelah pembayaran dikonfirmasi.",
+  },
+  {
+    q: "Metode pembayaran apa saja yang tersedia?",
+    a: "Kami menerima pembayaran via Crypto (USDT, USDC di Ethereum, BSC, Base, Arbitrum, Solana). Pembayaran QRIS dan Bank Transfer segera hadir.",
+  },
+  {
+    q: "Berapa lama proses top up?",
+    a: "Proses top up otomatis dalam 1-3 detik setelah pembayaran terverifikasi. Untuk pembayaran crypto, konfirmasi tergantung kecepatan blockchain (biasanya 1-5 menit).",
+  },
+  {
+    q: "Apakah top up di NyinyiStore aman?",
+    a: "100% aman. Kami menggunakan API resmi dari supplier terpercaya. Semua transaksi tercatat dan bisa dicek melalui halaman Cek Transaksi.",
+  },
+  {
+    q: "Bagaimana cara cek transaksi?",
+    a: "Klik menu 'Cek Transaksi' di navbar, lalu masukkan Order ID yang kamu terima saat melakukan pemesanan. Status transaksi akan ditampilkan secara real-time.",
+  },
+];
+
 export default function HomePage() {
   return (
     <div className="min-h-screen">
@@ -20,13 +43,14 @@ export default function HomePage() {
           Berikut adalah beberapa produk yang kami rekomendasikan untuk kamu.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {games.slice(0, 3).map((game) => (
+          {games.slice(0, 3).map((game, i) => (
             <GameCard
               key={game.slug}
               name={game.name}
               slug={game.slug}
               image={game.image}
               developer={game.developer}
+              index={i}
             />
           ))}
         </div>
@@ -41,13 +65,14 @@ export default function HomePage() {
           Berikut adalah beberapa produk yang paling populer saat ini.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {games.map((game) => (
+          {games.map((game, i) => (
             <GameCard
               key={game.slug}
               name={game.name}
               slug={game.slug}
               image={game.image}
               developer={game.developer}
+              index={i}
             />
           ))}
         </div>
@@ -57,22 +82,16 @@ export default function HomePage() {
       <section className="mx-auto max-w-[1200px] px-4 py-8">
         <h2 className="mb-5 text-base font-bold text-white">Kamu Punya Pertanyaan?</h2>
         <div className="space-y-2">
-          {[
-            "Bagaimana cara top up di NyinyiStore?",
-            "Metode pembayaran apa saja yang tersedia?",
-            "Berapa lama proses top up?",
-            "Apakah top up di NyinyiStore aman?",
-            "Bagaimana cara cek transaksi?",
-          ].map((q, i) => (
+          {faqData.map((item, i) => (
             <details key={i} className="group rounded-xl border border-[#2a2a2a] bg-[#1e1e1e]">
               <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm text-white">
-                {q}
-                <svg className="h-4 w-4 text-[#777] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {item.q}
+                <svg className="h-4 w-4 text-[#777] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <div className="px-4 pb-3 text-xs text-[#b0b0b0]">
-                Silahkan hubungi customer service kami melalui tombol Chat CS di kanan bawah.
+              <div className="px-4 pb-3 text-xs text-[#b0b0b0] leading-relaxed">
+                {item.a}
               </div>
             </details>
           ))}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Fredoka } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const fredoka = Fredoka({ subsets: ["latin"], variable: "--font-fredoka" });
@@ -64,8 +65,10 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className={`${inter.className} ${fredoka.variable} bg-[#121212] text-[#f5f5f5] antialiased`}>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <Providers>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+        </Providers>
       </body>
     </html>
   );

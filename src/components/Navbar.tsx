@@ -195,7 +195,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#2a2a2a] bg-[#1a1a1a] px-3 py-2">
+        <div className="md:hidden border-t border-[#2a2a2a] bg-[#1a1a1a] px-3 py-2 menu-enter">
           <Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-[#ccc] hover:text-white hover:bg-[#252525] transition-colors">
             🎮 Topup
           </Link>
