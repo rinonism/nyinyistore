@@ -2,8 +2,9 @@ export interface Denomination {
   amount: string;
   price: number;
   label: string;
-  sku?: string; // Digiflazz buyer_sku_code
+  sku?: string;
   comingSoon?: boolean;
+  bonusLabel?: string;
 }
 
 export interface Game {
@@ -29,16 +30,16 @@ export const games: Game[] = [
     region: "INDONESIA",
     needsServerId: true,
     denominations: [
-      { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
-      { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10" },
-      { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
+      { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5", bonusLabel: "+1 Bonus" },
+      { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10", bonusLabel: "+2 Bonus" },
+      { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12", bonusLabel: "+2 Bonus" },
       { amount: "Weekly Diamond Pass", price: 27347, label: "Weekly Pass 💎", sku: "mlweek" },
-      { amount: "86 Diamonds", price: 19000, label: "86 💎", comingSoon: true },
-      { amount: "172 Diamonds", price: 38000, label: "172 💎", comingSoon: true },
-      { amount: "257 Diamonds", price: 57000, label: "257 💎", comingSoon: true },
-      { amount: "344 Diamonds", price: 76000, label: "344 💎", comingSoon: true },
-      { amount: "514 Diamonds", price: 114000, label: "514 💎", comingSoon: true },
-      { amount: "706 Diamonds", price: 152000, label: "706 💎", comingSoon: true },
+      { amount: "86 Diamonds", price: 19000, label: "86 💎", comingSoon: true, bonusLabel: "+10 Bonus" },
+      { amount: "172 Diamonds", price: 38000, label: "172 💎", comingSoon: true, bonusLabel: "+20 Bonus" },
+      { amount: "257 Diamonds", price: 57000, label: "257 💎", comingSoon: true, bonusLabel: "+30 Bonus" },
+      { amount: "344 Diamonds", price: 76000, label: "344 💎", comingSoon: true, bonusLabel: "+40 Bonus" },
+      { amount: "514 Diamonds", price: 114000, label: "514 💎", comingSoon: true, bonusLabel: "+60 Bonus" },
+      { amount: "706 Diamonds", price: 152000, label: "706 💎", comingSoon: true, bonusLabel: "+80 Bonus" },
     ],
   },
   {

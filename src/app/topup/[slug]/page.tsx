@@ -343,6 +343,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         </span>
                       )}
                       <div className="text-[11px] sm:text-xs font-medium text-white leading-tight">{denom.label}</div>
+                      {denom.bonusLabel && (
+                        <div className="text-[9px] sm:text-[10px] font-medium text-[#4caf50]">{denom.bonusLabel}</div>
+                      )}
                       <div className="mt-1 text-[11px] sm:text-xs font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
                     </button>
                   ))}
