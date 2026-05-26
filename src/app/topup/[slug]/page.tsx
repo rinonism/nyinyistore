@@ -164,7 +164,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
           </div>
           <div className="pb-1 sm:pb-2">
-            <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">INDONESIA</span>
+            {game.region && (
+              <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">{game.region}</span>
+            )}
             <h1 className="text-sm sm:text-xl lg:text-2xl font-extrabold text-white leading-tight">
               {game.name.toUpperCase()}
             </h1>

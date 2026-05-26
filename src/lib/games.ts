@@ -12,6 +12,7 @@ export interface Game {
   developer: string;
   image: string;
   description: string;
+  region?: string;
   denominations: Denomination[];
 }
 
@@ -22,6 +23,7 @@ export const games: Game[] = [
     developer: "Moonton",
     image: "/games/mobile-legends.jpg",
     description: "Diamond Top Up",
+    region: "INDONESIA",
     denominations: [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
       { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10" },
