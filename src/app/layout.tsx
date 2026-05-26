@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   title: "NyinyiStore - Top Up Game Termurah & Tercepat",
   description:
     "Top up game favorit kamu dengan harga termurah. Mobile Legends, Free Fire, PUBG, Genshin Impact, Valorant. Proses cepat 1-3 detik. Support Crypto, QRIS, dan Bank Transfer. Open 24 jam.",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-icon.png",
+  },
   keywords: [
     "top up game murah",
     "top up mobile legends",
