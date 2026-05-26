@@ -111,7 +111,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   }, [game.slug]);
 
   const paymentMethods = [
-    { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC / SOL" },
+    { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC / SOL", fee: "+Rp3.000" },
     { id: "qris", name: "QRIS", icon: "📱", description: "Scan QR Code" },
     { id: "bank", name: "Bank Transfer", icon: "🏦", description: "BCA, Mandiri, BNI" },
   ];
@@ -406,10 +406,15 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       }`}
                     >
                       <span className="text-lg sm:text-xl">{method.icon}</span>
-                      <div>
+                      <div className="flex-1">
                         <div className="text-xs font-medium text-white">{method.name}</div>
                         <div className="text-[10px] text-[#777]">{method.description}</div>
                       </div>
+                      {method.fee && (
+                        <span className="text-[10px] font-medium text-[#c8a45c] bg-[#c8a45c]/10 px-1.5 py-0.5 rounded">
+                          {method.fee}
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>
