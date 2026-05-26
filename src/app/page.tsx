@@ -126,14 +126,6 @@ export default function HomePage() {
               </ul>
             </div>
 
-            {/* Legalitas */}
-            <div>
-              <h3 className="mb-3 text-xs font-semibold text-[#c8a45c] uppercase tracking-wider">Legalitas</h3>
-              <ul className="space-y-2 text-xs text-[#777]">
-                <li><a href="#" className="hover:text-white transition-colors">Kebijakan Privasi</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</a></li>
-              </ul>
-            </div>
           </div>
 
           {/* Bottom */}
