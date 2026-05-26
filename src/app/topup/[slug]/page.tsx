@@ -138,39 +138,53 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   return (
     <div className="pb-20 sm:pb-6">
-      {/* Game Banner - Centered with max-width */}
-      <div className="mx-auto max-w-[900px] px-3 sm:px-4 pt-3 sm:pt-5">
-        <div className="relative overflow-hidden rounded-xl aspect-[2.5/1] sm:aspect-[3.5/1] bg-[#1e1e1e]">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0f00] via-[#0a1525] to-[#1a0f00]" />
-          <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-            <div className="flex items-center gap-3 sm:gap-5">
-              <div className="h-14 w-14 sm:h-20 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 border-[#3a3a3a] shadow-lg">
-                <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">INDONESIA</span>
-                <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-white leading-tight">
-                  {game.name.toUpperCase()}
-                </h1>
-                <p className="text-[11px] sm:text-xs text-[#999]">{game.developer}</p>
-              </div>
-            </div>
+      {/* Hero Banner - Full width, tall on desktop */}
+      <div className="relative overflow-hidden aspect-[2.5/1] sm:aspect-[3/1] lg:aspect-[3.5/1] bg-[#1e1e1e]">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#1a0f2e] to-[#0a1525]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
+        {/* Banner decorative elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#c8a45c]/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl" />
+        </div>
+        {/* Banner text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center px-4">
+            <p className="text-[10px] sm:text-xs lg:text-sm text-[#c8a45c] font-medium tracking-wider uppercase mb-1">Top Up Diamond Kilat</p>
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white">PROSES CEPAT!</h2>
+            <p className="text-[10px] sm:text-xs text-[#999] mt-1">Hanya di NyinyiStore.com</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Game Info - Overlapping banner */}
+      <div className="mx-auto max-w-[1100px] px-3 sm:px-6 -mt-10 sm:-mt-14 relative z-10">
+        <div className="flex items-end gap-3 sm:gap-5">
+          <div className="h-20 w-20 sm:h-32 sm:w-32 lg:h-36 lg:w-36 flex-shrink-0 overflow-hidden rounded-xl border-3 border-[#2a2a2a] shadow-2xl bg-[#1e1e1e]">
+            <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
+          </div>
+          <div className="pb-1 sm:pb-2">
+            <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">INDONESIA</span>
+            <h1 className="text-sm sm:text-xl lg:text-2xl font-extrabold text-white leading-tight">
+              {game.name.toUpperCase()}
+            </h1>
+            <p className="text-[11px] sm:text-xs text-[#999] mt-0.5">{game.developer}</p>
           </div>
         </div>
       </div>
 
       {/* Feature badges */}
-      <div className="mx-auto max-w-[900px] px-3 sm:px-4">
-        <div className="flex items-center justify-center gap-3 sm:gap-5 py-3 border-b border-[#2a2a2a]">
-          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1">⚡ Proses Cepat</span>
-          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1">💬 Chat 24/7</span>
-          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1">✓ Aman</span>
+      <div className="mx-auto max-w-[1100px] px-3 sm:px-6 mt-4">
+        <div className="flex items-center gap-4 sm:gap-6 py-3 border-b border-[#2a2a2a]">
+          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1.5">⚡ Proses Cepat</span>
+          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1.5">💬 Layanan Chat 24/7</span>
+          <span className="text-[10px] sm:text-xs text-[#4caf50] flex items-center gap-1.5">✅ Pembayaran Aman!</span>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="mx-auto max-w-[900px] px-3 sm:px-4 mt-3">
-        <div className="flex rounded-lg bg-[#1e1e1e] border border-[#2a2a2a] p-1">
+      <div className="mx-auto max-w-[1100px] px-3 sm:px-6 mt-4">
+        <div className="flex rounded-lg bg-[#1e1e1e] border border-[#2a2a2a] p-1 max-w-[300px]">
           <button
             onClick={() => setActiveTab("transaksi")}
             className={`flex-1 rounded-md py-2 text-xs sm:text-sm font-medium transition-all ${
@@ -194,10 +208,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
         </div>
       </div>
 
-      {/* Tab Content */}
-      <div className="mx-auto max-w-[900px] px-3 sm:px-4 mt-4">
+      {/* Main Content - 2 column on desktop */}
+      <div className="mx-auto max-w-[1100px] px-3 sm:px-6 mt-4">
         {activeTab === "transaksi" ? (
-          <div className="space-y-4">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+            {/* Left Column - Form */}
+            <div className="flex-1 space-y-4">
             {/* Step 1: Account Data */}
             <section className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
               <div className="flex items-center gap-3 border-b border-[#2a2a2a] bg-[#252525] px-3 sm:px-4 py-2.5 sm:py-3">
@@ -444,6 +460,62 @@ export default function TopUpPage({ params }: TopUpPageProps) {
               >
                 {isOrdering ? "Processing..." : "🛒 Pesan Sekarang!"}
               </button>
+            </div>
+            </div>
+
+            {/* Right Column - Rating (desktop only) */}
+            <div className="hidden lg:block w-[320px] flex-shrink-0">
+              <div className="sticky top-4 space-y-4">
+                {/* Rating Card */}
+                <div className="rounded-xl border border-[#c8a45c]/30 bg-[#1e1e1e] p-5">
+                  <h3 className="text-sm font-semibold text-white mb-3">Ulasan dan rating</h3>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-4xl font-bold text-white">4.99</span>
+                    <div>
+                      <div className="flex text-[#FFD700] text-lg">★★★★★</div>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-[#999]">Berdasarkan total 1.25jt rating</p>
+                  <div className="mt-4 space-y-2">
+                    {[
+                      { star: 5, pct: 99 },
+                      { star: 4, pct: 8 },
+                      { star: 3, pct: 3 },
+                      { star: 2, pct: 1 },
+                      { star: 1, pct: 0.5 },
+                    ].map((r) => (
+                      <div key={r.star} className="flex items-center gap-2">
+                        <span className="text-[11px] text-[#999] w-3">{r.star}</span>
+                        <span className="text-[11px] text-[#FFD700]">★</span>
+                        <div className="flex-1 h-2 rounded-full bg-[#2a2a2a] overflow-hidden">
+                          <div className="h-full rounded-full bg-[#c8a45c]" style={{ width: `${r.pct}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Order Summary Card */}
+                {selectedDenom && (
+                  <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+                    <h3 className="text-sm font-semibold text-white mb-3">Ringkasan</h3>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-[#999]">Game</span>
+                        <span className="text-white">{game.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#999]">Item</span>
+                        <span className="text-white">{selectedDenom.label}</span>
+                      </div>
+                      <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
+                        <span className="text-[#999]">Total</span>
+                        <span className="text-[#c8a45c] font-bold">{formatPrice(selectedDenom.price)}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ) : (
