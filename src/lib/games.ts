@@ -13,6 +13,7 @@ export interface Game {
   image: string;
   description: string;
   region?: string;
+  needsServerId?: boolean;
   denominations: Denomination[];
 }
 
@@ -24,6 +25,7 @@ export const games: Game[] = [
     image: "/games/mobile-legends.jpg",
     description: "Diamond Top Up",
     region: "INDONESIA",
+    needsServerId: true,
     denominations: [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
       { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10" },

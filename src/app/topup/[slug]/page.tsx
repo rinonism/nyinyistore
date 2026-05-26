@@ -265,7 +265,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Masukkan Data Akun</h2>
               </div>
               <div className="p-3 sm:p-4">
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                <div className={`grid ${game.needsServerId ? "grid-cols-2" : "grid-cols-1"} gap-2 sm:gap-3`}>
                   <div>
                     <label htmlFor="userId" className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
                       ID
@@ -280,6 +280,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
                     />
                   </div>
+                  {game.needsServerId && (
                   <div>
                     <label htmlFor="serverId" className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
                       Server
@@ -294,6 +295,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
                     />
                   </div>
+                  )}
                 </div>
                 {/* Nickname result */}
                 {nickLoading && (
