@@ -44,7 +44,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [isOrdering, setIsOrdering] = useState(false);
   const [activeTab, setActiveTab] = useState<"transaksi" | "keterangan">("transaksi");
   const [toast, setToast] = useState<string | null>(null);
-  const [usdRate, setUsdRate] = useState<number>(16500); // fallback rate
+  const [usdRate, setUsdRate] = useState<number>(17800); // fallback rate
 
   // Show toast notification
   const showToast = (msg: string) => {
@@ -111,11 +111,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     }
   }, [game.slug]);
 
-  // Fetch USD/IDR rate
+  // Fetch USD/IDR rate (USDT rate from CoinGecko)
   useEffect(() => {
-    fetch("https://api.exchangerate-host.com/latest?base=USD&symbols=IDR")
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr")
       .then(r => r.json())
-      .then(d => { if (d?.rates?.IDR) setUsdRate(d.rates.IDR); })
+      .then(d => { if (d?.tether?.idr) setUsdRate(d.tether.idr); })
       .catch(() => {}); // fallback to 16500
   }, []);
 

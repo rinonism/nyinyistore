@@ -187,8 +187,8 @@ export async function getUsdtToIdrRate(): Promise<number> {
     const data = await res.json();
     return data.tether.idr;
   } catch {
-    // Fallback rate ~16,300 IDR per USDT (approximate)
-    return 16300;
+    // Fallback rate ~17,800 IDR per USDT (approximate)
+    return 17800;
   }
 }
 
