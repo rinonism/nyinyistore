@@ -436,7 +436,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 {paymentMethod === "crypto" && (
                   <div className="mt-3">
                     <CryptoPaymentSelector
-                      priceIdr={selectedDenom?.price || 0}
+                      priceIdr={(selectedDenom?.price || 0) + 3000}
                       onSelect={handleCryptoSelect}
                       selected={cryptoSelection}
                     />
