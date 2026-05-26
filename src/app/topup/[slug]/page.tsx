@@ -410,9 +410,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         <div className="text-xs font-medium text-white">{method.name}</div>
                         <div className="text-[10px] text-[#777]">{method.description}</div>
                       </div>
-                      {method.fee && (
-                        <span className="text-[10px] font-medium text-[#c8a45c] bg-[#c8a45c]/10 px-1.5 py-0.5 rounded">
-                          {method.fee}
+                      {method.fee && selectedDenom && (
+                        <span className="text-[10px] font-bold text-[#c8a45c]">
+                          {formatPrice(selectedDenom.price + 3000)}
                         </span>
                       )}
                     </button>
