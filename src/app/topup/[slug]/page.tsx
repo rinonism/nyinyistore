@@ -102,10 +102,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
       setIsOrdering(true);
       try {
-        const res = await fetch("/api/orders/create", {
+        const res = await fetch("/api/orders", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            action: "create",
             game_slug: game.slug,
             denomination_id: selectedDenom.amount,
             user_id: userId,

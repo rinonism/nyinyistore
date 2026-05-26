@@ -179,14 +179,17 @@ export async function getUsdtToIdrRate(): Promise<number> {
 }
 
 /**
- * Calculate crypto amount from IDR price
- * Since USDT and USDC are both pegged to $1, we use the same rate
+ * Calculate crypto amount from IDR price with unique suffix
+ * Adds random cents (0.001-0.009) to make each order unique for auto-detection
  */
 export async function calculateCryptoAmount(priceIdr: number): Promise<string> {
   const rate = await getUsdtToIdrRate();
   const amount = priceIdr / rate;
-  // Round to 2 decimal places for stablecoins
-  return amount.toFixed(2);
+  // Add unique suffix (0.001 - 0.099) for payment matching
+  const uniqueSuffix = (Math.floor(Math.random() * 99) + 1) / 1000;
+  const finalAmount = amount + uniqueSuffix;
+  // 3 decimal places for unique matching
+  return finalAmount.toFixed(3);
 }
 
 /**
