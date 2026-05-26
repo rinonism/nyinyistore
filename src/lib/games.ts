@@ -2,6 +2,7 @@ export interface Denomination {
   amount: string;
   price: number;
   label: string;
+  sku?: string; // Digiflazz buyer_sku_code
 }
 
 export interface Game {
@@ -21,6 +22,9 @@ export const games: Game[] = [
     image: "/games/mobile-legends.jpg",
     description: "Diamond Top Up",
     denominations: [
+      { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
+      { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
+      { amount: "Weekly Diamond Pass", price: 27347, label: "Weekly Pass 💎", sku: "mlweek" },
       { amount: "86 Diamonds", price: 19000, label: "86 💎" },
       { amount: "172 Diamonds", price: 38000, label: "172 💎" },
       { amount: "257 Diamonds", price: 57000, label: "257 💎" },
@@ -36,6 +40,8 @@ export const games: Game[] = [
     image: "/games/mobile-legends-paket-irit.jpg",
     description: "Paket Irit Diamond",
     denominations: [
+      { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
+      { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
       { amount: "86 Diamonds", price: 18000, label: "86 💎" },
       { amount: "172 Diamonds", price: 36000, label: "172 💎" },
       { amount: "257 Diamonds", price: 54000, label: "257 💎" },
@@ -49,9 +55,11 @@ export const games: Game[] = [
     image: "/games/free-fire.jpg",
     description: "Diamond Top Up",
     denominations: [
-      { amount: "70 Diamonds", price: 15000, label: "70 💎" },
-      { amount: "140 Diamonds", price: 29000, label: "140 💎" },
-      { amount: "355 Diamonds", price: 69000, label: "355 💎" },
+      { amount: "12 Diamonds", price: 1779, label: "12 💎", sku: "ff12" },
+      { amount: "50 Diamonds", price: 7605, label: "50 💎", sku: "ff50" },
+      { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
+      { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
+      { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
       { amount: "720 Diamonds", price: 139000, label: "720 💎" },
     ],
   },
@@ -62,9 +70,11 @@ export const games: Game[] = [
     image: "/games/free-fire-max.jpg",
     description: "Diamond Top Up",
     denominations: [
-      { amount: "70 Diamonds", price: 15000, label: "70 💎" },
-      { amount: "140 Diamonds", price: 29000, label: "140 💎" },
-      { amount: "355 Diamonds", price: 69000, label: "355 💎" },
+      { amount: "12 Diamonds", price: 1779, label: "12 💎", sku: "ff12" },
+      { amount: "50 Diamonds", price: 7605, label: "50 💎", sku: "ff50" },
+      { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
+      { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
+      { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
       { amount: "720 Diamonds", price: 139000, label: "720 💎" },
     ],
   },
