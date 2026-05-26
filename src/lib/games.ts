@@ -3,6 +3,7 @@ export interface Denomination {
   price: number;
   label: string;
   sku?: string; // Digiflazz buyer_sku_code
+  comingSoon?: boolean;
 }
 
 export interface Game {
@@ -25,12 +26,12 @@ export const games: Game[] = [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
       { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
       { amount: "Weekly Diamond Pass", price: 27347, label: "Weekly Pass 💎", sku: "mlweek" },
-      { amount: "86 Diamonds", price: 19000, label: "86 💎" },
-      { amount: "172 Diamonds", price: 38000, label: "172 💎" },
-      { amount: "257 Diamonds", price: 57000, label: "257 💎" },
-      { amount: "344 Diamonds", price: 76000, label: "344 💎" },
-      { amount: "514 Diamonds", price: 114000, label: "514 💎" },
-      { amount: "706 Diamonds", price: 152000, label: "706 💎" },
+      { amount: "86 Diamonds", price: 19000, label: "86 💎", comingSoon: true },
+      { amount: "172 Diamonds", price: 38000, label: "172 💎", comingSoon: true },
+      { amount: "257 Diamonds", price: 57000, label: "257 💎", comingSoon: true },
+      { amount: "344 Diamonds", price: 76000, label: "344 💎", comingSoon: true },
+      { amount: "514 Diamonds", price: 114000, label: "514 💎", comingSoon: true },
+      { amount: "706 Diamonds", price: 152000, label: "706 💎", comingSoon: true },
     ],
   },
   {
@@ -42,10 +43,10 @@ export const games: Game[] = [
     denominations: [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
       { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
-      { amount: "86 Diamonds", price: 18000, label: "86 💎" },
-      { amount: "172 Diamonds", price: 36000, label: "172 💎" },
-      { amount: "257 Diamonds", price: 54000, label: "257 💎" },
-      { amount: "344 Diamonds", price: 72000, label: "344 💎" },
+      { amount: "86 Diamonds", price: 18000, label: "86 💎", comingSoon: true },
+      { amount: "172 Diamonds", price: 36000, label: "172 💎", comingSoon: true },
+      { amount: "257 Diamonds", price: 54000, label: "257 💎", comingSoon: true },
+      { amount: "344 Diamonds", price: 72000, label: "344 💎", comingSoon: true },
     ],
   },
   {
@@ -60,7 +61,7 @@ export const games: Game[] = [
       { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
       { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
       { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
-      { amount: "720 Diamonds", price: 139000, label: "720 💎" },
+      { amount: "720 Diamonds", price: 139000, label: "720 💎", comingSoon: true },
     ],
   },
   {
@@ -75,7 +76,7 @@ export const games: Game[] = [
       { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
       { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
       { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
-      { amount: "720 Diamonds", price: 139000, label: "720 💎" },
+      { amount: "720 Diamonds", price: 139000, label: "720 💎", comingSoon: true },
     ],
   },
   {
@@ -85,10 +86,10 @@ export const games: Game[] = [
     image: "/games/pubg-mobile.png",
     description: "UC Top Up",
     denominations: [
-      { amount: "60 UC", price: 15000, label: "60 UC" },
-      { amount: "325 UC", price: 75000, label: "325 UC" },
-      { amount: "660 UC", price: 149000, label: "660 UC" },
-      { amount: "1800 UC", price: 389000, label: "1800 UC" },
+      { amount: "60 UC", price: 15000, label: "60 UC", comingSoon: true },
+      { amount: "325 UC", price: 75000, label: "325 UC", comingSoon: true },
+      { amount: "660 UC", price: 149000, label: "660 UC", comingSoon: true },
+      { amount: "1800 UC", price: 389000, label: "1800 UC", comingSoon: true },
     ],
   },
   {
@@ -98,10 +99,10 @@ export const games: Game[] = [
     image: "/games/valorant.jpg",
     description: "VP Top Up",
     denominations: [
-      { amount: "125 VP", price: 15000, label: "125 VP" },
-      { amount: "420 VP", price: 49000, label: "420 VP" },
-      { amount: "700 VP", price: 79000, label: "700 VP" },
-      { amount: "1375 VP", price: 149000, label: "1375 VP" },
+      { amount: "125 VP", price: 15000, label: "125 VP", comingSoon: true },
+      { amount: "420 VP", price: 49000, label: "420 VP", comingSoon: true },
+      { amount: "700 VP", price: 79000, label: "700 VP", comingSoon: true },
+      { amount: "1375 VP", price: 149000, label: "1375 VP", comingSoon: true },
     ],
   },
   {
@@ -111,10 +112,10 @@ export const games: Game[] = [
     image: "/games/genshin-impact.jpg",
     description: "Genesis Crystal Top Up",
     denominations: [
-      { amount: "60 Crystals", price: 16000, label: "60 💠" },
-      { amount: "330 Crystals", price: 79000, label: "330 💠" },
-      { amount: "1090 Crystals", price: 249000, label: "1090 💠" },
-      { amount: "2240 Crystals", price: 489000, label: "2240 💠" },
+      { amount: "60 Crystals", price: 16000, label: "60 💠", comingSoon: true },
+      { amount: "330 Crystals", price: 79000, label: "330 💠", comingSoon: true },
+      { amount: "1090 Crystals", price: 249000, label: "1090 💠", comingSoon: true },
+      { amount: "2240 Crystals", price: 489000, label: "2240 💠", comingSoon: true },
     ],
   },
   {
@@ -124,10 +125,10 @@ export const games: Game[] = [
     image: "/games/honkai-star-rail.jpg",
     description: "Oneiric Shard Top Up",
     denominations: [
-      { amount: "60 Shards", price: 16000, label: "60 ✨" },
-      { amount: "330 Shards", price: 79000, label: "330 ✨" },
-      { amount: "1090 Shards", price: 249000, label: "1090 ✨" },
-      { amount: "2240 Shards", price: 489000, label: "2240 ✨" },
+      { amount: "60 Shards", price: 16000, label: "60 ✨", comingSoon: true },
+      { amount: "330 Shards", price: 79000, label: "330 ✨", comingSoon: true },
+      { amount: "1090 Shards", price: 249000, label: "1090 ✨", comingSoon: true },
+      { amount: "2240 Shards", price: 489000, label: "2240 ✨", comingSoon: true },
     ],
   },
   {
@@ -137,10 +138,10 @@ export const games: Game[] = [
     image: "/games/roblox.jpg",
     description: "Robux Top Up",
     denominations: [
-      { amount: "80 Robux", price: 15000, label: "80 R$" },
-      { amount: "400 Robux", price: 69000, label: "400 R$" },
-      { amount: "800 Robux", price: 135000, label: "800 R$" },
-      { amount: "1700 Robux", price: 269000, label: "1700 R$" },
+      { amount: "80 Robux", price: 15000, label: "80 R$", comingSoon: true },
+      { amount: "400 Robux", price: 69000, label: "400 R$", comingSoon: true },
+      { amount: "800 Robux", price: 135000, label: "800 R$", comingSoon: true },
+      { amount: "1700 Robux", price: 269000, label: "1700 R$", comingSoon: true },
     ],
   },
   {
@@ -150,10 +151,10 @@ export const games: Game[] = [
     image: "/games/mobile-legends-global.jpg",
     description: "Diamond Global Server",
     denominations: [
-      { amount: "86 Diamonds", price: 20000, label: "86 💎" },
-      { amount: "172 Diamonds", price: 40000, label: "172 💎" },
-      { amount: "257 Diamonds", price: 60000, label: "257 💎" },
-      { amount: "514 Diamonds", price: 120000, label: "514 💎" },
+      { amount: "86 Diamonds", price: 20000, label: "86 💎", comingSoon: true },
+      { amount: "172 Diamonds", price: 40000, label: "172 💎", comingSoon: true },
+      { amount: "257 Diamonds", price: 60000, label: "257 💎", comingSoon: true },
+      { amount: "514 Diamonds", price: 120000, label: "514 💎", comingSoon: true },
     ],
   },
   {
@@ -163,9 +164,9 @@ export const games: Game[] = [
     image: "/games/magic-chess-go-go.jpg",
     description: "Diamond Top Up",
     denominations: [
-      { amount: "86 Diamonds", price: 19000, label: "86 💎" },
-      { amount: "172 Diamonds", price: 38000, label: "172 💎" },
-      { amount: "257 Diamonds", price: 57000, label: "257 💎" },
+      { amount: "86 Diamonds", price: 19000, label: "86 💎", comingSoon: true },
+      { amount: "172 Diamonds", price: 38000, label: "172 💎", comingSoon: true },
+      { amount: "257 Diamonds", price: 57000, label: "257 💎", comingSoon: true },
     ],
   },
   {
@@ -175,9 +176,9 @@ export const games: Game[] = [
     image: "/games/blood-strike.jpg",
     description: "Gold Top Up",
     denominations: [
-      { amount: "60 Gold", price: 15000, label: "60 🪙" },
-      { amount: "300 Gold", price: 69000, label: "300 🪙" },
-      { amount: "980 Gold", price: 219000, label: "980 🪙" },
+      { amount: "60 Gold", price: 15000, label: "60 🪙", comingSoon: true },
+      { amount: "300 Gold", price: 69000, label: "300 🪙", comingSoon: true },
+      { amount: "980 Gold", price: 219000, label: "980 🪙", comingSoon: true },
     ],
   },
   {
@@ -187,9 +188,9 @@ export const games: Game[] = [
     image: "/games/call-of-duty-mobile.jpg",
     description: "CP Top Up",
     denominations: [
-      { amount: "80 CP", price: 15000, label: "80 CP" },
-      { amount: "400 CP", price: 69000, label: "400 CP" },
-      { amount: "880 CP", price: 149000, label: "880 CP" },
+      { amount: "80 CP", price: 15000, label: "80 CP", comingSoon: true },
+      { amount: "400 CP", price: 69000, label: "400 CP", comingSoon: true },
+      { amount: "880 CP", price: 149000, label: "880 CP", comingSoon: true },
     ],
   },
   {
@@ -199,9 +200,9 @@ export const games: Game[] = [
     image: "/games/delta-force-garena.jpg",
     description: "Token Top Up",
     denominations: [
-      { amount: "60 Token", price: 15000, label: "60 🎯" },
-      { amount: "300 Token", price: 69000, label: "300 🎯" },
-      { amount: "980 Token", price: 219000, label: "980 🎯" },
+      { amount: "60 Token", price: 15000, label: "60 🎯", comingSoon: true },
+      { amount: "300 Token", price: 69000, label: "300 🎯", comingSoon: true },
+      { amount: "980 Token", price: 219000, label: "980 🎯", comingSoon: true },
     ],
   },
   {
@@ -211,9 +212,9 @@ export const games: Game[] = [
     image: "/games/delta-force-steam.jpg",
     description: "Token Top Up",
     denominations: [
-      { amount: "60 Token", price: 15000, label: "60 🎯" },
-      { amount: "300 Token", price: 69000, label: "300 🎯" },
-      { amount: "980 Token", price: 219000, label: "980 🎯" },
+      { amount: "60 Token", price: 15000, label: "60 🎯", comingSoon: true },
+      { amount: "300 Token", price: 69000, label: "300 🎯", comingSoon: true },
+      { amount: "980 Token", price: 219000, label: "980 🎯", comingSoon: true },
     ],
   },
   {
@@ -223,9 +224,9 @@ export const games: Game[] = [
     image: "/games/stumble-guys.jpg",
     description: "Gems Top Up",
     denominations: [
-      { amount: "250 Gems", price: 15000, label: "250 💎" },
-      { amount: "1250 Gems", price: 69000, label: "1250 💎" },
-      { amount: "2500 Gems", price: 135000, label: "2500 💎" },
+      { amount: "250 Gems", price: 15000, label: "250 💎", comingSoon: true },
+      { amount: "1250 Gems", price: 69000, label: "1250 💎", comingSoon: true },
+      { amount: "2500 Gems", price: 135000, label: "2500 💎", comingSoon: true },
     ],
   },
   {
@@ -235,10 +236,10 @@ export const games: Game[] = [
     image: "/games/clash-of-clans.jpg",
     description: "Gems Top Up",
     denominations: [
-      { amount: "80 Gems", price: 16000, label: "80 💎" },
-      { amount: "500 Gems", price: 79000, label: "500 💎" },
-      { amount: "1200 Gems", price: 159000, label: "1200 💎" },
-      { amount: "2500 Gems", price: 319000, label: "2500 💎" },
+      { amount: "80 Gems", price: 16000, label: "80 💎", comingSoon: true },
+      { amount: "500 Gems", price: 79000, label: "500 💎", comingSoon: true },
+      { amount: "1200 Gems", price: 159000, label: "1200 💎", comingSoon: true },
+      { amount: "2500 Gems", price: 319000, label: "2500 💎", comingSoon: true },
     ],
   },
   {
@@ -248,9 +249,9 @@ export const games: Game[] = [
     image: "/games/apex-legends-mobile.jpg",
     description: "Coins Top Up",
     denominations: [
-      { amount: "150 Coins", price: 25000, label: "150 🪙" },
-      { amount: "600 Coins", price: 89000, label: "600 🪙" },
-      { amount: "1200 Coins", price: 169000, label: "1200 🪙" },
+      { amount: "150 Coins", price: 25000, label: "150 🪙", comingSoon: true },
+      { amount: "600 Coins", price: 89000, label: "600 🪙", comingSoon: true },
+      { amount: "1200 Coins", price: 169000, label: "1200 🪙", comingSoon: true },
     ],
   },
 ];

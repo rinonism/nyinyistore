@@ -198,13 +198,21 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                   {game.denominations.map((denom) => (
                     <button
                       key={denom.amount}
-                      onClick={() => setSelectedDenom(denom)}
-                      className={`product-card rounded-lg border p-2.5 sm:p-3 text-left transition-all active:scale-[0.97] ${
-                        selectedDenom?.amount === denom.amount
+                      onClick={() => !denom.comingSoon && setSelectedDenom(denom)}
+                      disabled={denom.comingSoon}
+                      className={`product-card rounded-lg border p-2.5 sm:p-3 text-left transition-all active:scale-[0.97] relative ${
+                        denom.comingSoon
+                          ? "border-[#2a2a2a] bg-[#1a1a1a] opacity-60 cursor-not-allowed"
+                          : selectedDenom?.amount === denom.amount
                           ? "selected border-[#c8a45c] bg-[#c8a45c]/10"
                           : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
                       }`}
                     >
+                      {denom.comingSoon && (
+                        <span className="absolute top-1 right-1 rounded bg-[#c8a45c]/20 px-1 py-0.5 text-[8px] font-bold text-[#c8a45c]">
+                          SOON
+                        </span>
+                      )}
                       <div className="text-[11px] sm:text-xs font-medium text-white leading-tight">{denom.label}</div>
                       <div className="mt-1 text-[11px] sm:text-xs font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
                     </button>
