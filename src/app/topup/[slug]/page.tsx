@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { games, formatPrice } from "@/lib/games";
 import type { Denomination } from "@/lib/games";
 import CryptoPaymentSelector from "@/components/CryptoPaymentSelector";
+import StepProgress from "@/components/StepProgress";
 import type { ChainId, TokenId } from "@/lib/crypto-payment";
 
 // Game code mapping for check nickname
@@ -285,6 +286,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* Left Column - Form */}
             <div className="flex-1 space-y-4">
+            {/* Step Progress Indicator */}
+            <StepProgress
+              currentStep={
+                !userId ? 1 : !selectedDenom ? 2 : !paymentMethod ? 3 : 4
+              }
+              steps={["Data Akun", "Nominal", "Pembayaran", "Konfirmasi"]}
+            />
             {/* Step 1: Account Data */}
             <section className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
               <div className="flex items-center gap-3 border-b border-[#2a2a2a] bg-[#252525] px-3 sm:px-4 py-2.5 sm:py-3">
