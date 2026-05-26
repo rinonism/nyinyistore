@@ -137,20 +137,22 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   return (
     <div className="pb-20 sm:pb-6">
-      {/* Game Banner - Full width on mobile */}
-      <div className="relative overflow-hidden aspect-[2.5/1] sm:aspect-[3.5/1] bg-[#1e1e1e]">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1a0f00] via-[#0a1525] to-[#1a0f00]" />
-        <div className="absolute inset-0 flex items-center px-4 sm:px-8">
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="h-14 w-14 sm:h-20 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 border-[#3a3a3a] shadow-lg">
-              <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
-            </div>
-            <div>
-              <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">INDONESIA</span>
-              <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-white leading-tight">
-                {game.name.toUpperCase()}
-              </h1>
-              <p className="text-[11px] sm:text-xs text-[#999]">{game.developer}</p>
+      {/* Game Banner - Centered with max-width */}
+      <div className="mx-auto max-w-[900px] px-3 sm:px-4 pt-3 sm:pt-5">
+        <div className="relative overflow-hidden rounded-xl aspect-[2.5/1] sm:aspect-[3.5/1] bg-[#1e1e1e]">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0f00] via-[#0a1525] to-[#1a0f00]" />
+          <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
+            <div className="flex items-center gap-3 sm:gap-5">
+              <div className="h-14 w-14 sm:h-20 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 border-[#3a3a3a] shadow-lg">
+                <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <span className="inline-block rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white mb-1">INDONESIA</span>
+                <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-white leading-tight">
+                  {game.name.toUpperCase()}
+                </h1>
+                <p className="text-[11px] sm:text-xs text-[#999]">{game.developer}</p>
+              </div>
             </div>
           </div>
         </div>
