@@ -337,15 +337,16 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                           : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
                       }`}
                     >
-                      {denom.comingSoon && (
+                      {denom.comingSoon ? (
                         <span className="absolute top-1 right-1 rounded bg-[#c8a45c]/20 px-1 py-0.5 text-[8px] font-bold text-[#c8a45c]">
                           SOON
                         </span>
+                      ) : (
+                        <span className="absolute top-1 right-1 flex items-center gap-0.5 rounded bg-[#4caf50]/15 px-1.5 py-0.5 text-[8px] font-bold text-[#4caf50]">
+                          ⚡ Instan
+                        </span>
                       )}
-                      <div className="text-[11px] sm:text-xs font-medium text-white leading-tight">{denom.label}</div>
-                      {denom.bonusLabel && (
-                        <div className="text-[9px] sm:text-[10px] font-medium text-[#4caf50]">{denom.bonusLabel}</div>
-                      )}
+                      <div className="text-[11px] sm:text-xs font-medium text-white leading-tight mt-3">{denom.label}</div>
                       <div className="mt-1 text-[11px] sm:text-xs font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
                     </button>
                   ))}
