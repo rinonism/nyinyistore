@@ -78,6 +78,13 @@ export const SUPPORTED_CHAINS: ChainConfig[] = [
     paymentAddress: PAYMENT_ADDRESSES.EVM,
     tokens: [
       {
+        id: "usdt",
+        name: "Tether USD",
+        symbol: "USDT",
+        decimals: 6,
+        contractAddress: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+      },
+      {
         id: "usdc",
         name: "USD Coin",
         symbol: "USDC",
@@ -92,6 +99,13 @@ export const SUPPORTED_CHAINS: ChainConfig[] = [
     icon: "🔷",
     paymentAddress: PAYMENT_ADDRESSES.EVM,
     tokens: [
+      {
+        id: "usdt",
+        name: "Tether USD",
+        symbol: "USDT",
+        decimals: 6,
+        contractAddress: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      },
       {
         id: "usdc",
         name: "USD Coin",
