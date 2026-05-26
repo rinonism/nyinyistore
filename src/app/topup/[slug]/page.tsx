@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import { games, formatPrice } from "@/lib/games";
@@ -44,6 +44,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [isOrdering, setIsOrdering] = useState(false);
   const [activeTab, setActiveTab] = useState<"transaksi" | "keterangan">("transaksi");
   const [toast, setToast] = useState<string | null>(null);
+  const [usdRate, setUsdRate] = useState<number>(16500); // fallback rate
 
   // Show toast notification
   const showToast = (msg: string) => {
@@ -109,6 +110,14 @@ export default function TopUpPage({ params }: TopUpPageProps) {
       setNickLoading(false);
     }
   }, [game.slug]);
+
+  // Fetch USD/IDR rate
+  useEffect(() => {
+    fetch("https://api.exchangerate-host.com/latest?base=USD&symbols=IDR")
+      .then(r => r.json())
+      .then(d => { if (d?.rates?.IDR) setUsdRate(d.rates.IDR); })
+      .catch(() => {}); // fallback to 16500
+  }, []);
 
   const paymentMethods = [
     { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC / SOL", fee: "+Rp3.000" },
@@ -411,9 +420,14 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         <div className="text-[10px] text-[#777]">{method.description}</div>
                       </div>
                       {method.id === "crypto" && selectedDenom && (
-                        <span className="text-[10px] font-bold text-[#c8a45c]">
-                          {formatPrice(selectedDenom.price + 3000)}
-                        </span>
+                        <div className="text-right">
+                          <div className="text-[10px] font-bold text-[#c8a45c]">
+                            {formatPrice(selectedDenom.price + 3000)}
+                          </div>
+                          <div className="text-[9px] text-[#999]">
+                            ~${((selectedDenom.price + 3000) / usdRate).toFixed(2)}
+                          </div>
+                        </div>
                       )}
                     </button>
                   ))}
