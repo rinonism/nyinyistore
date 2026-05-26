@@ -16,6 +16,15 @@ export default function CryptoPaymentSelector({
 }: CryptoPaymentSelectorProps) {
   const [estimatedAmount, setEstimatedAmount] = useState<string>("");
   const [loadingEstimate, setLoadingEstimate] = useState(false);
+  const [usdtRate, setUsdtRate] = useState<number>(17800);
+
+  // Fetch live USDT/IDR rate
+  useEffect(() => {
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr")
+      .then(r => r.json())
+      .then(d => { if (d?.tether?.idr) setUsdtRate(d.tether.idr); })
+      .catch(() => {}); // fallback 17800
+  }, []);
 
   useEffect(() => {
     if (!priceIdr) {
@@ -23,13 +32,10 @@ export default function CryptoPaymentSelector({
       return;
     }
     setLoadingEstimate(true);
-    // Calculate estimate client-side using fallback rate
-    // In production this would call an API
-    const rate = 16300; // Fallback IDR/USD rate
-    const amount = (priceIdr / rate).toFixed(2);
+    const amount = (priceIdr / usdtRate).toFixed(2);
     setEstimatedAmount(amount);
     setLoadingEstimate(false);
-  }, [priceIdr]);
+  }, [priceIdr, usdtRate]);
 
   return (
     <div className="space-y-4">
@@ -39,6 +45,9 @@ export default function CryptoPaymentSelector({
           <p className="text-xs text-gray-400">Estimated amount</p>
           <p className="text-lg font-bold text-violet-400">
             {loadingEstimate ? "..." : `~${estimatedAmount} USDT/USDC`}
+          </p>
+          <p className="text-[10px] text-gray-500 mt-1">
+            1 USDT = Rp{usdtRate.toLocaleString("id-ID")}
           </p>
         </div>
       )}
