@@ -142,6 +142,16 @@ export default function TopUpPage({ params }: TopUpPageProps) {
       return;
     }
 
+    if (!email) {
+      showToast("Silahkan isi email terlebih dahulu.");
+      return;
+    }
+
+    if (!phone) {
+      showToast("Silahkan isi nomor WhatsApp terlebih dahulu.");
+      return;
+    }
+
     // Show confirmation modal
     setShowConfirmModal(true);
   };
@@ -563,7 +573,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             <div className="hidden sm:block">
               <button
                 onClick={handleOrder}
-                disabled={!userId || !selectedDenom || !paymentMethod || isOrdering || (paymentMethod === "crypto" && !cryptoSelection)}
+                disabled={!userId || !selectedDenom || !paymentMethod || !email || !phone || isOrdering || (paymentMethod === "crypto" && !cryptoSelection)}
                 className="btn-gold w-full text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isOrdering ? "Processing..." : "🛒 Pesan Sekarang!"}
@@ -703,7 +713,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           {/* Order button */}
           <button
             onClick={handleOrder}
-            disabled={!userId || !selectedDenom || !paymentMethod || isOrdering || (paymentMethod === "crypto" && !cryptoSelection)}
+            disabled={!userId || !selectedDenom || !paymentMethod || !email || !phone || isOrdering || (paymentMethod === "crypto" && !cryptoSelection)}
             className="flex-shrink-0 rounded-lg bg-gradient-to-r from-[#a0833a] to-[#c8a45c] px-4 py-2.5 text-xs font-semibold text-white shadow disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97] transition-transform"
           >
             {isOrdering ? "..." : "Pesan Sekarang!"}
