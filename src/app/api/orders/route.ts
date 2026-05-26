@@ -65,7 +65,9 @@ async function handleCreate(body: any) {
     return NextResponse.json({ error: "Unsupported token" }, { status: 400 });
   }
 
-  const cryptoAmount = await calculateCryptoAmount(denom.price);
+  const CRYPTO_FEE = 3000; // Rp3.000 fee for crypto payment
+  const totalIdr = denom.price + CRYPTO_FEE;
+  const cryptoAmount = await calculateCryptoAmount(totalIdr);
   const paymentAddress = getPaymentAddress(payment_chain as ChainId);
 
   const now = new Date();
@@ -81,7 +83,7 @@ async function handleCreate(body: any) {
     payment_chain: payment_chain as ChainId,
     payment_token: payment_token as TokenId,
     payment_address: paymentAddress,
-    amount_idr: denom.price,
+    amount_idr: totalIdr,
     amount_crypto: cryptoAmount,
     token_symbol: tokenConfig.symbol,
     status: "pending",

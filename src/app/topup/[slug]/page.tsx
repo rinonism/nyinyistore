@@ -589,9 +589,21 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         <span className="text-[#999]">Item</span>
                         <span className="text-white">{selectedDenom.label}</span>
                       </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#999]">Harga</span>
+                        <span className="text-white">{formatPrice(selectedDenom.price)}</span>
+                      </div>
+                      {paymentMethod === "crypto" && (
+                        <div className="flex justify-between">
+                          <span className="text-[#999]">Biaya Crypto</span>
+                          <span className="text-white">{formatPrice(3000)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
                         <span className="text-[#999]">Total</span>
-                        <span className="text-[#c8a45c] font-bold">{formatPrice(selectedDenom.price)}</span>
+                        <span className="text-[#c8a45c] font-bold">
+                          {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
+                        </span>
                       </div>
                     </div>
                   </div>
