@@ -323,13 +323,14 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Pilih Nominal</h2>
               </div>
               <div className="p-3 sm:p-4">
+                {/* Diamond items */}
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {game.denominations.map((denom) => (
+                  {game.denominations.filter(d => !d.amount.includes("Pass") && !d.amount.includes("Special")).map((denom) => (
                     <button
                       key={denom.amount}
                       onClick={() => handleSelectDenom(denom)}
                       disabled={denom.comingSoon}
-                      className={`product-card rounded-lg border p-2.5 sm:p-3 text-left transition-all active:scale-[0.97] relative ${
+                      className={`product-card rounded-lg border p-3 sm:p-4 text-left transition-all active:scale-[0.97] relative ${
                         denom.comingSoon
                           ? "border-[#2a2a2a] bg-[#1a1a1a] opacity-60 cursor-not-allowed"
                           : selectedDenom?.amount === denom.amount
@@ -338,19 +339,53 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       }`}
                     >
                       {denom.comingSoon ? (
-                        <span className="absolute top-1 right-1 rounded bg-[#c8a45c]/20 px-1 py-0.5 text-[8px] font-bold text-[#c8a45c]">
+                        <span className="absolute top-1.5 right-1.5 rounded bg-[#c8a45c]/20 px-1.5 py-0.5 text-[8px] font-bold text-[#c8a45c]">
                           SOON
                         </span>
                       ) : (
-                        <span className="absolute top-1 right-1 flex items-center gap-0.5 rounded bg-[#4caf50]/15 px-1.5 py-0.5 text-[8px] font-bold text-[#4caf50]">
+                        <span className="absolute top-1.5 right-1.5 flex items-center gap-0.5 rounded bg-[#4caf50]/15 px-1.5 py-0.5 text-[8px] font-bold text-[#4caf50]">
                           ⚡ Instan
                         </span>
                       )}
-                      <div className="text-[11px] sm:text-xs font-medium text-white leading-tight mt-3">{denom.label}</div>
-                      <div className="mt-1 text-[11px] sm:text-xs font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
+                      <div className="text-sm sm:text-base font-bold text-white leading-tight mt-4">{denom.label}</div>
+                      <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
                     </button>
                   ))}
                 </div>
+
+                {/* Special Items section */}
+                {game.denominations.some(d => d.amount.includes("Pass") || d.amount.includes("Special")) && (
+                  <div className="mt-4">
+                    <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">🎁 Spesial Item</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {game.denominations.filter(d => d.amount.includes("Pass") || d.amount.includes("Special")).map((denom) => (
+                        <button
+                          key={denom.amount}
+                          onClick={() => handleSelectDenom(denom)}
+                          disabled={denom.comingSoon}
+                          className={`product-card rounded-lg border p-3 sm:p-4 text-left transition-all active:scale-[0.97] relative flex items-center gap-3 ${
+                            denom.comingSoon
+                              ? "border-[#2a2a2a] bg-[#1a1a1a] opacity-60 cursor-not-allowed"
+                              : selectedDenom?.amount === denom.amount
+                              ? "selected border-[#c8a45c] bg-[#c8a45c]/10"
+                              : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
+                          }`}
+                        >
+                          <span className="text-2xl">🎫</span>
+                          <div>
+                            <div className="text-sm sm:text-base font-bold text-white">{denom.label}</div>
+                            <div className="text-xs sm:text-sm font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
+                          </div>
+                          {!denom.comingSoon && (
+                            <span className="absolute top-1.5 right-1.5 flex items-center gap-0.5 rounded bg-[#4caf50]/15 px-1.5 py-0.5 text-[8px] font-bold text-[#4caf50]">
+                              ⚡ Instan
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </section>
 
