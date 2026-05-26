@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import { games, formatPrice } from "@/lib/games";
 import type { Denomination } from "@/lib/games";
 import CryptoPaymentSelector from "@/components/CryptoPaymentSelector";
 import type { ChainId, TokenId } from "@/lib/crypto-payment";
+
+// Game code mapping for check nickname
+const GAME_CODES: Record<string, string> = {
+  "mobile-legends": "ml",
+  "mobile-legends-paket-irit": "ml",
+  "mobile-legends-global": "ml",
+  "magic-chess-go-go": "ml",
+  "free-fire": "ff",
+  "free-fire-max": "ff",
+};
 
 interface TopUpPageProps {
   params: { slug: string };
@@ -22,6 +32,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   const [userId, setUserId] = useState("");
   const [serverId, setServerId] = useState("");
+  const [nickname, setNickname] = useState<string | null>(null);
+  const [nickLoading, setNickLoading] = useState(false);
+  const [nickError, setNickError] = useState<string | null>(null);
   const [selectedDenom, setSelectedDenom] = useState<Denomination | null>(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [cryptoSelection, setCryptoSelection] = useState<{ chain: ChainId; token: TokenId } | null>(null);
@@ -30,6 +43,39 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [promoCode, setPromoCode] = useState("");
   const [isOrdering, setIsOrdering] = useState(false);
   const [activeTab, setActiveTab] = useState<"transaksi" | "keterangan">("transaksi");
+
+  // Check nickname function
+  const checkNickname = useCallback(async (uid: string, sid: string) => {
+    const gameCode = GAME_CODES[game.slug];
+    if (!gameCode || !uid) return;
+
+    const customerNo = sid ? `${uid}|${sid}` : uid;
+    setNickLoading(true);
+    setNickError(null);
+    setNickname(null);
+
+    try {
+      const res = await fetch("/api/digiflazz/check-nickname", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ game_code: gameCode, customer_no: customerNo }),
+      });
+      const data = await res.json();
+
+      if (data?.data?.status === "Gagal") {
+        setNickError("ID tidak ditemukan");
+      } else if (data?.data?.sn) {
+        setNickname(data.data.sn);
+      } else if (data?.data?.status === "Pending") {
+        // Dev mode - no nickname returned but ID valid
+        setNickname("✓ ID Valid");
+      }
+    } catch {
+      setNickError("Gagal cek nickname");
+    } finally {
+      setNickLoading(false);
+    }
+  }, [game.slug]);
 
   const paymentMethods = [
     { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC / SOL" },
@@ -166,6 +212,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       type="text"
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
+                      onBlur={() => { if (userId) checkNickname(userId, serverId); }}
                       placeholder="Masukkan ID"
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
                     />
@@ -179,11 +226,28 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       type="text"
                       value={serverId}
                       onChange={(e) => setServerId(e.target.value)}
+                      onBlur={() => { if (userId && serverId) checkNickname(userId, serverId); }}
                       placeholder="Server"
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
                     />
                   </div>
                 </div>
+                {/* Nickname result */}
+                {nickLoading && (
+                  <div className="mt-2 flex items-center gap-2 text-[11px] text-[#999]">
+                    <span className="animate-pulse">⏳</span> Mengecek akun...
+                  </div>
+                )}
+                {nickname && !nickLoading && (
+                  <div className="mt-2 flex items-center gap-2 rounded-lg bg-[#4caf50]/10 border border-[#4caf50]/30 px-3 py-1.5">
+                    <span className="text-[11px] text-[#4caf50] font-medium">👤 {nickname}</span>
+                  </div>
+                )}
+                {nickError && !nickLoading && (
+                  <div className="mt-2 flex items-center gap-2 rounded-lg bg-red-500/10 border border-red-500/30 px-3 py-1.5">
+                    <span className="text-[11px] text-red-400 font-medium">❌ {nickError}</span>
+                  </div>
+                )}
               </div>
             </section>
 
