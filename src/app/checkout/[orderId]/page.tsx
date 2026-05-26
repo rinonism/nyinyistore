@@ -236,6 +236,14 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
             {checking ? "Mengecek..." : "Cek Pembayaran"}
           </button>
           <p className="mt-1 text-center text-[9px] text-[#666]">Auto-check setiap 15 detik</p>
+
+          {/* Cancel button */}
+          <button
+            onClick={() => { if (confirm("Yakin mau cancel order ini?")) router.push("/"); }}
+            className="mt-2 w-full rounded-lg border border-[#3a3a3a] bg-transparent py-2 text-sm text-[#999] hover:border-red-500 hover:text-red-400"
+          >
+            Cancel Order
+          </button>
         </div>
       )}
     </div>
