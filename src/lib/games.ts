@@ -24,6 +24,7 @@ export const games: Game[] = [
     description: "Diamond Top Up",
     denominations: [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
+      { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10" },
       { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
       { amount: "Weekly Diamond Pass", price: 27347, label: "Weekly Pass 💎", sku: "mlweek" },
       { amount: "86 Diamonds", price: 19000, label: "86 💎", comingSoon: true },
@@ -42,6 +43,7 @@ export const games: Game[] = [
     description: "Paket Irit Diamond",
     denominations: [
       { amount: "5 Diamonds", price: 1550, label: "5 💎", sku: "ml5" },
+      { amount: "10 Diamonds", price: 2875, label: "10 💎", sku: "ml10" },
       { amount: "12 Diamonds", price: 3455, label: "12 💎", sku: "ml12" },
       { amount: "86 Diamonds", price: 18000, label: "86 💎", comingSoon: true },
       { amount: "172 Diamonds", price: 36000, label: "172 💎", comingSoon: true },
@@ -58,7 +60,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1779, label: "12 💎", sku: "ff12" },
       { amount: "50 Diamonds", price: 7605, label: "50 💎", sku: "ff50" },
-      { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
+      { amount: "70 Diamonds", price: 8825, label: "70 💎", sku: "ff70" },
       { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
       { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
       { amount: "720 Diamonds", price: 139000, label: "720 💎", comingSoon: true },
@@ -73,7 +75,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1779, label: "12 💎", sku: "ff12" },
       { amount: "50 Diamonds", price: 7605, label: "50 💎", sku: "ff50" },
-      { amount: "70 Diamonds", price: 8870, label: "70 💎", sku: "ff70" },
+      { amount: "70 Diamonds", price: 8825, label: "70 💎", sku: "ff70" },
       { amount: "140 Diamonds", price: 18400, label: "140 💎", sku: "ff140" },
       { amount: "355 Diamonds", price: 45525, label: "355 💎", sku: "ff355" },
       { amount: "720 Diamonds", price: 139000, label: "720 💎", comingSoon: true },
