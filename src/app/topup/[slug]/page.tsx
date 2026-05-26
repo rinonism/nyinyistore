@@ -451,14 +451,17 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                     <label htmlFor="phone" className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
                       No. WhatsApp
                     </label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="628XXXXXXXXXX"
-                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
-                    />
+                    <div className="flex">
+                      <span className="flex items-center gap-1 rounded-l-lg border border-r-0 border-[#3a3a3a] bg-[#252525] px-2.5 text-xs text-[#999]">🇮🇩 +62</span>
+                      <input
+                        id="phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="8XXXXXXXXXX"
+                        className="w-full rounded-r-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                      />
+                    </div>
                   </div>
                 </div>
                 <p className="mt-2 text-[10px] text-[#c8a45c]">
