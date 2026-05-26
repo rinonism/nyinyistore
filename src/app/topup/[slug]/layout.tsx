@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://nyinyistore.vercel.app/topup/${game.slug}`,
+      url: `https://nyinyistore.com/topup/${game.slug}`,
       siteName: "NyinyiStore",
       type: "website",
       locale: "id_ID",

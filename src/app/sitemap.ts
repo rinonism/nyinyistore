@@ -2,7 +2,7 @@ import { games } from "@/lib/games";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://nyinyistore.vercel.app";
+  const baseUrl = "https://nyinyistore.com";
 
   const gamePages = games.map((game) => ({
     url: `${baseUrl}/topup/${game.slug}`,

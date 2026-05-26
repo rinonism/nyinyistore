@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NyinyiStore - Top Up Game Termurah & Tercepat",
     description: "Top up game favorit kamu dengan harga termurah. Proses cepat 1-3 detik. Support Crypto, QRIS, dan Bank Transfer.",
-    url: "https://nyinyistore.vercel.app",
+    url: "https://nyinyistore.com",
     siteName: "NyinyiStore",
     type: "website",
     locale: "id_ID",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://nyinyistore.vercel.app",
+    canonical: "https://nyinyistore.com",
   },
 };
 

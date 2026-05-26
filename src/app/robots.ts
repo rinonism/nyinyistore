@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/", "/checkout/"],
     },
-    sitemap: "https://nyinyistore.vercel.app/sitemap.xml",
+    sitemap: "https://nyinyistore.com/sitemap.xml",
   };
 }
