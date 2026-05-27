@@ -59,7 +59,7 @@ export const games: Game[] = [
       { amount: "Weekly Diamond Pass 4x", price: 116200, label: "Weekly Diamond Pass 4x", sku: "mlweek4" },
       { amount: "Weekly Diamond Pass 5x", price: 145500, label: "Weekly Diamond Pass 5x", sku: "mlweek5" },
       { amount: "Twilight Pass", price: 151800, label: "Twilight Pass", sku: "mltwig" },
-      { amount: "Starlight Member Plus", price: 201600, label: "Starlight Member Plus", sku: "mlslplus" },
+      { amount: "Starlight Member Plus", price: 198300, label: "Starlight Member Plus", sku: "mlslplus" },
     ],
   },
   {
