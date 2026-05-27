@@ -359,11 +359,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
               </div>
               <div className="p-3 sm:p-4">
                 {/* Special Items section - on top */}
-                {game.denominations.some(d => d.amount.includes("Pass") || d.amount.includes("Special")) && (
+                {game.denominations.some(d => !d.amount.includes("Diamonds")) && (
                   <div className="mb-4">
                     <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Spesial Item 🎁</p>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {game.denominations.filter(d => d.amount.includes("Pass") || d.amount.includes("Special")).map((denom) => (
+                      {game.denominations.filter(d => !d.amount.includes("Diamonds")).map((denom) => (
                         <button
                           key={denom.amount}
                           onClick={() => handleSelectDenom(denom)}
@@ -392,7 +392,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 {/* Diamond items */}
                 <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Top Up Instan 🔥</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {game.denominations.filter(d => !d.amount.includes("Pass") && !d.amount.includes("Special")).map((denom) => (
+                  {game.denominations.filter(d => d.amount.includes("Diamonds")).map((denom) => (
                     <button
                       key={denom.amount}
                       onClick={() => handleSelectDenom(denom)}
