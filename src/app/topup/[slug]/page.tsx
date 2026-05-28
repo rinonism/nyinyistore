@@ -223,6 +223,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             setIsOrdering(false);
             return;
           }
+          if (selectedDenom!.price < 10000) {
+            showToast("Minimal pembelian Rp 10.000 untuk Bank Transfer");
+            setIsOrdering(false);
+            return;
+          }
           payment_channel = bankChannel;
         }
 
@@ -567,6 +572,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         </button>
                       ))}
                     </div>
+                    <p className="text-[10px] text-[#EF8F8F] mt-2">⚠️ Minimal pembelian Rp 10.000 untuk Bank Transfer</p>
                   </div>
                 )}
               </div>
