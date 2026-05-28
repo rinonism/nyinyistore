@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     locale: "id_ID",
     images: [
       {
-        url: "https://nyinyistore.com/opengraph-image",
+        url: "https://nyinyistore.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "NyinyiStore - Top Up Game Termurah & Tercepat",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NyinyiStore - Top Up Game Termurah & Tercepat",
     description: "Top up game favorit kamu dengan harga termurah. Proses cepat 1-3 detik.",
-    images: ["https://nyinyistore.com/opengraph-image"],
+    images: ["https://nyinyistore.com/og-image.png"],
   },
   robots: {
     index: true,
