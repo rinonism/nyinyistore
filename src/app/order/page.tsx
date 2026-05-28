@@ -13,6 +13,8 @@ interface Order {
   crypto_token: string;
   crypto_chain: string;
   payment_wallet: string;
+  user_game_id: string;
+  user_server_id: string | null;
   status: string;
   created_at: string;
   paid_at: string | null;
@@ -205,6 +207,10 @@ function OrderStatusContent() {
             <div className="flex justify-between items-center">
               <span className="text-[11px] text-[#777]">Item</span>
               <span className="text-xs text-white">{order.item_name}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[11px] text-[#777]">User ID</span>
+              <span className="text-xs text-white">{order.user_game_id}{order.user_server_id ? ` (${order.user_server_id})` : ""}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-[11px] text-[#777]">Harga</span>
