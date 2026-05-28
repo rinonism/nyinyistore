@@ -699,10 +699,30 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                           <span className="text-white">{formatPrice(3000)}</span>
                         </div>
                       )}
+                      {paymentMethod === "qris" && (
+                        <div className="flex justify-between">
+                          <span className="text-[#999]">Biaya QRIS</span>
+                          <span className="text-white">{formatPrice(Math.round(750 + selectedDenom.price * 0.007))}</span>
+                        </div>
+                      )}
+                      {paymentMethod === "bank" && bankChannel && (
+                        <div className="flex justify-between">
+                          <span className="text-[#999]">Biaya Transfer</span>
+                          <span className="text-white">{formatPrice(bankChannel === "BCAVA" ? 5500 : 4250)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
                         <span className="text-[#999]">Total</span>
                         <span className="text-[#d4af37] font-bold">
-                          {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
+                          {formatPrice(
+                            paymentMethod === "crypto"
+                              ? selectedDenom.price + 3000
+                              : paymentMethod === "qris"
+                              ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
+                              : paymentMethod === "bank" && bankChannel
+                              ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                              : selectedDenom.price
+                          )}
                         </span>
                       </div>
                     </div>
