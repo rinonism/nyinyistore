@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import * as crypto from "crypto";
-import { fulfillPaidOrders } from "@/lib/fulfillment";
+import { getSupabase } from "@/lib/supabase";
 import type { TripayCallback } from "@/lib/tripay";
 
-const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
 const TRIPAY_PRIVATE_KEY = process.env.TRIPAY_PRIVATE_KEY || "";
 
 /**
@@ -32,81 +29,72 @@ export async function POST(request: NextRequest) {
     }
 
     const callback: TripayCallback = JSON.parse(rawBody);
+    const supabase = getSupabase();
 
-    // Read orders
-    let orders: Record<string, unknown>[] = [];
-    try {
-      const data = await fs.readFile(ORDERS_FILE, "utf-8");
-      orders = JSON.parse(data);
-    } catch {
-      return NextResponse.json({ error: "Orders file not found" }, { status: 500 });
-    }
+    // Find order by tripay reference or merchant_ref (order_id)
+    const { data: order, error: findError } = await supabase
+      .from("orders")
+      .select("*")
+      .or(`tripay_reference.eq.${callback.reference},order_id.eq.${callback.merchant_ref}`)
+      .single();
 
-    // Find order by tripay reference or merchant_ref
-    const orderIndex = orders.findIndex(
-      (o) =>
-        o.tripay_reference === callback.reference ||
-        o.id === callback.merchant_ref
-    );
-
-    if (orderIndex === -1) {
+    if (findError || !order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    const order = orders[orderIndex];
-
     // Update order based on callback status
+    let newStatus = order.status;
+    const updateData: Record<string, unknown> = {
+      updated_at: new Date().toISOString(),
+    };
+
     switch (callback.status) {
       case "PAID":
-        orders[orderIndex] = {
-          ...order,
-          status: "paid",
-          paid_at: callback.paid_at || new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        };
+        newStatus = "paid";
+        updateData.status = "paid";
+        updateData.paid_at = callback.paid_at || new Date().toISOString();
         break;
-
       case "EXPIRED":
-        orders[orderIndex] = {
-          ...order,
-          status: "expired",
-          updated_at: new Date().toISOString(),
-        };
+        newStatus = "expired";
+        updateData.status = "expired";
         break;
-
       case "FAILED":
-        orders[orderIndex] = {
-          ...order,
-          status: "failed",
-          tripay_note: callback.note || "",
-          updated_at: new Date().toISOString(),
-        };
+        newStatus = "failed";
+        updateData.status = "failed";
         break;
-
       case "REFUND":
-        orders[orderIndex] = {
-          ...order,
-          status: "failed",
-          tripay_note: "Refunded",
-          updated_at: new Date().toISOString(),
-        };
+        newStatus = "failed";
+        updateData.status = "failed";
         break;
-
       default:
         // UNPAID or unknown - no action
         break;
     }
 
-    // Save updated orders
-    await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2));
+    // Update in Supabase
+    if (updateData.status) {
+      await supabase
+        .from("orders")
+        .update(updateData)
+        .eq("order_id", order.order_id);
+    }
 
-    // If paid, trigger auto-fulfillment
+    // If paid, send Telegram notification
     if (callback.status === "PAID") {
       try {
-        await fulfillPaidOrders();
-      } catch (err) {
-        console.error("Auto-fulfillment error:", err);
-        // Don't fail the webhook response
+        const msg = `✅ *Pembayaran Diterima!*\n\n📋 Order: \`${order.order_id}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n💰 Rp ${order.price_idr?.toLocaleString("id-ID")}\n💳 ${order.payment_channel} (Tripay)\n\nStatus: ✅ Paid → Siap fulfill`;
+
+        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: process.env.TELEGRAM_CHAT_ID,
+            text: msg,
+            parse_mode: "Markdown",
+          }),
+        });
+      } catch (e) {
+        console.error("Telegram notification failed:", e);
       }
     }
 

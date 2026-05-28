@@ -35,7 +35,7 @@ export default function ContactModal() {
                 href="https://instagram.com/nyinyistore"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-lg border border-[#3a3a3a] bg-[#252525] p-3 hover:border-[#c8a45c] transition-colors"
+                className="flex items-center gap-3 rounded-lg border border-[#3a3a3a] bg-[#252525] p-3 hover:border-[#d4af37] transition-colors"
               >
                 <span className="text-xl">📸</span>
                 <div>
@@ -47,7 +47,7 @@ export default function ContactModal() {
                 href="https://t.me/NyinyiStore_bot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-lg border border-[#3a3a3a] bg-[#252525] p-3 hover:border-[#c8a45c] transition-colors"
+                className="flex items-center gap-3 rounded-lg border border-[#3a3a3a] bg-[#252525] p-3 hover:border-[#d4af37] transition-colors"
               >
                 <span className="text-xl">✈️</span>
                 <div>

@@ -112,7 +112,7 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
         <p className="text-red-400">Order tidak ditemukan</p>
-        <button onClick={() => router.push("/")} className="text-sm text-[#c8a45c] underline">
+        <button onClick={() => router.push("/")} className="text-sm text-[#d4af37] underline">
           Kembali ke Home
         </button>
       </div>
@@ -144,7 +144,7 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
         <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center">
           <span className="text-2xl">⏰</span>
           <p className="mt-1 text-sm font-medium text-red-400">Order expired. Silakan buat order baru.</p>
-          <button onClick={() => router.back()} className="mt-2 text-xs text-[#c8a45c] underline">
+          <button onClick={() => router.back()} className="mt-2 text-xs text-[#d4af37] underline">
             Kembali
           </button>
         </div>
@@ -152,9 +152,9 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
 
       {/* Timer */}
       {!isExpired && !isPaid && (
-        <div className="mb-4 rounded-xl border border-[#c8a45c]/30 bg-[#c8a45c]/10 p-3 text-center">
+        <div className="mb-4 rounded-xl border border-[#d4af37]/30 bg-[#d4af37]/10 p-3 text-center">
           <p className="text-xs text-[#999]">Bayar sebelum</p>
-          <p className={`text-xl font-bold ${timeLeft < 120 ? "text-red-400" : "text-[#c8a45c]"}`}>
+          <p className={`text-xl font-bold ${timeLeft < 120 ? "text-red-400" : "text-[#d4af37]"}`}>
             {formatTime(timeLeft)}
           </p>
         </div>
@@ -192,7 +192,7 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
           <div className="mb-3 rounded-lg bg-[#252525] p-3">
             <p className="text-[10px] text-[#999] mb-1">Jumlah (exact amount)</p>
             <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-[#c8a45c]">
+              <span className="text-lg font-bold text-[#d4af37]">
                 {order.amount_crypto} {order.token_symbol}
               </span>
               <button
@@ -231,7 +231,7 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
           <button
             onClick={checkPayment}
             disabled={checking}
-            className="mt-3 w-full rounded-lg bg-[#c8a45c] py-2.5 text-sm font-medium text-white hover:bg-[#b8944c] disabled:opacity-50"
+            className="mt-3 w-full rounded-lg bg-[#d4af37] py-2.5 text-sm font-medium text-white hover:bg-[#b8944c] disabled:opacity-50"
           >
             {checking ? "Mengecek..." : "Cek Pembayaran"}
           </button>

@@ -73,6 +73,7 @@ export default function HomePage() {
               image={game.image}
               developer={game.developer}
               index={i}
+              comingSoon={game.denominations.every((d) => d.comingSoon)}
             />
           ))}
         </div>

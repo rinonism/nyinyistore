@@ -37,5 +37,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     ...gamePages,
+    // Artikel SEO
+    {
+      url: `${baseUrl}/artikel`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/artikel/cara-top-up-ml-pakai-crypto`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/artikel/top-up-diamond-ml-murah-2026`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/artikel/cara-top-up-ff-murah-cepat`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
   ];
 }

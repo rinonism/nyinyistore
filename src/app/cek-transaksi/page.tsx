@@ -83,7 +83,7 @@ export default function CekTransaksiPage() {
             onChange={(e) => setOrderId(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleCheck()}
             placeholder="Masukkan Order ID (contoh: ORD-XXXXX)"
-            className="flex-1 rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-4 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+            className="flex-1 rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-4 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
           />
           <button
             onClick={handleCheck}
@@ -127,7 +127,7 @@ export default function CekTransaksiPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-xs text-[#777]">Total</span>
-                <span className="text-xs text-[#c8a45c] font-semibold">{result.total}</span>
+                <span className="text-xs text-[#d4af37] font-semibold">{result.total}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-xs text-[#777]">Tanggal</span>

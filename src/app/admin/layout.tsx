@@ -44,7 +44,7 @@ export default function AdminLayout({
   if (checking) {
     return (
       <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-        <div className="text-[#c8a45c]">Loading...</div>
+        <div className="text-[#d4af37]">Loading...</div>
       </div>
     );
   }
@@ -68,7 +68,7 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="w-60 bg-[#1a1a1a] border-r border-[#2a2a2a] flex flex-col">
         <div className="p-5 border-b border-[#2a2a2a]">
-          <h1 className="text-lg font-bold text-[#c8a45c]">NyinyiStore</h1>
+          <h1 className="text-lg font-bold text-[#d4af37]">NyinyiStore</h1>
           <p className="text-[10px] text-[#777] mt-0.5">Admin Panel</p>
         </div>
         <nav className="flex-1 p-3 space-y-1">
@@ -80,7 +80,7 @@ export default function AdminLayout({
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-xs transition-colors ${
                   isActive
-                    ? "bg-[#c8a45c]/10 text-[#c8a45c] border border-[#c8a45c]/30"
+                    ? "bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/30"
                     : "text-[#b0b0b0] hover:bg-[#252525] hover:text-white"
                 }`}
               >

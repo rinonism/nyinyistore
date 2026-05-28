@@ -58,7 +58,7 @@ function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast:
             animate-[slideIn_0.3s_ease-out] transition-all
             ${toast.type === "success" ? "bg-green-900/90 text-green-200 border-green-700" : ""}
             ${toast.type === "error" ? "bg-red-900/90 text-red-200 border-red-700" : ""}
-            ${toast.type === "info" ? "bg-[#1e1e1e]/95 text-[#f5f5f5] border-[#c8a45c]/50" : ""}
+            ${toast.type === "info" ? "bg-[#1e1e1e]/95 text-[#f5f5f5] border-[#d4af37]/50" : ""}
             ${toast.type === "warning" ? "bg-yellow-900/90 text-yellow-200 border-yellow-700" : ""}
           `}
         >

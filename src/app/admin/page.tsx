@@ -115,7 +115,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[#c8a45c]">Loading dashboard...</div>
+        <div className="text-[#d4af37]">Loading dashboard...</div>
       </div>
     );
   }
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
         </div>
         <div className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
           <p className="text-[#777] text-xs">Completed</p>
-          <p className="text-2xl font-bold text-[#c8a45c] mt-1">{stats.completedOrders}</p>
+          <p className="text-2xl font-bold text-[#d4af37] mt-1">{stats.completedOrders}</p>
           {stats.failedOrders > 0 && (
             <p className="text-[10px] text-red-400 mt-0.5">{stats.failedOrders} failed/expired</p>
           )}
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
         <button
           onClick={() => setActiveTab("orders")}
           className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
-            activeTab === "orders" ? "bg-[#c8a45c] text-white" : "bg-[#252525] text-[#777] hover:text-white"
+            activeTab === "orders" ? "bg-[#d4af37] text-white" : "bg-[#252525] text-[#777] hover:text-white"
           }`}
         >
           📋 Orders
@@ -167,7 +167,7 @@ export default function AdminDashboard() {
         <button
           onClick={() => setActiveTab("promo")}
           className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
-            activeTab === "promo" ? "bg-[#c8a45c] text-white" : "bg-[#252525] text-[#777] hover:text-white"
+            activeTab === "promo" ? "bg-[#d4af37] text-white" : "bg-[#252525] text-[#777] hover:text-white"
           }`}
         >
           🎫 Promo Codes
@@ -184,13 +184,13 @@ export default function AdminDashboard() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[#2a2a2a]">
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Order ID</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Game</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">User</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Amount</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Payment</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Status</th>
-                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#c8a45c] uppercase">Time</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Order ID</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Game</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">User</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Amount</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Payment</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Status</th>
+                  <th className="text-left px-4 py-2 text-[10px] font-medium text-[#d4af37] uppercase">Time</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#2a2a2a]">
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
                 ) : (
                   recentOrders.map((order) => (
                     <tr key={order.id} className="hover:bg-[#252525]">
-                      <td className="px-4 py-3 text-xs font-mono text-[#c8a45c]">{order.id}</td>
+                      <td className="px-4 py-3 text-xs font-mono text-[#d4af37]">{order.id}</td>
                       <td className="px-4 py-3 text-xs text-[#b0b0b0]">{order.game_slug}</td>
                       <td className="px-4 py-3 text-xs text-[#b0b0b0]">
                         {order.user_id}
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
               <div key={promo.code} className="p-4 hover:bg-[#252525]">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-lg bg-[#c8a45c]/10 border border-[#c8a45c]/30 px-3 py-1 text-xs font-mono font-bold text-[#c8a45c]">
+                    <span className="rounded-lg bg-[#d4af37]/10 border border-[#d4af37]/30 px-3 py-1 text-xs font-mono font-bold text-[#d4af37]">
                       {promo.code}
                     </span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full ${promo.active ? "bg-green-900/30 text-green-400 border border-green-700" : "bg-red-900/30 text-red-400 border border-red-700"}`}>
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
                 {/* Usage bar */}
                 <div className="mt-2 h-1.5 rounded-full bg-[#252525] overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-[#c8a45c]"
+                    className="h-full rounded-full bg-[#d4af37]"
                     style={{ width: `${(promo.used_count / promo.usage_limit) * 100}%` }}
                   />
                 </div>

@@ -22,7 +22,7 @@ export default function StepProgress({ currentStep, steps }: StepProgressProps) 
                   isCompleted
                     ? "bg-[#4caf50] text-white"
                     : isActive
-                    ? "bg-gradient-to-br from-[#c8a45c] to-[#d4a843] text-white shadow-lg shadow-[#c8a45c]/20"
+                    ? "bg-gradient-to-br from-[#d4af37] to-[#d4a843] text-white shadow-lg shadow-[#d4af37]/20"
                     : "bg-[#252525] text-[#555] border border-[#3a3a3a]"
                 }`}
               >
@@ -36,7 +36,7 @@ export default function StepProgress({ currentStep, steps }: StepProgressProps) 
               </div>
               <span
                 className={`mt-1 text-[9px] sm:text-[10px] font-medium text-center leading-tight ${
-                  isActive ? "text-[#c8a45c]" : isCompleted ? "text-[#4caf50]" : "text-[#555]"
+                  isActive ? "text-[#d4af37]" : isCompleted ? "text-[#4caf50]" : "text-[#555]"
                 }`}
               >
                 {label}
@@ -51,7 +51,7 @@ export default function StepProgress({ currentStep, steps }: StepProgressProps) 
                     className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{
                       width: isCompleted ? "100%" : "0%",
-                      background: "linear-gradient(90deg, #4caf50, #c8a45c)",
+                      background: "linear-gradient(90deg, #4caf50, #d4af37)",
                     }}
                   />
                 </div>

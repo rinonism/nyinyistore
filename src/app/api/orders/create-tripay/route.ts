@@ -1,94 +1,98 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { createTransaction as createTripayTransaction } from "@/lib/tripay";
 import { getGameBySlug } from "@/lib/games";
-import { generateOrderId } from "@/lib/crypto-payment";
-
-const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+import { getSupabase, generateOrderId } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { game_slug, denomination_id, user_id, server_id, payment_channel } = body;
+    const { game_slug, game_name, item_name, item_sku, price_idr, user_game_id, user_server_id, phone, email, payment_channel } = body;
 
     // Validate required fields
-    if (!game_slug || !denomination_id || !user_id || !payment_channel) {
+    if (!game_slug || !item_name || !price_idr || !user_game_id || !payment_channel) {
       return NextResponse.json(
-        { error: "Missing required fields: game_slug, denomination_id, user_id, payment_channel" },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Find game and denomination
-    const game = getGameBySlug(game_slug);
-    if (!game) {
-      return NextResponse.json({ error: "Game not found" }, { status: 404 });
-    }
-
-    const denomination = game.denominations.find((d) => d.amount === denomination_id);
-    if (!denomination) {
-      return NextResponse.json({ error: "Denomination not found" }, { status: 404 });
-    }
-
-    const orderId = generateOrderId();
-    const amount = denomination.price;
+    const supabase = getSupabase();
+    const order_id = generateOrderId();
+    const amount = Math.round(price_idr);
 
     // Create Tripay transaction
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://nyinyistore.com";
     const tripayTx = await createTripayTransaction({
       amount,
       method: payment_channel,
-      merchantRef: orderId,
-      customerName: `Player ${user_id}`,
+      merchantRef: order_id,
+      customerName: `Player ${user_game_id}`,
+      customerEmail: email || "customer@nyinyistore.com",
+      customerPhone: phone || "08000000000",
       orderItems: [
         {
-          name: `${game.name} - ${denomination.label}`,
+          name: `${game_name || game_slug} - ${item_name}`,
           price: amount,
           quantity: 1,
         },
       ],
-      callbackUrl: `${BASE_URL}/api/webhook/tripay`,
-      returnUrl: `${BASE_URL}/checkout/status?order_id=${orderId}`,
+      callbackUrl: `${baseUrl}/api/webhook/tripay`,
+      returnUrl: `${baseUrl}/order?id=${order_id}`,
     });
 
-    // Create order record
-    const order = {
-      id: orderId,
-      game_slug,
-      denomination_id,
-      denomination_label: denomination.label,
-      user_id,
-      server_id: server_id || undefined,
-      payment_method: "tripay",
-      payment_channel,
-      amount_idr: amount,
-      tripay_reference: tripayTx.reference,
-      tripay_checkout_url: tripayTx.checkout_url,
-      status: "pending" as const,
-      created_at: new Date().toISOString(),
-      expires_at: new Date(tripayTx.expired_time * 1000).toISOString(),
-    };
+    // Save order to Supabase
+    const expires_at = new Date(tripayTx.expired_time * 1000).toISOString();
 
-    // Read existing orders and append
-    let orders = [];
-    try {
-      const data = await fs.readFile(ORDERS_FILE, "utf-8");
-      orders = JSON.parse(data);
-    } catch {
-      // File doesn't exist or is empty
+    const { error } = await supabase
+      .from("orders")
+      .insert({
+        order_id,
+        game_slug,
+        game_name: game_name || game_slug,
+        item_name,
+        item_sku: item_sku || null,
+        price_idr: amount,
+        user_game_id,
+        user_server_id: user_server_id || null,
+        phone: phone || null,
+        email: email || null,
+        status: "pending",
+        payment_method: "tripay",
+        payment_channel,
+        tripay_reference: tripayTx.reference,
+        tripay_checkout_url: tripayTx.checkout_url,
+        expires_at,
+      });
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
     }
 
-    orders.push(order);
-    await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2));
+    // Send Telegram notification
+    try {
+      const telegramMsg = `🛒 *Order Baru!*\n\n📋 Order: \`${order_id}\`\n🎮 ${game_name || game_slug}\n💎 ${item_name}\n💰 Rp ${amount.toLocaleString("id-ID")}\n👤 ID: ${user_game_id}${user_server_id ? ` (${user_server_id})` : ""}\n💳 ${payment_channel} (Tripay)\n⏰ Expires: ${expires_at}\n\nStatus: ⏳ Menunggu Pembayaran`;
+
+      await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: process.env.TELEGRAM_CHAT_ID,
+          text: telegramMsg,
+          parse_mode: "Markdown",
+        }),
+      });
+    } catch (e) {
+      console.error("Telegram notification failed:", e);
+    }
 
     return NextResponse.json({
       success: true,
-      order_id: orderId,
+      order_id,
       checkout_url: tripayTx.checkout_url,
       reference: tripayTx.reference,
       amount,
-      expired_time: tripayTx.expired_time,
+      expires_at,
     });
   } catch (error) {
     console.error("Create Tripay order error:", error);

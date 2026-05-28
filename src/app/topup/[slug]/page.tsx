@@ -8,6 +8,7 @@ import type { Denomination } from "@/lib/games";
 import CryptoPaymentSelector from "@/components/CryptoPaymentSelector";
 import StepProgress from "@/components/StepProgress";
 import type { ChainId, TokenId } from "@/lib/crypto-payment";
+import { SUPPORTED_CHAINS } from "@/lib/crypto-payment";
 
 // Game code mapping for check nickname
 const GAME_CODES: Record<string, string> = {
@@ -159,42 +160,89 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   const handleConfirmOrder = async () => {
     setShowConfirmModal(false);
+    setIsOrdering(true);
 
-    if (paymentMethod === "crypto") {
-      setIsOrdering(true);
-      try {
-        const res = await fetch("/api/orders", {
+    try {
+      if (paymentMethod === "crypto") {
+        // Get wallet address for selected chain
+        const selectedChain = SUPPORTED_CHAINS.find(c => c.id === cryptoSelection?.chain);
+        const walletAddress = selectedChain?.paymentAddress || "";
+
+        // Calculate crypto price (IDR to USD via rate)
+        const priceWithFee = selectedDenom!.price + 3000;
+        const priceCrypto = parseFloat((priceWithFee / usdRate).toFixed(2));
+
+        // Crypto flow — existing /api/order/create
+        const res = await fetch("/api/order/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            action: "create",
             game_slug: game.slug,
-            denomination_id: selectedDenom!.amount,
-            user_id: userId,
-            server_id: serverId || undefined,
-            payment_chain: cryptoSelection!.chain,
-            payment_token: cryptoSelection!.token,
+            game_name: game.name,
+            item_name: selectedDenom!.amount,
+            item_sku: selectedDenom!.sku || undefined,
+            price_idr: priceWithFee,
+            price_crypto: priceCrypto,
+            crypto_token: cryptoSelection?.token || undefined,
+            crypto_chain: cryptoSelection?.chain || undefined,
+            payment_wallet: walletAddress,
+            user_game_id: userId,
+            user_server_id: serverId || game.region || undefined,
+            phone,
+            email,
           }),
         });
 
         const data = await res.json();
         if (!res.ok) {
-          alert(data.error || "Failed to create order");
+          showToast(data.error || "Gagal membuat order");
           return;
         }
 
-        router.push(`/checkout/${data.order_id}`);
-      } catch {
-        alert("Gagal membuat order. Coba lagi.");
-      } finally {
-        setIsOrdering(false);
-      }
-      return;
-    }
+        router.push(`/order?id=${data.order_id}`);
+      } else {
+        // Tripay flow (QRIS, Bank Transfer, etc)
+        const channelMap: Record<string, string> = {
+          qris: "QRIS",
+          bank: "BRIVA",
+        };
+        const payment_channel = channelMap[paymentMethod] || "QRIS";
 
-    alert(
-      `Order berhasil!\n\nGame: ${game.name}\nUser ID: ${userId}${serverId ? ` (${serverId})` : ""}\nItem: ${selectedDenom!.amount}\nHarga: ${formatPrice(selectedDenom!.price)}\nPembayaran: ${paymentMethod.toUpperCase()}`
-    );
+        const res = await fetch("/api/orders/create-tripay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            game_slug: game.slug,
+            game_name: game.name,
+            item_name: selectedDenom!.amount,
+            item_sku: selectedDenom!.sku || undefined,
+            price_idr: selectedDenom!.price,
+            user_game_id: userId,
+            user_server_id: serverId || game.region || undefined,
+            phone,
+            email,
+            payment_channel,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          showToast(data.error || "Gagal membuat order");
+          return;
+        }
+
+        // Redirect to Tripay checkout page
+        if (data.checkout_url) {
+          window.location.href = data.checkout_url;
+        } else {
+          router.push(`/order?id=${data.order_id}`);
+        }
+      }
+    } catch {
+      showToast("Gagal membuat order. Coba lagi.");
+    } finally {
+      setIsOrdering(false);
+    }
   };
 
   return (
@@ -214,13 +262,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
         {/* Banner decorative elements */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#c8a45c]/20 rounded-full blur-3xl" />
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#d4af37]/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl" />
         </div>
         {/* Banner text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center px-4">
-            <p className="text-[10px] sm:text-xs lg:text-sm text-[#c8a45c] font-medium tracking-wider uppercase mb-1">Top Up Diamond Kilat</p>
+            <p className="text-[10px] sm:text-xs lg:text-sm text-[#d4af37] font-medium tracking-wider uppercase mb-1">Top Up Diamond Kilat</p>
             <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white">PROSES CEPAT!</h2>
             <p className="text-[10px] sm:text-xs text-[#999] mt-1">Hanya di NyinyiStore.com</p>
           </div>
@@ -261,7 +309,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             onClick={() => setActiveTab("transaksi")}
             className={`flex-1 rounded-md py-2 text-xs sm:text-sm font-medium transition-all ${
               activeTab === "transaksi"
-                ? "bg-[#c8a45c] text-white shadow"
+                ? "bg-[#d4af37] text-white shadow"
                 : "text-[#999] hover:text-white"
             }`}
           >
@@ -271,7 +319,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             onClick={() => setActiveTab("keterangan")}
             className={`flex-1 rounded-md py-2 text-xs sm:text-sm font-medium transition-all ${
               activeTab === "keterangan"
-                ? "bg-[#c8a45c] text-white shadow"
+                ? "bg-[#d4af37] text-white shadow"
                 : "text-[#999] hover:text-white"
             }`}
           >
@@ -300,7 +348,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Masukkan Data Akun</h2>
               </div>
               <div className="p-3 sm:p-4">
-                <div className={`grid ${game.needsServerId ? "grid-cols-2" : "grid-cols-1"} gap-2 sm:gap-3`}>
+                <div className={`grid ${game.needsServerId || game.region ? "grid-cols-2" : "grid-cols-1"} gap-2 sm:gap-3`}>
                   <div>
                     <label htmlFor="userId" className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
                       {game.idLabel || "ID"}
@@ -312,7 +360,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       onChange={(e) => setUserId(e.target.value)}
                       onBlur={() => { if (userId) checkNickname(userId, serverId); }}
                       placeholder={game.idPlaceholder || "Masukkan ID"}
-                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                     />
                   </div>
                   {game.needsServerId && (
@@ -327,8 +375,18 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       onChange={(e) => setServerId(e.target.value)}
                       onBlur={() => { if (userId && serverId) checkNickname(userId, serverId); }}
                       placeholder="Server"
-                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                     />
+                  </div>
+                  )}
+                  {game.region && (
+                  <div>
+                    <label className="mb-1 block text-[11px] sm:text-xs text-[#b0b0b0]">
+                      Server
+                    </label>
+                    <div className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white">
+                      {game.region}
+                    </div>
                   </div>
                   )}
                 </div>
@@ -358,12 +416,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Pilih Nominal</h2>
               </div>
               <div className="p-3 sm:p-4">
-                {/* Special Items section - on top */}
-                {game.denominations.some(d => !d.amount.includes("Diamonds")) && (
+                {/* Special Items section - only for ML passes/bundles */}
+                {game.denominations.some(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens")) && (
                   <div className="mb-4">
                     <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Spesial Item 🎁</p>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {game.denominations.filter(d => !d.amount.includes("Diamonds")).map((denom) => (
+                      {game.denominations.filter(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens")).map((denom) => (
                         <button
                           key={denom.amount}
                           onClick={() => handleSelectDenom(denom)}
@@ -372,7 +430,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                             denom.comingSoon
                               ? "border-[#2a2a2a] bg-[#1a1a1a] opacity-60 cursor-not-allowed"
                               : selectedDenom?.amount === denom.amount
-                              ? "selected border-[#c8a45c] bg-[#c8a45c]/10"
+                              ? "selected border-[#d4af37] bg-[#d4af37]/10"
                               : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
                           }`}
                         >
@@ -382,17 +440,17 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                             </span>
                           )}
                           <div className="text-sm sm:text-base font-bold text-white leading-tight mt-4">{denom.label}</div>
-                          <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
+                          <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#d4af37]">{formatPrice(denom.price)}</div>
                         </button>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Diamond items */}
+                {/* Diamond/Crystal/Gems items */}
                 <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Top Up Instan 🔥</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {game.denominations.filter(d => d.amount.includes("Diamonds")).map((denom) => (
+                  {game.denominations.filter(d => d.amount.includes("Diamonds") || d.amount.includes("Crystals") || d.amount.includes("Gems") || d.amount.includes("Tokens")).map((denom) => (
                     <button
                       key={denom.amount}
                       onClick={() => handleSelectDenom(denom)}
@@ -401,12 +459,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         denom.comingSoon
                           ? "border-[#2a2a2a] bg-[#1a1a1a] opacity-60 cursor-not-allowed"
                           : selectedDenom?.amount === denom.amount
-                          ? "selected border-[#c8a45c] bg-[#c8a45c]/10"
+                          ? "selected border-[#d4af37] bg-[#d4af37]/10"
                           : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
                       }`}
                     >
                       {denom.comingSoon ? (
-                        <span className="absolute top-1.5 right-1.5 rounded bg-[#c8a45c]/20 px-1.5 py-0.5 text-[8px] font-bold text-[#c8a45c]">
+                        <span className="absolute top-1.5 right-1.5 rounded bg-[#d4af37]/20 px-1.5 py-0.5 text-[8px] font-bold text-[#d4af37]">
                           SOON
                         </span>
                       ) : (
@@ -415,7 +473,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         </span>
                       )}
                       <div className="text-sm sm:text-base font-bold text-white leading-tight mt-4">{denom.label}</div>
-                      <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#c8a45c]">{formatPrice(denom.price)}</div>
+                      <div className="mt-1.5 text-xs sm:text-sm font-semibold text-[#d4af37]">{formatPrice(denom.price)}</div>
                     </button>
                   ))}
                 </div>
@@ -436,7 +494,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       onClick={() => handleSelectPayment(method.id)}
                       className={`flex items-center gap-3 rounded-lg border p-3 text-left transition-all active:scale-[0.97] ${
                         paymentMethod === method.id
-                          ? "border-[#c8a45c] bg-[#c8a45c]/10"
+                          ? "border-[#d4af37] bg-[#d4af37]/10"
                           : "border-[#3a3a3a] bg-[#252525] hover:border-[#555]"
                       }`}
                     >
@@ -447,7 +505,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       </div>
                       {method.id === "crypto" && selectedDenom && (
                         <div className="text-right">
-                          <div className="text-[10px] font-bold text-[#c8a45c]">
+                          <div className="text-[10px] font-bold text-[#d4af37]">
                             {formatPrice(selectedDenom.price + 3000)}
                           </div>
                           <div className="text-[9px] text-[#999]">
@@ -489,7 +547,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="example@gmail.com"
-                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                      className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                     />
                   </div>
                   <div>
@@ -504,12 +562,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="8XXXXXXXXXX"
-                        className="w-full rounded-r-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                        className="w-full rounded-r-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                       />
                     </div>
                   </div>
                 </div>
-                <p className="mt-2 text-[10px] text-[#c8a45c]">
+                <p className="mt-2 text-[10px] text-[#d4af37]">
                   Nomor ini akan dihubungi jika terjadi masalah
                 </p>
               </div>
@@ -528,13 +586,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="Ketik Kode Promo Kamu"
-                    className="flex-1 rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#c8a45c] focus:outline-none focus:ring-1 focus:ring-[#c8a45c]"
+                    className="flex-1 rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                   />
-                  <button className="rounded-lg border border-[#c8a45c] px-3 sm:px-4 py-2.5 text-xs font-medium text-[#c8a45c] transition-colors hover:bg-[#c8a45c] hover:text-white active:scale-[0.97]">
+                  <button className="rounded-lg border border-[#d4af37] px-3 sm:px-4 py-2.5 text-xs font-medium text-[#d4af37] transition-colors hover:bg-[#d4af37] hover:text-white active:scale-[0.97]">
                     Gunakan
                   </button>
                 </div>
-                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#3a3a3a] py-2.5 text-xs text-[#999] hover:border-[#c8a45c] hover:text-[#c8a45c] transition-colors">
+                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#3a3a3a] py-2.5 text-xs text-[#999] hover:border-[#d4af37] hover:text-[#d4af37] transition-colors">
                   🎟️ Pakai Promo Yang Tersedia
                 </button>
               </div>
@@ -546,34 +604,10 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <span className="text-sm">⭐</span>
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Ulasan</h2>
               </div>
-              <div className="p-3 sm:p-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl sm:text-3xl font-bold text-[#c8a45c]">4.99</span>
-                  <div>
-                    <div className="flex text-[#e8b730] text-sm">★★★★★</div>
-                    <p className="text-[10px] text-[#777]">/ 5.0</p>
-                  </div>
-                </div>
-                <p className="text-[11px] text-[#b0b0b0]">Pelanggan merasa puas dengan produk ini.</p>
-                <p className="text-[10px] text-[#777] mt-1">Dari 8.53jt ulasan.</p>
-                <div className="mt-3 space-y-1.5">
-                  {[
-                    { star: 5, count: "8.52jt", pct: 99 },
-                    { star: 4, count: "6.1rb", pct: 8 },
-                    { star: 3, count: "1.2rb", pct: 3 },
-                    { star: 2, count: "340", pct: 1 },
-                    { star: 1, count: "89", pct: 0.5 },
-                  ].map((r) => (
-                    <div key={r.star} className="flex items-center gap-2">
-                      <span className="text-[10px] text-[#999] w-3">{r.star}</span>
-                      <span className="text-[10px] text-[#e8b730]">★</span>
-                      <div className="flex-1 h-1.5 rounded-full bg-[#2a2a2a] overflow-hidden">
-                        <div className="h-full rounded-full bg-[#c8a45c]" style={{ width: `${r.pct}%` }} />
-                      </div>
-                      <span className="text-[10px] text-[#777] w-10 text-right">{r.count}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="p-3 sm:p-4 text-center py-6">
+                <p className="text-2xl mb-2">⭐</p>
+                <p className="text-xs text-white font-medium">Belum ada ulasan</p>
+                <p className="text-[10px] text-[#777] mt-1">Ulasan akan muncul setelah ada transaksi selesai.</p>
               </div>
             </section>
 
@@ -593,32 +627,10 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             <div className="hidden lg:block w-[320px] flex-shrink-0">
               <div className="sticky top-4 space-y-4">
                 {/* Rating Card */}
-                <div className="rounded-xl border border-[#c8a45c]/30 bg-[#1e1e1e] p-5">
-                  <h3 className="text-sm font-semibold text-white mb-3">Ulasan dan rating</h3>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-4xl font-bold text-white">4.99</span>
-                    <div>
-                      <div className="flex text-[#FFD700] text-lg">★★★★★</div>
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-[#999]">Berdasarkan total 1.25jt rating</p>
-                  <div className="mt-4 space-y-2">
-                    {[
-                      { star: 5, pct: 99 },
-                      { star: 4, pct: 8 },
-                      { star: 3, pct: 3 },
-                      { star: 2, pct: 1 },
-                      { star: 1, pct: 0.5 },
-                    ].map((r) => (
-                      <div key={r.star} className="flex items-center gap-2">
-                        <span className="text-[11px] text-[#999] w-3">{r.star}</span>
-                        <span className="text-[11px] text-[#FFD700]">★</span>
-                        <div className="flex-1 h-2 rounded-full bg-[#2a2a2a] overflow-hidden">
-                          <div className="h-full rounded-full bg-[#c8a45c]" style={{ width: `${r.pct}%` }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="rounded-xl border border-[#d4af37]/30 bg-[#1e1e1e] p-5 text-center py-6">
+                  <p className="text-2xl mb-2">⭐</p>
+                  <p className="text-xs text-white font-medium">Belum ada ulasan</p>
+                  <p className="text-[10px] text-[#777] mt-1">Ulasan akan muncul setelah ada transaksi selesai.</p>
                 </div>
 
                 {/* Order Summary Card */}
@@ -646,7 +658,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       )}
                       <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
                         <span className="text-[#999]">Total</span>
-                        <span className="text-[#c8a45c] font-bold">
+                        <span className="text-[#d4af37] font-bold">
                           {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
                         </span>
                       </div>
@@ -661,7 +673,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           <div className="space-y-4">
             <section className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
               <div className="flex items-center gap-2 border-b border-[#2a2a2a] bg-[#252525] px-3 sm:px-4 py-2.5 sm:py-3">
-                <div className="w-1 h-4 rounded bg-[#c8a45c]" />
+                <div className="w-1 h-4 rounded bg-[#d4af37]" />
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Deskripsi {game.name}</h2>
               </div>
               <div className="p-3 sm:p-4 text-xs sm:text-sm text-[#b0b0b0] leading-relaxed space-y-3">
@@ -682,17 +694,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             {/* Ulasan in Keterangan tab too */}
             <section className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
               <div className="flex items-center gap-2 border-b border-[#2a2a2a] bg-[#252525] px-3 sm:px-4 py-2.5 sm:py-3">
-                <div className="w-1 h-4 rounded bg-[#c8a45c]" />
+                <div className="w-1 h-4 rounded bg-[#d4af37]" />
                 <h2 className="text-xs sm:text-sm font-semibold text-white">Ulasan</h2>
               </div>
-              <div className="p-3 sm:p-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold text-[#c8a45c]">4.99</span>
-                  <div>
-                    <div className="flex text-[#e8b730] text-sm">★★★★★</div>
-                    <p className="text-[10px] text-[#777]">/ 5.0 dari 8.53jt ulasan</p>
-                  </div>
-                </div>
+              <div className="p-3 sm:p-4 text-center py-6">
+                <p className="text-2xl mb-2">⭐</p>
+                <p className="text-xs text-white font-medium">Belum ada ulasan</p>
+                <p className="text-[10px] text-[#777] mt-1">Ulasan akan muncul setelah ada transaksi selesai.</p>
               </div>
             </section>
           </div>
@@ -711,7 +719,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] font-medium text-white truncate">{game.name}</p>
-                  <p className="text-[10px] text-[#c8a45c] truncate">{selectedDenom.label}</p>
+                  <p className="text-[10px] text-[#d4af37] truncate">{selectedDenom.label}</p>
                 </div>
               </div>
             ) : (
@@ -722,7 +730,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
           <button
             onClick={handleOrder}
             disabled={!userId || !selectedDenom || !paymentMethod || !email || !phone || isOrdering || (paymentMethod === "crypto" && !cryptoSelection)}
-            className="flex-shrink-0 rounded-lg bg-gradient-to-r from-[#a0833a] to-[#c8a45c] px-4 py-2.5 text-xs font-semibold text-white shadow disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97] transition-transform"
+            className="flex-shrink-0 rounded-lg bg-gradient-to-r from-[#a0833a] to-[#d4af37] px-4 py-2.5 text-xs font-semibold text-white shadow disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97] transition-transform"
           >
             {isOrdering ? "..." : "Pesan Sekarang!"}
           </button>
@@ -782,7 +790,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
               </div>
               <div className="flex justify-between border-t border-[#2a2a2a] pt-2">
                 <span className="text-[#777]">Total</span>
-                <span className="text-[#c8a45c] font-bold">
+                <span className="text-[#d4af37] font-bold">
                   {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
                 </span>
               </div>
@@ -791,7 +799,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             {/* Buttons */}
             <button
               onClick={handleConfirmOrder}
-              className="w-full rounded-lg bg-gradient-to-r from-[#a0833a] to-[#c8a45c] py-3 text-sm font-semibold text-white shadow active:scale-[0.97] transition-transform mb-2"
+              className="w-full rounded-lg bg-gradient-to-r from-[#a0833a] to-[#d4af37] py-3 text-sm font-semibold text-white shadow active:scale-[0.97] transition-transform mb-2"
             >
               Pesan Sekarang!
             </button>
