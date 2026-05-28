@@ -630,6 +630,66 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             </section>
 
             {/* Step 4: Contact Details */}
+            {/* Mobile Order Summary - only visible on mobile after payment selected */}
+            {selectedDenom && paymentMethod && (
+              <section className="rounded-xl border border-[#d4af37]/30 bg-[#1e1e1e] overflow-hidden lg:hidden">
+                <div className="flex items-center gap-3 border-b border-[#2a2a2a] bg-[#252525] px-3 py-2.5">
+                  <span className="text-sm">🧾</span>
+                  <h2 className="text-xs font-semibold text-white">Ringkasan Pesanan</h2>
+                </div>
+                <div className="p-3 space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-[#999]">Item</span>
+                    <span className="text-white font-medium">{selectedDenom.label}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#999]">Harga</span>
+                    <span className="text-white">{formatPrice(selectedDenom.price)}</span>
+                  </div>
+                  {paymentMethod === "crypto" && (
+                    <div className="flex justify-between">
+                      <span className="text-[#999]">Biaya Crypto</span>
+                      <span className="text-white">{formatPrice(3000)}</span>
+                    </div>
+                  )}
+                  {paymentMethod === "qris" && (
+                    <div className="flex justify-between">
+                      <span className="text-[#999]">Biaya QRIS</span>
+                      <span className="text-white">{formatPrice(Math.round(750 + selectedDenom.price * 0.007))}</span>
+                    </div>
+                  )}
+                  {paymentMethod === "bank" && bankChannel && (
+                    <div className="flex justify-between">
+                      <span className="text-[#999]">Biaya Transfer</span>
+                      <span className="text-white">{formatPrice(bankChannel === "BCAVA" ? 5500 : 4250)}</span>
+                    </div>
+                  )}
+                  {paymentMethod === "store" && storeChannel && (
+                    <div className="flex justify-between">
+                      <span className="text-[#999]">Biaya Minimarket</span>
+                      <span className="text-white">{formatPrice(3500)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
+                    <span className="text-[#999] font-medium">Total</span>
+                    <span className="text-[#d4af37] font-bold text-sm">
+                      {formatPrice(
+                        paymentMethod === "crypto"
+                          ? selectedDenom.price + 3000
+                          : paymentMethod === "qris"
+                          ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
+                          : paymentMethod === "bank" && bankChannel
+                          ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                          : paymentMethod === "store" && storeChannel
+                          ? selectedDenom.price + 3500
+                          : selectedDenom.price
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </section>
+            )}
+
             <section className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] overflow-hidden">
               <div className="flex items-center gap-3 border-b border-[#2a2a2a] bg-[#252525] px-3 sm:px-4 py-2.5 sm:py-3">
                 <div className="step-number text-xs sm:text-sm">4</div>
@@ -846,8 +906,20 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                   <img src={game.image} alt={game.name} className="h-full w-full object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-medium text-white truncate">{game.name}</p>
-                  <p className="text-[10px] text-[#d4af37] truncate">{selectedDenom.label}</p>
+                  <p className="text-[11px] font-medium text-white truncate">{selectedDenom.label}</p>
+                  <p className="text-[10px] text-[#d4af37] font-bold">
+                    {formatPrice(
+                      paymentMethod === "crypto"
+                        ? selectedDenom.price + 3000
+                        : paymentMethod === "qris"
+                        ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
+                        : paymentMethod === "bank" && bankChannel
+                        ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                        : paymentMethod === "store" && storeChannel
+                        ? selectedDenom.price + 3500
+                        : selectedDenom.price
+                    )}
+                  </p>
                 </div>
               </div>
             ) : (
