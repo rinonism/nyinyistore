@@ -66,6 +66,7 @@ const GAME_BRANDS = [
   "VALORANT",
   "PUBG MOBILE",
   "HONKAI STAR RAIL",
+  "STUMBLE GUYS",
 ];
 
 /**
