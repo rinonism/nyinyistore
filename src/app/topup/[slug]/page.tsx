@@ -40,6 +40,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [selectedDenom, setSelectedDenom] = useState<Denomination | null>(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [bankChannel, setBankChannel] = useState("");
+  const [storeChannel, setStoreChannel] = useState("");
   const [cryptoSelection, setCryptoSelection] = useState<{ chain: ChainId; token: TokenId } | null>(null);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -82,6 +83,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     }
     if (methodId !== "bank") {
       setBankChannel("");
+    }
+    if (methodId !== "store") {
+      setStoreChannel("");
     }
   };
 
@@ -130,6 +134,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC", fee: "+Rp3.000" },
     { id: "qris", name: "QRIS", icon: "📱", description: "Semua E-Wallet & Bank" },
     { id: "bank", name: "Bank Transfer", icon: "🏦", description: "Virtual Account" },
+    { id: "store", name: "Minimarket", icon: "🏪", description: "Indomaret, Alfamart, Alfamidi" },
   ];
 
   const bankOptions = [
@@ -140,6 +145,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     { code: "BSIVA", name: "BSI", logo: "https://assets.tripay.co.id/upload/payment-icon/tEclz5Assb1643375216.png" },
     { code: "CIMBVA", name: "CIMB Niaga", logo: "https://assets.tripay.co.id/upload/payment-icon/WtEJwfuphn1614003973.png" },
     { code: "PERMATAVA", name: "Permata", logo: "https://assets.tripay.co.id/upload/payment-icon/szezRhAALB1583408731.png" },
+  ];
+
+  const storeOptions = [
+    { code: "INDOMARET", name: "Indomaret", logo: "https://assets.tripay.co.id/upload/payment-icon/zNzuO5AuLw1583513974.png" },
+    { code: "ALFAMART", name: "Alfamart", logo: "https://assets.tripay.co.id/upload/payment-icon/jiGZMKp2RD1583433506.png" },
+    { code: "ALFAMIDI", name: "Alfamidi", logo: "https://assets.tripay.co.id/upload/payment-icon/aQTdaUC2GO1593660384.png" },
   ];
 
   const handleCryptoSelect = (chain: ChainId, token: TokenId) => {
@@ -215,7 +226,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
         router.push(`/order?id=${data.order_id}`);
       } else {
-        // Tripay flow (QRIS, Bank Transfer, etc)
+        // Tripay flow (QRIS, Bank Transfer, Minimarket, etc)
         let payment_channel = "QRIS2";
         if (paymentMethod === "bank") {
           if (!bankChannel) {
@@ -229,6 +240,19 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             return;
           }
           payment_channel = bankChannel;
+        }
+        if (paymentMethod === "store") {
+          if (!storeChannel) {
+            showToast("Pilih minimarket terlebih dahulu!");
+            setIsOrdering(false);
+            return;
+          }
+          if (selectedDenom!.price < 10000) {
+            showToast("Minimal pembelian Rp 10.000 untuk Minimarket");
+            setIsOrdering(false);
+            return;
+          }
+          payment_channel = storeChannel;
         }
 
         const res = await fetch("/api/orders/create-tripay", {
@@ -575,6 +599,32 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                     <p className="text-[10px] text-[#EF8F8F] mt-2">⚠️ Minimal pembelian Rp 10.000 untuk Bank Transfer</p>
                   </div>
                 )}
+
+                {paymentMethod === "store" && (
+                  <div className="mt-3">
+                    <p className="text-[11px] text-[#999] mb-2">Pilih Minimarket:</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {storeOptions.map((store) => (
+                        <button
+                          key={store.code}
+                          onClick={() => setStoreChannel(store.code)}
+                          className={`flex flex-col items-center justify-center gap-1.5 rounded-xl border p-3 transition-all active:scale-[0.95] ${
+                            storeChannel === store.code
+                              ? "border-[#d4af37] bg-white shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+                              : "border-[#ddd] bg-white hover:border-[#d4af37]/50 hover:shadow-sm"
+                          }`}
+                        >
+                          <img src={store.logo} alt={store.name} className="h-7 w-7 object-contain" />
+                          <span className="text-[10px] font-semibold text-[#333]">{store.name}</span>
+                          <span className={`text-[9px] font-bold ${storeChannel === store.code ? "text-[#d4af37]" : "text-[#666]"}`}>
+                            +Rp3.500
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-[#EF8F8F] mt-2">⚠️ Minimal pembelian Rp 10.000 untuk Minimarket</p>
+                  </div>
+                )}
               </div>
             </section>
 
@@ -717,6 +767,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                           <span className="text-white">{formatPrice(bankChannel === "BCAVA" ? 5500 : 4250)}</span>
                         </div>
                       )}
+                      {paymentMethod === "store" && storeChannel && (
+                        <div className="flex justify-between">
+                          <span className="text-[#999]">Biaya Minimarket</span>
+                          <span className="text-white">{formatPrice(3500)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between border-t border-[#2a2a2a] pt-2 mt-2">
                         <span className="text-[#999]">Total</span>
                         <span className="text-[#d4af37] font-bold">
@@ -727,6 +783,8 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                               ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
                               : paymentMethod === "bank" && bankChannel
                               ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                              : paymentMethod === "store" && storeChannel
+                              ? selectedDenom.price + 3500
                               : selectedDenom.price
                           )}
                         </span>
@@ -867,6 +925,8 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
                       : paymentMethod === "bank" && bankChannel
                       ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                      : paymentMethod === "store" && storeChannel
+                      ? selectedDenom.price + 3500
                       : selectedDenom.price
                   )}
                 </span>
