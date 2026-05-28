@@ -37,6 +37,9 @@ export default function Footer() {
               <li><a href="/cek-transaksi" className="hover:text-white transition-colors">Cek Transaksi</a></li>
               <li><ContactModal /></li>
               <li><a href="/ulasan" className="hover:text-white transition-colors">Ulasan</a></li>
+              <li><a href="/tentang-kami" className="hover:text-white transition-colors">Tentang Kami</a></li>
+              <li><a href="/kebijakan-privasi" className="hover:text-white transition-colors">Kebijakan Privasi</a></li>
+              <li><a href="/ketentuan-layanan" className="hover:text-white transition-colors">Ketentuan Layanan</a></li>
             </ul>
           </div>
 
@@ -80,15 +83,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 border-t border-[#2a2a2a] pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="mt-8 border-t border-[#2a2a2a] pt-6 text-center">
           <p className="text-[11px] text-[#555]">
             © 2024 NyinyiStore. All rights reserved.
           </p>
-          <div className="flex gap-3 text-[10px] text-[#555]">
-            <a href="/tentang-kami" className="hover:text-white transition-colors">Tentang Kami</a>
-            <a href="/kebijakan-privasi" className="hover:text-white transition-colors">Kebijakan Privasi</a>
-            <a href="/ketentuan-layanan" className="hover:text-white transition-colors">Ketentuan Layanan</a>
-          </div>
         </div>
       </div>
     </footer>
