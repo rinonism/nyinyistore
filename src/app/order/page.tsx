@@ -146,7 +146,7 @@ function OrderStatusContent() {
             </div>
 
             {/* Progress Steps */}
-            <div className="px-5 pb-4">
+            <div className="px-6 pb-5">
               {(() => {
                 const steps = [
                   { key: "pending", label: "Menunggu", icon: "⏳" },
@@ -159,40 +159,38 @@ function OrderStatusContent() {
                 const currentIdx = isFailed ? -1 : steps.findIndex(s => s.key === order.status);
 
                 return (
-                  <div className="flex items-center">
+                  <div className="relative flex items-start justify-between">
+                    {/* Connector line background */}
+                    <div className="absolute top-[16px] left-[32px] right-[32px] h-[2px] bg-[#2a2a2a]" />
+                    {/* Connector line progress */}
+                    {currentIdx > 0 && (
+                      <div
+                        className="absolute top-[16px] left-[32px] h-[2px] bg-[#d4af37] transition-all duration-500"
+                        style={{ width: `${(currentIdx / (steps.length - 1)) * (100 - (64 / 3.6))}%` }}
+                      />
+                    )}
                     {steps.map((step, i) => (
-                      <div key={step.key} className="flex items-center flex-1">
-                        <div className="flex flex-col items-center">
-                          <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all ${
-                              isFailed
-                                ? "bg-[#222] text-[#555]"
-                                : i <= currentIdx
-                                ? "bg-[#d4af37] text-black shadow-lg shadow-[#d4af37]/20"
-                                : "bg-[#222] text-[#555]"
-                            }`}
-                          >
-                            {step.icon}
-                          </div>
-                          <span className={`text-[8px] mt-1.5 text-center leading-tight font-medium ${
+                      <div key={step.key} className="relative z-10 flex flex-col items-center w-16">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all ${
                             isFailed
-                              ? "text-[#555]"
+                              ? "bg-[#1a1a1a] border border-[#333] text-[#555]"
                               : i <= currentIdx
-                              ? "text-[#d4af37]"
-                              : "text-[#555]"
-                          }`}>
-                            {step.label}
-                          </span>
+                              ? "bg-[#d4af37] text-black shadow-md shadow-[#d4af37]/25"
+                              : "bg-[#1a1a1a] border border-[#333] text-[#555]"
+                          }`}
+                        >
+                          {step.icon}
                         </div>
-                        {i < steps.length - 1 && (
-                          <div className={`flex-1 h-[2px] mx-1.5 mt-[-12px] rounded-full transition-all ${
-                            isFailed
-                              ? "bg-[#222]"
-                              : i < currentIdx
-                              ? "bg-[#d4af37]"
-                              : "bg-[#222]"
-                          }`} />
-                        )}
+                        <span className={`text-[9px] mt-1.5 text-center leading-tight font-medium ${
+                          isFailed
+                            ? "text-[#555]"
+                            : i <= currentIdx
+                            ? "text-[#d4af37]"
+                            : "text-[#555]"
+                        }`}>
+                          {step.label}
+                        </span>
                       </div>
                     ))}
                   </div>
