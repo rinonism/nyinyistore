@@ -39,6 +39,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const [nickError, setNickError] = useState<string | null>(null);
   const [selectedDenom, setSelectedDenom] = useState<Denomination | null>(null);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [bankChannel, setBankChannel] = useState("");
   const [cryptoSelection, setCryptoSelection] = useState<{ chain: ChainId; token: TokenId } | null>(null);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -78,6 +79,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
     setPaymentMethod(methodId);
     if (methodId !== "crypto") {
       setCryptoSelection(null);
+    }
+    if (methodId !== "bank") {
+      setBankChannel("");
     }
   };
 
@@ -124,8 +128,18 @@ export default function TopUpPage({ params }: TopUpPageProps) {
 
   const paymentMethods = [
     { id: "crypto", name: "Crypto", icon: "🪙", description: "USDT / USDC", fee: "+Rp3.000" },
-    { id: "qris", name: "QRIS", icon: "📱", description: "Scan QR Code" },
-    { id: "bank", name: "Bank Transfer", icon: "🏦", description: "BCA, Mandiri, BNI" },
+    { id: "qris", name: "QRIS", icon: "📱", description: "Semua E-Wallet & Bank" },
+    { id: "bank", name: "Bank Transfer", icon: "🏦", description: "Virtual Account" },
+  ];
+
+  const bankOptions = [
+    { code: "BCAVA", name: "BCA", icon: "🏦" },
+    { code: "BRIVA", name: "BRI", icon: "🏦" },
+    { code: "BNIVA", name: "BNI", icon: "🏦" },
+    { code: "MANDIRIVA", name: "Mandiri", icon: "🏦" },
+    { code: "BSIVA", name: "BSI", icon: "🏦" },
+    { code: "CIMBVA", name: "CIMB Niaga", icon: "🏦" },
+    { code: "PERMATAVA", name: "Permata", icon: "🏦" },
   ];
 
   const handleCryptoSelect = (chain: ChainId, token: TokenId) => {
@@ -202,11 +216,15 @@ export default function TopUpPage({ params }: TopUpPageProps) {
         router.push(`/order?id=${data.order_id}`);
       } else {
         // Tripay flow (QRIS, Bank Transfer, etc)
-        const channelMap: Record<string, string> = {
-          qris: "QRIS",
-          bank: "BRIVA",
-        };
-        const payment_channel = channelMap[paymentMethod] || "QRIS";
+        let payment_channel = "QRIS2";
+        if (paymentMethod === "bank") {
+          if (!bankChannel) {
+            showToast("Pilih bank terlebih dahulu!");
+            setIsOrdering(false);
+            return;
+          }
+          payment_channel = bankChannel;
+        }
 
         const res = await fetch("/api/orders/create-tripay", {
           method: "POST",
@@ -524,6 +542,29 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       onSelect={handleCryptoSelect}
                       selected={cryptoSelection}
                     />
+                  </div>
+                )}
+
+                {paymentMethod === "bank" && (
+                  <div className="mt-3">
+                    <p className="text-[11px] text-[#999] mb-2">Pilih Bank:</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {bankOptions.map((bank) => (
+                        <button
+                          key={bank.code}
+                          onClick={() => setBankChannel(bank.code)}
+                          className={`flex items-center gap-2 rounded-lg border p-2.5 text-left transition-all active:scale-[0.97] ${
+                            bankChannel === bank.code
+                              ? "border-[#d4af37] bg-[#d4af37]/10"
+                              : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555]"
+                          }`}
+                        >
+                          <span className="text-sm">{bank.icon}</span>
+                          <span className="text-[11px] font-medium text-white">{bank.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-[#666] mt-2">Fee: Rp 4.250 (BCA: Rp 5.500)</p>
                   </div>
                 )}
               </div>
