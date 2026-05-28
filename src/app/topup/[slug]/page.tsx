@@ -854,7 +854,15 @@ export default function TopUpPage({ params }: TopUpPageProps) {
               <div className="flex justify-between border-t border-[#2a2a2a] pt-2">
                 <span className="text-[#777]">Total</span>
                 <span className="text-[#d4af37] font-bold">
-                  {formatPrice(paymentMethod === "crypto" ? selectedDenom.price + 3000 : selectedDenom.price)}
+                  {formatPrice(
+                    paymentMethod === "crypto"
+                      ? selectedDenom.price + 3000
+                      : paymentMethod === "qris"
+                      ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
+                      : paymentMethod === "bank" && bankChannel
+                      ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                      : selectedDenom.price
+                  )}
                 </span>
               </div>
             </div>
