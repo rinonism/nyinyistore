@@ -555,13 +555,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                           onClick={() => setBankChannel(bank.code)}
                           className={`flex flex-col items-center justify-center gap-1.5 rounded-xl border p-3 transition-all active:scale-[0.95] ${
                             bankChannel === bank.code
-                              ? "border-[#d4af37] bg-[#d4af37]/10 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
-                              : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555] hover:bg-[#222]"
+                              ? "border-[#d4af37] bg-white shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+                              : "border-[#ddd] bg-white hover:border-[#d4af37]/50 hover:shadow-sm"
                           }`}
                         >
                           <img src={bank.logo} alt={bank.name} className="h-7 w-7 object-contain" />
-                          <span className="text-[10px] font-semibold text-white">{bank.name}</span>
-                          <span className={`text-[8px] ${bankChannel === bank.code ? "text-[#d4af37]" : "text-[#666]"}`}>
+                          <span className="text-[10px] font-semibold text-[#333]">{bank.name}</span>
+                          <span className={`text-[9px] font-medium ${bankChannel === bank.code ? "text-[#d4af37]" : "text-[#999]"}`}>
                             {bank.code === "BCAVA" ? "+Rp5.500" : "+Rp4.250"}
                           </span>
                         </button>
