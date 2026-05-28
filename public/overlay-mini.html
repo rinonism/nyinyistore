@@ -26,6 +26,8 @@
       border: 1.5px solid transparent;
       border-radius: 14px;
       padding: 10px 18px 10px 12px;
+      min-height: 58px;
+      min-width: 180px;
       animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 143, 143, 0.15);
       background-clip: padding-box;
@@ -60,6 +62,7 @@
       height: 38px;
       border-radius: 10px;
       animation: bounce 2s ease-in-out infinite;
+      flex-shrink: 0;
     }
 
     /* Live dot */
@@ -73,6 +76,7 @@
       border-radius: 50%;
       border: 2px solid #121212;
       animation: livePulse 1.5s ease-in-out infinite;
+      z-index: 2;
     }
 
     /* Sparkles */
@@ -84,6 +88,7 @@
       border-radius: 50%;
       opacity: 0;
       animation: sparkle 2.5s ease-in-out infinite;
+      z-index: 2;
     }
     .sparkle:nth-child(1) { top: -5px; left: 20%; animation-delay: 0s; }
     .sparkle:nth-child(2) { top: -8px; left: 50%; animation-delay: 0.8s; }
@@ -91,28 +96,35 @@
     .sparkle:nth-child(4) { bottom: -5px; left: 30%; animation-delay: 0.4s; }
     .sparkle:nth-child(5) { bottom: -7px; right: 30%; animation-delay: 1.2s; }
 
-    /* Scenes */
-    .scene {
+    /* Content wrapper */
+    .content-wrapper {
       display: flex;
       align-items: center;
       gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .text-area {
+      position: relative;
+      min-width: 130px;
+      height: 38px;
+    }
+
+    .scene {
       position: absolute;
-      top: 50%;
-      left: 12px;
-      right: 18px;
-      transform: translateY(-50%);
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
       opacity: 0;
       animation: sceneSwitch 6s ease-in-out infinite;
     }
 
     .scene-1 { animation-delay: 0s; }
     .scene-2 { animation-delay: 3s; }
-
-    .scene .text-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
 
     .store-name {
       font-family: 'Fredoka', sans-serif;
@@ -124,6 +136,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: textShine 3s linear infinite;
+      white-space: nowrap;
     }
 
     .tagline {
@@ -131,12 +144,14 @@
       font-size: 11px;
       color: #d4af37;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .website {
       font-family: 'Fredoka', sans-serif;
       font-size: 9px;
       color: #888;
+      white-space: nowrap;
     }
 
     @keyframes slideDown {
@@ -172,9 +187,9 @@
     }
 
     @keyframes sceneSwitch {
-      0%, 3% { opacity: 0; transform: translateY(-50%) scale(0.9); }
-      8%, 42% { opacity: 1; transform: translateY(-50%) scale(1); }
-      47%, 100% { opacity: 0; transform: translateY(-50%) scale(0.9); }
+      0%, 3% { opacity: 0; transform: translateY(6px); }
+      8%, 42% { opacity: 1; transform: translateY(0); }
+      47%, 100% { opacity: 0; transform: translateY(-6px); }
     }
   </style>
 </head>
@@ -187,20 +202,18 @@
     <div class="sparkle"></div>
     <div class="live-dot"></div>
 
-    <!-- Scene 1: Logo + NyinyiStore -->
-    <div class="scene scene-1">
+    <div class="content-wrapper">
       <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
-      <div class="text-content">
-        <div class="store-name">NyinyiStore</div>
-      </div>
-    </div>
-
-    <!-- Scene 2: Tagline + Website -->
-    <div class="scene scene-2">
-      <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
-      <div class="text-content">
-        <div class="tagline">⚡ Top Up Game Murah</div>
-        <div class="website">nyinyistore.com</div>
+      <div class="text-area">
+        <!-- Scene 1: NyinyiStore -->
+        <div class="scene scene-1">
+          <div class="store-name">NyinyiStore</div>
+        </div>
+        <!-- Scene 2: Tagline + Website -->
+        <div class="scene scene-2">
+          <div class="tagline">⚡ Top Up Game Murah</div>
+          <div class="website">nyinyistore.com</div>
+        </div>
       </div>
     </div>
   </div>
