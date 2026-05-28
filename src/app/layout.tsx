@@ -44,11 +44,20 @@ export const metadata: Metadata = {
     siteName: "NyinyiStore",
     type: "website",
     locale: "id_ID",
+    images: [
+      {
+        url: "https://nyinyistore.com/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "NyinyiStore - Top Up Game Termurah & Tercepat",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "NyinyiStore - Top Up Game Termurah & Tercepat",
     description: "Top up game favorit kamu dengan harga termurah. Proses cepat 1-3 detik.",
+    images: ["https://nyinyistore.com/opengraph-image"],
   },
   robots: {
     index: true,
