@@ -161,28 +161,37 @@ function OrderStatusContent() {
                 return (
                   <div className="relative flex items-start justify-between">
                     {/* Connector line background */}
-                    <div className="absolute top-[16px] left-[32px] right-[32px] h-[2px] bg-[#2a2a2a]" />
-                    {/* Connector line progress */}
+                    <div className="absolute top-[16px] left-[32px] right-[32px] h-[2px] bg-[#2a2a2a] rounded-full" />
+                    {/* Connector line progress - animated */}
                     {currentIdx > 0 && (
                       <div
-                        className="absolute top-[16px] left-[32px] h-[2px] bg-[#d4af37] transition-all duration-500"
+                        className="absolute top-[16px] left-[32px] h-[2px] rounded-full bg-gradient-to-r from-[#d4af37] to-[#f5d76e] transition-all duration-1000 ease-out"
+                        style={{ width: `${(currentIdx / (steps.length - 1)) * (100 - (64 / 3.6))}%` }}
+                      />
+                    )}
+                    {/* Shimmer on active progress line */}
+                    {currentIdx > 0 && currentIdx < steps.length - 1 && (
+                      <div
+                        className="absolute top-[15px] left-[32px] h-[4px] rounded-full opacity-30 animate-pulse bg-gradient-to-r from-transparent via-[#f5d76e] to-transparent transition-all duration-1000"
                         style={{ width: `${(currentIdx / (steps.length - 1)) * (100 - (64 / 3.6))}%` }}
                       />
                     )}
                     {steps.map((step, i) => (
                       <div key={step.key} className="relative z-10 flex flex-col items-center w-16">
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all ${
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-500 ${
                             isFailed
                               ? "bg-[#1a1a1a] border border-[#333] text-[#555]"
-                              : i <= currentIdx
+                              : i < currentIdx
                               ? "bg-[#d4af37] text-black shadow-md shadow-[#d4af37]/25"
+                              : i === currentIdx
+                              ? "bg-[#d4af37] text-black shadow-lg shadow-[#d4af37]/40 animate-pulse"
                               : "bg-[#1a1a1a] border border-[#333] text-[#555]"
                           }`}
                         >
                           {step.icon}
                         </div>
-                        <span className={`text-[9px] mt-1.5 text-center leading-tight font-medium ${
+                        <span className={`text-[9px] mt-1.5 text-center leading-tight font-medium transition-all duration-500 ${
                           isFailed
                             ? "text-[#555]"
                             : i <= currentIdx
