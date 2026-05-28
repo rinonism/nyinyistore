@@ -553,7 +553,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         <button
                           key={bank.code}
                           onClick={() => setBankChannel(bank.code)}
-                          className={`flex items-center gap-2 rounded-lg border p-2.5 text-left transition-all active:scale-[0.97] ${
+                          className={`relative flex items-center gap-2 rounded-lg border p-2.5 text-left transition-all active:scale-[0.97] ${
                             bankChannel === bank.code
                               ? "border-[#d4af37] bg-[#d4af37]/10"
                               : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555]"
@@ -561,6 +561,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         >
                           <img src={bank.logo} alt={bank.name} className="h-5 w-5 object-contain rounded" />
                           <span className="text-[11px] font-medium text-white">{bank.name}</span>
+                          <span className="absolute bottom-1 right-2 text-[8px] text-[#666]">
+                            {bank.code === "BCAVA" ? "+Rp5.500" : "+Rp4.250"}
+                          </span>
                         </button>
                       ))}
                     </div>
