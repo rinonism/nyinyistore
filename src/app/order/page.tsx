@@ -213,7 +213,7 @@ function OrderStatusContent() {
             {order.price_crypto && (
               <div className="flex justify-between items-center">
                 <span className="text-[11px] text-[#777]">Crypto</span>
-                <span className="text-xs text-white">{order.price_crypto} {order.crypto_token} ({order.crypto_chain})</span>
+                <span className="text-xs text-white">{order.price_crypto} {order.crypto_token.toUpperCase()} ({order.crypto_chain.toUpperCase()})</span>
               </div>
             )}
             <div className="border-t border-[#2a2a2a] pt-3 mt-3">
@@ -247,7 +247,7 @@ function OrderStatusContent() {
                     className="flex items-center gap-1.5 text-xs text-white font-mono font-semibold hover:text-[#d4af37] transition-colors"
                   >
                     <svg width="14" height="14" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#26A17B"/><path d="M17.9 17.1v-.002c-.1.008-1 .06-2.8.06-1.5 0-2.5-.045-2.8-.058v.002C9.1 16.8 7 16.3 7 15.7s2.1-1.1 5.3-1.3v2.1c.3.02 1.3.07 2.8.07 1.9 0 2.7-.06 2.8-.07v-2.1c3.2.2 5.3.7 5.3 1.3s-2.1 1.1-5.3 1.4zm0-2.8v-1.9h4.6v-3h-13v3h4.6v1.9C8.5 14.5 6 15.2 6 16s2.5 1.5 6.5 1.7v6.1h2.9v-6.1c4-.2 6.5-.9 6.5-1.7s-2.5-1.5-6.5-1.7z" fill="#fff"/></svg>
-                    {order.price_crypto} {order.crypto_token} ({order.crypto_chain})
+                    {order.price_crypto} {order.crypto_token.toUpperCase()} ({order.crypto_chain.toUpperCase()})
                     <span className="text-[9px]">{copiedAmount ? "✓" : "📋"}</span>
                   </button>
                 </div>
@@ -260,7 +260,7 @@ function OrderStatusContent() {
                       <QRCodeSVG value={order.payment_wallet} size={140} />
                     </div>
                   </div>
-                  <p className="text-[10px] text-[#999] mb-1 text-center">{order.crypto_token} ({order.crypto_chain})</p>
+                  <p className="text-[10px] text-[#999] mb-1 text-center">{order.crypto_token.toUpperCase()} ({order.crypto_chain.toUpperCase()})</p>
                   <button
                     onClick={() => { navigator.clipboard.writeText(order.payment_wallet); setCopiedWallet(true); setTimeout(() => setCopiedWallet(false), 2000); }}
                     className="w-full flex items-center justify-center gap-1.5 text-xs text-white font-mono break-all hover:text-[#d4af37] transition-colors text-center"
