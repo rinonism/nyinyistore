@@ -247,8 +247,9 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             setIsOrdering(false);
             return;
           }
-          if (selectedDenom!.price < 10000) {
-            showToast("Minimal pembelian Rp 10.000 untuk Minimarket");
+          const minAmount = storeChannel === "ALFAMIDI" ? 5000 : 10000;
+          if (selectedDenom!.price < minAmount) {
+            showToast(`Minimal pembelian ${formatPrice(minAmount)} untuk ${storeChannel === "ALFAMIDI" ? "Alfamidi" : "minimarket ini"}`);
             setIsOrdering(false);
             return;
           }
@@ -622,7 +623,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         </button>
                       ))}
                     </div>
-                    <p className="text-[10px] text-[#EF8F8F] mt-2">⚠️ Minimal pembelian Rp 10.000 untuk Minimarket</p>
+                    <p className="text-[10px] text-[#EF8F8F] mt-2">⚠️ Minimal pembelian Rp 10.000 (Alfamidi: Rp 5.000)</p>
                   </div>
                 )}
               </div>
