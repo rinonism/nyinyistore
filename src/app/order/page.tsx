@@ -275,7 +275,7 @@ function OrderStatusContent() {
                   <p className="text-[11px] text-[#d4af37] font-semibold mb-2">📖 Panduan Pembayaran</p>
                   <ol className="text-[10px] text-[#999] space-y-1.5 list-decimal list-inside">
                     <li>Copy alamat wallet atau scan QR code di atas</li>
-                    <li>Buka aplikasi wallet kamu (MetaMask, Trust Wallet, dll)</li>
+                    <li>Buka aplikasi wallet kamu ({order.crypto_chain.toLowerCase() === "solana" ? "Phantom, Solflare, dll" : "MetaMask, Trust Wallet, dll"})</li>
                     <li>Pastikan pilih network <span className="text-white font-semibold">{order.crypto_chain.toUpperCase()}</span></li>
                     <li>Kirim <span className="text-[#d4af37] font-semibold">{order.price_crypto} {order.crypto_token.toUpperCase()}</span> (nominal harus tepat)</li>
                     <li>Tunggu konfirmasi — status otomatis update dalam 1-3 menit</li>
