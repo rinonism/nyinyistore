@@ -82,15 +82,10 @@ export interface CreateTransactionParams {
 }
 
 // Config
-const TRIPAY_API_KEY = process.env.TRIPAY_API_KEY || "";
 const TRIPAY_PRIVATE_KEY = process.env.TRIPAY_PRIVATE_KEY || "";
 const TRIPAY_MERCHANT_CODE = process.env.TRIPAY_MERCHANT_CODE || "";
-const TRIPAY_MODE = process.env.TRIPAY_MODE || "sandbox";
-
-const BASE_URL =
-  TRIPAY_MODE === "production"
-    ? "https://tripay.co.id/api"
-    : "https://tripay.co.id/api-sandbox";
+const TRIPAY_PROXY_URL = process.env.TRIPAY_PROXY_URL || "http://43.153.204.244:3847/proxy";
+const TRIPAY_PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || "nys-tripay-proxy-2026-secret";
 
 /**
  * Generate HMAC SHA256 signature for Tripay
@@ -117,13 +112,13 @@ export function verifyCallbackSignature(jsonBody: string): string {
 }
 
 /**
- * Get available payment channels from Tripay
+ * Get available payment channels from Tripay (via proxy)
  */
 export async function getPaymentChannels(): Promise<TripayChannel[]> {
-  const response = await fetch(`${BASE_URL}/merchant/payment-channel`, {
+  const response = await fetch(`${TRIPAY_PROXY_URL}/merchant/payment-channel`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${TRIPAY_API_KEY}`,
+      "X-Proxy-Secret": TRIPAY_PROXY_SECRET,
     },
   });
 
@@ -137,7 +132,7 @@ export async function getPaymentChannels(): Promise<TripayChannel[]> {
 }
 
 /**
- * Create a closed payment transaction on Tripay
+ * Create a closed payment transaction on Tripay (via proxy)
  */
 export async function createTransaction(
   params: CreateTransactionParams
@@ -162,10 +157,10 @@ export async function createTransaction(
     signature,
   };
 
-  const response = await fetch(`${BASE_URL}/transaction/create`, {
+  const response = await fetch(`${TRIPAY_PROXY_URL}/transaction/create`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${TRIPAY_API_KEY}`,
+      "X-Proxy-Secret": TRIPAY_PROXY_SECRET,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -181,17 +176,17 @@ export async function createTransaction(
 }
 
 /**
- * Get transaction detail by reference
+ * Get transaction detail by reference (via proxy)
  */
 export async function getTransactionDetail(
   reference: string
 ): Promise<TripayTransaction> {
   const response = await fetch(
-    `${BASE_URL}/transaction/detail?reference=${reference}`,
+    `${TRIPAY_PROXY_URL}/transaction/detail?reference=${reference}`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${TRIPAY_API_KEY}`,
+        "X-Proxy-Secret": TRIPAY_PROXY_SECRET,
       },
     }
   );
