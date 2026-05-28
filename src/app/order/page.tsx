@@ -269,6 +269,21 @@ function OrderStatusContent() {
                     <span className="text-[9px] shrink-0">{copiedWallet ? "✓" : "📋"}</span>
                   </button>
                 </div>
+
+                {/* Panduan Pembayaran */}
+                <div className="rounded-lg bg-[#141414] border border-[#2a2a2a] p-3">
+                  <p className="text-[11px] text-[#d4af37] font-semibold mb-2">📖 Panduan Pembayaran</p>
+                  <ol className="text-[10px] text-[#999] space-y-1.5 list-decimal list-inside">
+                    <li>Copy alamat wallet atau scan QR code di atas</li>
+                    <li>Buka aplikasi wallet kamu (MetaMask, Trust Wallet, dll)</li>
+                    <li>Pastikan pilih network <span className="text-white font-semibold">{order.crypto_chain.toUpperCase()}</span></li>
+                    <li>Kirim <span className="text-[#d4af37] font-semibold">{order.price_crypto} {order.crypto_token.toUpperCase()}</span> (nominal harus tepat)</li>
+                    <li>Tunggu konfirmasi — status otomatis update dalam 1-3 menit</li>
+                  </ol>
+                  <div className="mt-2 pt-2 border-t border-[#2a2a2a]">
+                    <p className="text-[9px] text-red-400">⚠️ Kirim hanya {order.crypto_token.toUpperCase()} di network {order.crypto_chain.toUpperCase()}. Token atau network salah = dana hilang.</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
