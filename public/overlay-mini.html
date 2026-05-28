@@ -26,7 +26,7 @@
       border: 1.5px solid transparent;
       border-radius: 14px;
       padding: 10px 18px 10px 12px;
-      animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), float 4s ease-in-out infinite 1s;
+      animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 143, 143, 0.15);
       background-clip: padding-box;
       overflow: visible;
@@ -45,7 +45,7 @@
       opacity: 0.7;
     }
 
-    /* Inner bg to cover the gradient */
+    /* Inner bg */
     .overlay-container::after {
       content: '';
       position: absolute;
@@ -62,7 +62,53 @@
       animation: bounce 2s ease-in-out infinite;
     }
 
-    .text-content {
+    /* Live dot */
+    .live-dot {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      background: #4caf50;
+      border-radius: 50%;
+      border: 2px solid #121212;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #d4af37;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2.5s ease-in-out infinite;
+    }
+    .sparkle:nth-child(1) { top: -5px; left: 20%; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: -8px; left: 50%; animation-delay: 0.8s; }
+    .sparkle:nth-child(3) { top: -4px; right: 20%; animation-delay: 1.6s; }
+    .sparkle:nth-child(4) { bottom: -5px; left: 30%; animation-delay: 0.4s; }
+    .sparkle:nth-child(5) { bottom: -7px; right: 30%; animation-delay: 1.2s; }
+
+    /* Scenes */
+    .scene {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      right: 18px;
+      transform: translateY(-50%);
+      opacity: 0;
+      animation: sceneSwitch 6s ease-in-out infinite;
+    }
+
+    .scene-1 { animation-delay: 0s; }
+    .scene-2 { animation-delay: 3s; }
+
+    .scene .text-content {
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -82,80 +128,20 @@
 
     .tagline {
       font-family: 'Fredoka', sans-serif;
-      font-size: 10px;
+      font-size: 11px;
       color: #d4af37;
       font-weight: 600;
-      position: relative;
-      height: 14px;
-      overflow: hidden;
-    }
-
-    .tagline-text {
-      position: absolute;
-      top: 0;
-      left: 0;
-      white-space: nowrap;
-      animation: rotateText 12s ease-in-out infinite;
-      opacity: 0;
-    }
-
-    .tagline-text:nth-child(1) { animation-delay: 0s; }
-    .tagline-text:nth-child(2) { animation-delay: 3s; }
-    .tagline-text:nth-child(3) { animation-delay: 6s; }
-    .tagline-text:nth-child(4) { animation-delay: 9s; }
-
-    @keyframes rotateText {
-      0%, 2% { opacity: 0; transform: translateY(8px); }
-      5%, 20% { opacity: 1; transform: translateY(0); }
-      23%, 25% { opacity: 0; transform: translateY(-8px); }
-      100% { opacity: 0; transform: translateY(-8px); }
     }
 
     .website {
       font-family: 'Fredoka', sans-serif;
       font-size: 9px;
       color: #888;
-      margin-top: 1px;
     }
-
-    /* Live dot */
-    .live-dot {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      width: 8px;
-      height: 8px;
-      background: #4caf50;
-      border-radius: 50%;
-      border: 2px solid #121212;
-      animation: livePulse 1.5s ease-in-out infinite;
-    }
-
-    /* Sparkle particles */
-    .sparkle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #d4af37;
-      border-radius: 50%;
-      opacity: 0;
-      animation: sparkle 2.5s ease-in-out infinite;
-    }
-    .sparkle:nth-child(1) { top: -5px; left: 20%; animation-delay: 0s; }
-    .sparkle:nth-child(2) { top: -8px; left: 50%; animation-delay: 0.8s; }
-    .sparkle:nth-child(3) { top: -4px; right: 20%; animation-delay: 1.6s; }
-    .sparkle:nth-child(4) { bottom: -5px; left: 30%; animation-delay: 0.4s; }
-    .sparkle:nth-child(5) { bottom: -7px; right: 30%; animation-delay: 1.2s; }
 
     @keyframes slideDown {
       from { transform: translateY(-60px) scale(0.8); opacity: 0; }
       to { transform: translateY(0) scale(1); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-3px) rotate(0.5deg); }
-      75% { transform: translateY(3px) rotate(-0.5deg); }
     }
 
     @keyframes bounce {
@@ -175,11 +161,6 @@
       100% { background-position: 200% center; }
     }
 
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 1; }
-    }
-
     @keyframes livePulse {
       0%, 100% { transform: scale(1); box-shadow: 0 0 4px #4caf50; }
       50% { transform: scale(1.3); box-shadow: 0 0 10px #4caf50, 0 0 20px rgba(76, 175, 80, 0.3); }
@@ -188,6 +169,12 @@
     @keyframes sparkle {
       0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
       50% { opacity: 1; transform: scale(1) translateY(-8px); }
+    }
+
+    @keyframes sceneSwitch {
+      0%, 3% { opacity: 0; transform: translateY(-50%) scale(0.9); }
+      8%, 42% { opacity: 1; transform: translateY(-50%) scale(1); }
+      47%, 100% { opacity: 0; transform: translateY(-50%) scale(0.9); }
     }
   </style>
 </head>
@@ -199,16 +186,22 @@
     <div class="sparkle"></div>
     <div class="sparkle"></div>
     <div class="live-dot"></div>
-    <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
-    <div class="text-content">
-      <div class="store-name">NyinyiStore</div>
-      <div class="tagline">
-        <span class="tagline-text">⚡ Top Up Game Termurah</span>
-        <span class="tagline-text">🪙 Bayar Pakai Crypto</span>
-        <span class="tagline-text">💎 Diamond ML Mulai 3rb</span>
-        <span class="tagline-text">🔥 Proses Instan 1-3 Detik</span>
+
+    <!-- Scene 1: Logo + NyinyiStore -->
+    <div class="scene scene-1">
+      <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
+      <div class="text-content">
+        <div class="store-name">NyinyiStore</div>
       </div>
-      <div class="website">nyinyistore.com</div>
+    </div>
+
+    <!-- Scene 2: Tagline + Website -->
+    <div class="scene scene-2">
+      <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
+      <div class="text-content">
+        <div class="tagline">⚡ Top Up Game Murah</div>
+        <div class="website">nyinyistore.com</div>
+      </div>
     </div>
   </div>
 </body>
