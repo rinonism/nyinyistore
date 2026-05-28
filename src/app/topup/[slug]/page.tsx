@@ -133,13 +133,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   ];
 
   const bankOptions = [
-    { code: "BCAVA", name: "BCA", icon: "🏦" },
-    { code: "BRIVA", name: "BRI", icon: "🏦" },
-    { code: "BNIVA", name: "BNI", icon: "🏦" },
-    { code: "MANDIRIVA", name: "Mandiri", icon: "🏦" },
-    { code: "BSIVA", name: "BSI", icon: "🏦" },
-    { code: "CIMBVA", name: "CIMB Niaga", icon: "🏦" },
-    { code: "PERMATAVA", name: "Permata", icon: "🏦" },
+    { code: "BCAVA", name: "BCA", logo: "https://assets.tripay.co.id/upload/payment-icon/ytBKvaleGy1605201833.png" },
+    { code: "BRIVA", name: "BRI", logo: "https://assets.tripay.co.id/upload/payment-icon/8WQ3APST5s1579461828.png" },
+    { code: "BNIVA", name: "BNI", logo: "https://assets.tripay.co.id/upload/payment-icon/n22Qsh8jMa1583433577.png" },
+    { code: "MANDIRIVA", name: "Mandiri", logo: "https://assets.tripay.co.id/upload/payment-icon/T9Z012UE331583531536.png" },
+    { code: "BSIVA", name: "BSI", logo: "https://assets.tripay.co.id/upload/payment-icon/tEclz5Assb1643375216.png" },
+    { code: "CIMBVA", name: "CIMB Niaga", logo: "https://assets.tripay.co.id/upload/payment-icon/WtEJwfuphn1614003973.png" },
+    { code: "PERMATAVA", name: "Permata", logo: "https://assets.tripay.co.id/upload/payment-icon/szezRhAALB1583408731.png" },
   ];
 
   const handleCryptoSelect = (chain: ChainId, token: TokenId) => {
@@ -559,7 +559,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                               : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555]"
                           }`}
                         >
-                          <span className="text-sm">{bank.icon}</span>
+                          <img src={bank.logo} alt={bank.name} className="h-5 w-5 object-contain rounded" />
                           <span className="text-[11px] font-medium text-white">{bank.name}</span>
                         </button>
                       ))}
