@@ -29,6 +29,12 @@ export async function POST(req: NextRequest) {
     const order_id = generateOrderId();
     const expires_at = new Date(Date.now() + 30 * 60 * 1000).toISOString(); // 30 min expiry
 
+    // Generate unique crypto amount (add random 0.0001-0.0099 suffix)
+    const uniqueSuffix = Math.floor(Math.random() * 99 + 1) / 10000; // 0.0001 to 0.0099
+    const unique_price_crypto = price_crypto
+      ? Math.round((parseFloat(price_crypto) + uniqueSuffix) * 10000) / 10000
+      : null;
+
     const { data, error } = await supabase
       .from('orders')
       .insert({
@@ -38,7 +44,7 @@ export async function POST(req: NextRequest) {
         item_name,
         item_sku,
         price_idr,
-        price_crypto,
+        price_crypto: unique_price_crypto,
         crypto_token,
         crypto_chain,
         payment_wallet,
@@ -79,7 +85,7 @@ export async function POST(req: NextRequest) {
       order_id,
       expires_at,
       payment_wallet,
-      price_crypto,
+      price_crypto: unique_price_crypto,
       crypto_token,
       crypto_chain,
     });
