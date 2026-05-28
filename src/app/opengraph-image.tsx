@@ -10,21 +10,28 @@ export default async function Image() {
     (
       <div
         style={{
-          background: 'linear-gradient(135deg, #121212 0%, #1e1e1e 50%, #121212 100%)',
+          background: 'linear-gradient(135deg, #121212 0%, #1a1a1a 50%, #121212 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          fontFamily: 'sans-serif',
+          fontFamily: '"Fredoka", sans-serif',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-          <div style={{ fontSize: '64px' }}>🎮</div>
-          <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#EF8F8F' }}>NyinyiStore</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '28px' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://nyinyistore.com/logo-cat.png"
+            alt="NyinyiStore"
+            width="80"
+            height="80"
+            style={{ borderRadius: '16px' }}
+          />
+          <div style={{ fontSize: '52px', fontWeight: 'bold', color: '#EF8F8F', fontFamily: '"Fredoka", sans-serif' }}>NyinyiStore</div>
         </div>
-        <div style={{ fontSize: '28px', color: '#d4af37', fontWeight: 'bold', marginBottom: '16px' }}>
+        <div style={{ fontSize: '28px', color: '#d4af37', fontWeight: 'bold', marginBottom: '20px' }}>
           Top Up Game Termurah & Tercepat
         </div>
         <div style={{ fontSize: '18px', color: '#999', display: 'flex', gap: '24px' }}>
