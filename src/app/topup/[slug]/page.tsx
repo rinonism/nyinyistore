@@ -908,16 +908,31 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 <div className="min-w-0">
                   <p className="text-[11px] font-medium text-white truncate">{selectedDenom.label}</p>
                   <p className="text-[10px] text-[#d4af37] font-bold">
-                    {formatPrice(
-                      paymentMethod === "crypto"
-                        ? selectedDenom.price + 3000
-                        : paymentMethod === "qris"
-                        ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
-                        : paymentMethod === "bank" && bankChannel
-                        ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
-                        : paymentMethod === "store" && storeChannel
-                        ? selectedDenom.price + 3500
-                        : selectedDenom.price
+                    {formatPrice(selectedDenom.price)}
+                    {paymentMethod && (
+                      <span className="text-[#999] font-normal">
+                        {" + "}
+                        {paymentMethod === "crypto" && formatPrice(3000)}
+                        {paymentMethod === "qris" && formatPrice(Math.round(750 + selectedDenom.price * 0.007))}
+                        {paymentMethod === "bank" && bankChannel && formatPrice(bankChannel === "BCAVA" ? 5500 : 4250)}
+                        {paymentMethod === "store" && storeChannel && formatPrice(3500)}
+                        {" = "}
+                      </span>
+                    )}
+                    {paymentMethod && (
+                      <span className="text-[#d4af37]">
+                        {formatPrice(
+                          paymentMethod === "crypto"
+                            ? selectedDenom.price + 3000
+                            : paymentMethod === "qris"
+                            ? selectedDenom.price + Math.round(750 + selectedDenom.price * 0.007)
+                            : paymentMethod === "bank" && bankChannel
+                            ? selectedDenom.price + (bankChannel === "BCAVA" ? 5500 : 4250)
+                            : paymentMethod === "store" && storeChannel
+                            ? selectedDenom.price + 3500
+                            : selectedDenom.price
+                        )}
+                      </span>
                     )}
                   </p>
                 </div>
