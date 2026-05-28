@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NyinyiStore Overlay</title>
+  <title>NyinyiStore Overlay - Full</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,138 +16,109 @@
 
     .overlay-container {
       position: fixed;
-      bottom: 30px;
-      left: 30px;
+      bottom: 12px;
+      left: 12px;
       display: flex;
       align-items: center;
       gap: 14px;
-      background: rgba(18, 18, 18, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1.5px solid transparent;
-      border-radius: 16px;
-      padding: 14px 22px 14px 14px;
-      animation: slideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), float 4s ease-in-out infinite 1s;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 143, 143, 0.15);
-      background-clip: padding-box;
+      background: transparent;
+      border: none;
+      padding: 0;
       overflow: visible;
-    }
-
-    /* Animated gradient border */
-    .overlay-container::before {
-      content: '';
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      border-radius: 18px;
-      background: linear-gradient(270deg, #EF8F8F, #d4af37, #8b5cf6, #3b82f6, #10b981, #EF8F8F);
-      background-size: 400% 400%;
-      animation: borderRotate 4s linear infinite;
-      z-index: -1;
-      opacity: 0.75;
-    }
-
-    /* Inner bg */
-    .overlay-container::after {
-      content: '';
-      position: absolute;
-      top: 1.5px; left: 1.5px; right: 1.5px; bottom: 1.5px;
-      border-radius: 15px;
-      background: rgba(18, 18, 18, 0.95);
-      z-index: -1;
+      animation: slideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .logo {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      animation: bounce 2s ease-in-out infinite;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      animation: float 3s ease-in-out infinite;
+      flex-shrink: 0;
+      filter: drop-shadow(0 3px 10px rgba(239, 143, 143, 0.6));
     }
 
-    .text-content {
+    .text-area {
+      position: relative;
+      min-width: 200px;
+      height: 60px;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      justify-content: center;
+      height: 100%;
+      opacity: 0;
+      animation: sceneSwitch 8s ease-in-out infinite;
     }
+
+    .scene-1 { animation-delay: 0s; }
+    .scene-2 { animation-delay: 4s; }
 
     .store-name {
       font-family: 'Fredoka', sans-serif;
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 700;
-      background: linear-gradient(90deg, #EF8F8F, #f5c8c8, #EF8F8F);
+      background: linear-gradient(90deg, #EF8F8F, #fff, #EF8F8F);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: textShine 3s linear infinite;
+      animation: textShine 2.5s linear infinite;
+      white-space: nowrap;
+      filter: drop-shadow(0 2px 4px rgba(239, 143, 143, 0.7));
+    }
+
+    .store-sub {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 400;
+      white-space: nowrap;
+      letter-spacing: 1px;
     }
 
     .tagline {
       font-family: 'Fredoka', sans-serif;
-      font-size: 12px;
-      color: #d4af37;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      animation: fadeInOut 3s ease-in-out infinite;
+      font-size: 15px;
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      text-shadow: 0 2px 8px rgba(239, 143, 143, 0.8);
+    }
+
+    .subtitle {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 400;
+      white-space: nowrap;
+      text-align: center;
+      letter-spacing: 1px;
     }
 
     .website {
       font-family: 'Fredoka', sans-serif;
-      font-size: 10px;
-      color: #888;
-      margin-top: 1px;
+      font-size: 13px;
+      color: #EF8F8F;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+      text-align: center;
     }
-
-    /* Live dot */
-    .live-dot {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      width: 9px;
-      height: 9px;
-      background: #4caf50;
-      border-radius: 50%;
-      border: 2px solid #121212;
-      animation: livePulse 1.5s ease-in-out infinite;
-    }
-
-    /* Sparkle particles */
-    .sparkle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #d4af37;
-      border-radius: 50%;
-      opacity: 0;
-      animation: sparkle 2.5s ease-in-out infinite;
-    }
-    .sparkle:nth-child(1) { top: -6px; left: 15%; animation-delay: 0s; }
-    .sparkle:nth-child(2) { top: -8px; left: 40%; animation-delay: 0.6s; }
-    .sparkle:nth-child(3) { top: -5px; left: 65%; animation-delay: 1.2s; }
-    .sparkle:nth-child(4) { top: -7px; right: 15%; animation-delay: 1.8s; }
-    .sparkle:nth-child(5) { bottom: -6px; left: 20%; animation-delay: 0.3s; }
-    .sparkle:nth-child(6) { bottom: -7px; left: 50%; animation-delay: 0.9s; }
-    .sparkle:nth-child(7) { bottom: -5px; right: 20%; animation-delay: 1.5s; }
 
     @keyframes slideIn {
-      from { transform: translateX(-80px) scale(0.8); opacity: 0; }
+      from { transform: translateX(-60px) scale(0.8); opacity: 0; }
       to { transform: translateX(0) scale(1); opacity: 1; }
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-4px) rotate(0.5deg); }
-      75% { transform: translateY(4px) rotate(-0.5deg); }
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      25% { transform: scale(1.08) rotate(-3deg); }
-      50% { transform: scale(1) rotate(0deg); }
-      75% { transform: scale(1.06) rotate(3deg); }
-    }
-
-    @keyframes borderRotate {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 400% 50%; }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
     @keyframes textShine {
@@ -155,37 +126,28 @@
       100% { background-position: 200% center; }
     }
 
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes livePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 4px #4caf50; }
-      50% { transform: scale(1.4); box-shadow: 0 0 12px #4caf50, 0 0 24px rgba(76, 175, 80, 0.3); }
-    }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
-      50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
+    @keyframes sceneSwitch {
+      0%, 3% { opacity: 0; transform: translateY(5px); }
+      8%, 42% { opacity: 1; transform: translateY(0); }
+      47%, 100% { opacity: 0; transform: translateY(-5px); }
     }
   </style>
 </head>
 <body>
   <div class="overlay-container">
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="live-dot"></div>
     <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
-    <div class="text-content">
-      <div class="store-name">NyinyiStore</div>
-      <div class="tagline">⚡ Top Up Game Termurah</div>
-      <div class="website">nyinyistore.com</div>
+    <div class="text-area">
+      <!-- Scene 1: NyinyiStore -->
+      <div class="scene scene-1">
+        <div class="store-name">NyinyiStore</div>
+        <div class="store-sub">Game Top Up Store</div>
+      </div>
+      <!-- Scene 2: Tagline + On + Website -->
+      <div class="scene scene-2">
+        <div class="tagline">⚡️Top Up Game Murah⚡️</div>
+        <div class="subtitle">on 24/7</div>
+        <div class="website">Nyinyistore.com</div>
+      </div>
     </div>
   </div>
 </body>
