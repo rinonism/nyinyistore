@@ -465,11 +465,11 @@ export default function TopUpPage({ params }: TopUpPageProps) {
               </div>
               <div className="p-3 sm:p-4">
                 {/* Special Items section - only for ML passes/bundles */}
-                {game.denominations.some(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens")) && (
+                {game.denominations.some(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens") && !d.amount.includes("UC") && !d.amount.includes("VP")) && (
                   <div className="mb-4">
                     <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Spesial Item 🎁</p>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {game.denominations.filter(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens")).map((denom) => (
+                      {game.denominations.filter(d => !d.amount.includes("Diamonds") && !d.amount.includes("Crystals") && !d.amount.includes("Gems") && !d.amount.includes("Tokens") && !d.amount.includes("UC") && !d.amount.includes("VP")).map((denom) => (
                         <button
                           key={denom.amount}
                           onClick={() => handleSelectDenom(denom)}
@@ -498,7 +498,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 {/* Diamond/Crystal/Gems items */}
                 <p className="text-[11px] sm:text-xs font-semibold text-[#999] uppercase tracking-wider mb-2">Top Up Instan 🔥</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {game.denominations.filter(d => d.amount.includes("Diamonds") || d.amount.includes("Crystals") || d.amount.includes("Gems") || d.amount.includes("Tokens")).map((denom) => (
+                  {game.denominations.filter(d => d.amount.includes("Diamonds") || d.amount.includes("Crystals") || d.amount.includes("Gems") || d.amount.includes("Tokens") || d.amount.includes("UC") || d.amount.includes("VP")).map((denom) => (
                     <button
                       key={denom.amount}
                       onClick={() => handleSelectDenom(denom)}

@@ -41,7 +41,6 @@ export default function GameCard({ name, slug, image, developer, index = 0, comi
 
 function GameImage({ src, alt }: { src: string; alt: string }) {
   const [error, setError] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   if (error) {
     return (
@@ -52,16 +51,11 @@ function GameImage({ src, alt }: { src: string; alt: string }) {
   }
 
   return (
-    <>
-      {!loaded && <div className="h-full w-full animate-pulse bg-[#252525]" />}
-      <img
-        src={src}
-        alt={alt}
-        className={`h-full w-full object-cover transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
-      />
-    </>
+    <img
+      src={src}
+      alt={alt}
+      className="h-full w-full object-cover"
+      onError={() => setError(true)}
+    />
   );
 }
