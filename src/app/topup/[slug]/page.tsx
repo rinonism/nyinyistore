@@ -561,7 +561,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                         >
                           <img src={bank.logo} alt={bank.name} className="h-7 w-7 object-contain" />
                           <span className="text-[10px] font-semibold text-[#333]">{bank.name}</span>
-                          <span className={`text-[9px] font-medium ${bankChannel === bank.code ? "text-[#d4af37]" : "text-[#999]"}`}>
+                          <span className={`text-[9px] font-bold ${bankChannel === bank.code ? "text-[#d4af37]" : "text-[#666]"}`}>
                             {bank.code === "BCAVA" ? "+Rp5.500" : "+Rp4.250"}
                           </span>
                         </button>
