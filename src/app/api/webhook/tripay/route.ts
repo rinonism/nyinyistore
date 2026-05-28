@@ -1,94 +1,90 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as crypto from "crypto";
+import { createHmac } from "crypto";
 import { getSupabase } from "@/lib/supabase";
-import type { TripayCallback } from "@/lib/tripay";
 
 const TRIPAY_PRIVATE_KEY = process.env.TRIPAY_PRIVATE_KEY || "";
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
 
-/**
- * Tripay Webhook/Callback Handler
- * Tripay sends POST with JSON body when payment status changes
- */
+function verifySignature(payload: string, signature: string): boolean {
+  const hash = createHmac("sha256", TRIPAY_PRIVATE_KEY)
+    .update(payload)
+    .digest("hex");
+  return hash === signature;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();
+    const signature = request.headers.get("x-callback-signature") || "";
 
     // Verify signature
-    const callbackSignature = request.headers.get("x-callback-signature");
-    if (!callbackSignature) {
-      return NextResponse.json({ error: "Missing signature" }, { status: 400 });
-    }
-
-    const expectedSignature = crypto
-      .createHmac("sha256", TRIPAY_PRIVATE_KEY)
-      .update(rawBody)
-      .digest("hex");
-
-    if (callbackSignature !== expectedSignature) {
+    if (!verifySignature(rawBody, signature)) {
+      console.error("Webhook: Invalid signature");
       return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
     }
 
-    const callback: TripayCallback = JSON.parse(rawBody);
+    const body = JSON.parse(rawBody);
+    const { merchant_ref, status, reference, total_amount } = body;
+
+    if (!merchant_ref || !status) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
+
     const supabase = getSupabase();
 
-    // Find order by tripay reference or merchant_ref (order_id)
-    const { data: order, error: findError } = await supabase
+    // Map Tripay status to our status
+    let orderStatus = "pending";
+    if (status === "PAID") {
+      orderStatus = "paid";
+    } else if (status === "EXPIRED") {
+      orderStatus = "expired";
+    } else if (status === "FAILED") {
+      orderStatus = "failed";
+    } else if (status === "REFUND") {
+      orderStatus = "refunded";
+    }
+
+    // Update order status
+    const { data: order, error: fetchError } = await supabase
       .from("orders")
       .select("*")
-      .or(`tripay_reference.eq.${callback.reference},order_id.eq.${callback.merchant_ref}`)
+      .eq("order_id", merchant_ref)
       .single();
 
-    if (findError || !order) {
+    if (fetchError || !order) {
+      console.error("Webhook: Order not found:", merchant_ref);
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    // Update order based on callback status
-    let newStatus = order.status;
-    const updateData: Record<string, unknown> = {
-      updated_at: new Date().toISOString(),
-    };
-
-    switch (callback.status) {
-      case "PAID":
-        newStatus = "paid";
-        updateData.status = "paid";
-        updateData.paid_at = callback.paid_at || new Date().toISOString();
-        break;
-      case "EXPIRED":
-        newStatus = "expired";
-        updateData.status = "expired";
-        break;
-      case "FAILED":
-        newStatus = "failed";
-        updateData.status = "failed";
-        break;
-      case "REFUND":
-        newStatus = "failed";
-        updateData.status = "failed";
-        break;
-      default:
-        // UNPAID or unknown - no action
-        break;
+    // Only update if status actually changed
+    if (order.status === orderStatus) {
+      return NextResponse.json({ success: true, message: "No change" });
     }
 
-    // Update in Supabase
-    if (updateData.status) {
-      await supabase
-        .from("orders")
-        .update(updateData)
-        .eq("order_id", order.order_id);
+    const { error: updateError } = await supabase
+      .from("orders")
+      .update({
+        status: orderStatus,
+        paid_at: status === "PAID" ? new Date().toISOString() : null,
+      })
+      .eq("order_id", merchant_ref);
+
+    if (updateError) {
+      console.error("Webhook: Update failed:", updateError);
+      return NextResponse.json({ error: "Update failed" }, { status: 500 });
     }
 
-    // If paid, send Telegram notification
-    if (callback.status === "PAID") {
+    // Send Telegram notification for payment
+    if (status === "PAID") {
       try {
-        const msg = `✅ *Pembayaran Diterima!*\n\n📋 Order: \`${order.order_id}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n💰 Rp ${order.price_idr?.toLocaleString("id-ID")}\n💳 ${order.payment_channel} (Tripay)\n\nStatus: ✅ Paid → Siap fulfill`;
+        const msg = `✅ *Pembayaran Diterima!*\n\n📋 Order: \`${merchant_ref}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n💰 Rp ${(total_amount || order.price_idr).toLocaleString("id-ID")}\n👤 ID: ${order.user_game_id}${order.user_server_id ? ` (${order.user_server_id})` : ""}\n💳 ${order.payment_channel}\n🔗 Ref: ${reference}\n\nStatus: ✅ PAID — Siap diproses`;
 
-        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            chat_id: process.env.TELEGRAM_CHAT_ID,
+            chat_id: TELEGRAM_CHAT_ID,
             text: msg,
             parse_mode: "Markdown",
           }),
@@ -98,11 +94,29 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true });
+    if (status === "EXPIRED") {
+      try {
+        const msg = `⏰ *Order Expired*\n\n📋 Order: \`${merchant_ref}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n\nCustomer tidak bayar dalam waktu yang ditentukan.`;
+
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: msg,
+            parse_mode: "Markdown",
+          }),
+        });
+      } catch (e) {
+        console.error("Telegram notification failed:", e);
+      }
+    }
+
+    return NextResponse.json({ success: true, status: orderStatus });
   } catch (error) {
-    console.error("Tripay webhook error:", error);
+    console.error("Webhook error:", error);
     return NextResponse.json(
-      { error: "Webhook processing failed" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
