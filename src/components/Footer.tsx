@@ -62,7 +62,7 @@ export default function Footer() {
                   key={token}
                   className="inline-flex items-center gap-1 rounded-lg border border-[#2a2a2a] bg-[#1e1e1e] px-2.5 py-1.5 text-[10px] font-medium text-[#b0b0b0]"
                 >
-                  {token}
+                  {token} <span className="text-[8px] text-[#555]">(ERC20 / BEP20 / Base / Arbitrum / Solana)</span>
                 </span>
               ))}
             </div>
@@ -76,9 +76,26 @@ export default function Footer() {
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-[10px] text-[#555]">
-              QRIS, Bank Transfer & Minimarket
-            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {["QRIS", "BCA", "BRI", "BNI", "Mandiri", "BSI", "CIMB", "Permata"].map((method) => (
+                <span
+                  key={method}
+                  className="inline-flex items-center rounded-lg border border-[#2a2a2a] bg-[#1e1e1e] px-2.5 py-1.5 text-[10px] font-medium text-[#b0b0b0]"
+                >
+                  {method}
+                </span>
+              ))}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Indomaret", "Alfamart", "Alfamidi"].map((store) => (
+                <span
+                  key={store}
+                  className="inline-flex items-center rounded-lg border border-[#2a2a2a] bg-[#1e1e1e] px-2.5 py-1.5 text-[10px] font-medium text-[#b0b0b0]"
+                >
+                  {store}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
