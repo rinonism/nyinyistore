@@ -20,6 +20,8 @@ interface Order {
   paid_at: string | null;
   completed_at: string | null;
   expires_at: string;
+  digiflazz_sn: string | null;
+  game_slug: string;
 }
 
 const statusMap: Record<string, { label: string; color: string; icon: string; bg: string }> = {
@@ -325,6 +327,99 @@ function OrderStatusContent() {
                 <div className="mt-3 pt-2.5 border-t border-[#222]">
                   <p className="text-[9px] text-red-400/80">⚠️ Kirim hanya {order.crypto_token.toUpperCase()} di network {order.crypto_chain.toUpperCase()}. Token atau network salah = dana hilang.</p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Completed Section */}
+          {order.status === "completed" && (
+            <div className="rounded-2xl border border-green-500/20 bg-gradient-to-b from-green-500/5 to-[#1e1e1e] p-5 space-y-4">
+              {/* Confetti header */}
+              <div className="text-center">
+                <div className="text-3xl mb-1 animate-bounce">🎊</div>
+                <p className="text-sm font-bold text-[#4caf50]">Transaksi Berhasil!</p>
+                <p className="text-[10px] text-[#888] mt-1">Diamond sudah masuk ke akun kamu</p>
+              </div>
+
+              {/* Serial Number / Voucher */}
+              {order.digiflazz_sn && (
+                <div className="bg-[#141414] rounded-xl px-4 py-3 border border-green-500/20">
+                  <p className="text-[9px] text-[#666] uppercase tracking-wider mb-1">Serial Number</p>
+                  <p className="text-xs text-white font-mono font-semibold">{order.digiflazz_sn}</p>
+                </div>
+              )}
+
+              {/* Receipt summary */}
+              <div className="bg-[#141414] rounded-xl p-4 border border-[#2a2a2a] space-y-2">
+                <p className="text-[9px] text-[#666] uppercase tracking-wider mb-2">Bukti Transaksi</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] text-[#888]">Game</span>
+                  <span className="text-[10px] text-white">{order.game_name}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] text-[#888]">Item</span>
+                  <span className="text-[10px] text-white">{order.item_name}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] text-[#888]">User ID</span>
+                  <span className="text-[10px] text-white font-mono">{order.user_game_id}{order.user_server_id ? ` (${order.user_server_id})` : ""}</span>
+                </div>
+                <div className="h-px bg-[#2a2a2a]" />
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] text-[#888]">Total</span>
+                  <span className="text-xs text-[#4caf50] font-bold">{formatPrice(order.price_idr)}</span>
+                </div>
+                {order.completed_at && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] text-[#888]">Waktu</span>
+                    <span className="text-[10px] text-[#999]">{formatDate(order.completed_at)}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex gap-3">
+                <a
+                  href={`/topup/${order.game_slug}`}
+                  className="flex-1 text-center bg-[#d4af37] hover:bg-[#e6c04a] text-black text-xs font-bold py-3 rounded-xl transition-colors"
+                >
+                  🔄 Order Lagi
+                </a>
+                <a
+                  href="/"
+                  className="flex-1 text-center bg-[#2a2a2a] hover:bg-[#333] text-white text-xs font-medium py-3 rounded-xl transition-colors"
+                >
+                  🏠 Beranda
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Failed/Expired Section */}
+          {(order.status === "failed" || order.status === "expired") && (
+            <div className="rounded-2xl border border-red-500/20 bg-gradient-to-b from-red-500/5 to-[#1e1e1e] p-5 space-y-4">
+              <div className="text-center">
+                <div className="text-3xl mb-1">😔</div>
+                <p className="text-sm font-bold text-red-400">
+                  {order.status === "expired" ? "Order Expired" : "Transaksi Gagal"}
+                </p>
+                <p className="text-[10px] text-[#888] mt-1">
+                  {order.status === "expired" ? "Waktu pembayaran sudah habis" : "Terjadi kesalahan saat memproses order"}
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <a
+                  href={`/topup/${order.game_slug}`}
+                  className="flex-1 text-center bg-[#d4af37] hover:bg-[#e6c04a] text-black text-xs font-bold py-3 rounded-xl transition-colors"
+                >
+                  🔄 Coba Lagi
+                </a>
+                <a
+                  href="/"
+                  className="flex-1 text-center bg-[#2a2a2a] hover:bg-[#333] text-white text-xs font-medium py-3 rounded-xl transition-colors"
+                >
+                  🏠 Beranda
+                </a>
               </div>
             </div>
           )}
