@@ -84,9 +84,11 @@ export default function Footer() {
           <p className="text-[11px] text-[#555]">
             © 2024 NyinyiStore. All rights reserved.
           </p>
-          <p className="text-[10px] text-[#444]">
-            Proses otomatis 24/7 • Harga termurah se-Indonesia
-          </p>
+          <div className="flex gap-3 text-[10px] text-[#555]">
+            <a href="/tentang-kami" className="hover:text-white transition-colors">Tentang Kami</a>
+            <a href="/kebijakan-privasi" className="hover:text-white transition-colors">Kebijakan Privasi</a>
+            <a href="/ketentuan-layanan" className="hover:text-white transition-colors">Ketentuan Layanan</a>
+          </div>
         </div>
       </div>
     </footer>
