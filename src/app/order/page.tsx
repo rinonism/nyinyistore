@@ -43,7 +43,7 @@ function OrderStatusContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [countdown, setCountdown] = useState("");
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   const copyOrderId = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -58,16 +58,8 @@ function OrderStatusContent() {
     const updateCountdown = () => {
       const now = new Date().getTime();
       const expires = new Date(order.expires_at).getTime();
-      const diff = expires - now;
-
-      if (diff <= 0) {
-        setCountdown("Expired");
-        return;
-      }
-
-      const minutes = Math.floor(diff / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-      setCountdown(`${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`);
+      const diff = Math.floor((expires - now) / 1000);
+      setTimeLeft(diff);
     };
 
     updateCountdown();
@@ -129,6 +121,11 @@ function OrderStatusContent() {
           <div className="border-b border-[#2a2a2a] bg-[#252525] px-4 py-3 text-center">
             <p className="text-2xl mb-1">{status.icon}</p>
             <p className="text-sm font-semibold" style={{ color: status.color }}>{status.label}</p>
+            {order.status === "pending" && timeLeft !== null && (
+              <p className={`text-xs mt-1.5 font-mono ${timeLeft <= 300 ? "text-red-400" : "text-[#999]"}`}>
+                {timeLeft <= 0 ? "Expired" : `${Math.floor(timeLeft / 60).toString().padStart(2, "0")}:${(timeLeft % 60).toString().padStart(2, "0")}`}
+              </p>
+            )}
           </div>
 
           {/* Progress Bar */}
@@ -233,14 +230,7 @@ function OrderStatusContent() {
                   <span className="text-[11px] text-[#4caf50]">{formatDate(order.completed_at)}</span>
                 </div>
               )}
-              {order.status === "pending" && (
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-[11px] text-[#777]">Sisa Waktu</span>
-                  <span className={`text-[11px] font-mono font-semibold ${countdown === "Expired" ? "text-red-400" : "text-[#f59e0b]"}`}>
-                    {countdown || "..."}
-                  </span>
-                </div>
-              )}
+
             </div>
 
             {/* Payment Info for pending */}
