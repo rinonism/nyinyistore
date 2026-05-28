@@ -77,7 +77,7 @@ export default function Footer() {
               ))}
             </div>
             <p className="mt-3 text-[10px] text-[#555]">
-              QRIS & Bank Transfer — segera hadir
+              QRIS, Bank Transfer & Minimarket
             </p>
           </div>
         </div>

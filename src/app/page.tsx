@@ -9,7 +9,7 @@ const faqData = [
   },
   {
     q: "Metode pembayaran apa saja yang tersedia?",
-    a: "Kami menerima pembayaran via Crypto (USDT, USDC di Ethereum, BSC, Base, Arbitrum, Solana). Pembayaran QRIS dan Bank Transfer segera hadir.",
+    a: "Kami menerima pembayaran via Crypto (USDT, USDC di Ethereum, BSC, Base, Arbitrum, Solana), QRIS (semua e-wallet & bank), Bank Transfer (BCA, BRI, BNI, Mandiri, BSI, CIMB Niaga, Permata), dan Minimarket (Indomaret, Alfamart, Alfamidi).",
   },
   {
     q: "Berapa lama proses top up?",
@@ -55,7 +55,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Populer Sekarang Section */}
+      {/* Populer Sekarang Section - only available games */}
       <section className="mx-auto max-w-[1200px] px-3 sm:px-4 py-4 sm:py-6">
         <h2 className="mb-1 text-sm sm:text-base font-bold text-white flex items-center gap-2">
           <span>🔥</span> POPULER SEKARANG!
@@ -64,7 +64,7 @@ export default function HomePage() {
           Berikut adalah beberapa produk yang paling populer saat ini.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {games.map((game, i) => (
+          {games.filter((game) => !game.denominations.every((d) => d.comingSoon)).map((game, i) => (
             <GameCard
               key={game.slug}
               name={game.name}
@@ -72,7 +72,29 @@ export default function HomePage() {
               image={game.image}
               developer={game.developer}
               index={i}
-              comingSoon={game.denominations.every((d) => d.comingSoon)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Coming Soon Section */}
+      <section className="mx-auto max-w-[1200px] px-3 sm:px-4 py-4 sm:py-6">
+        <h2 className="mb-1 text-sm sm:text-base font-bold text-white flex items-center gap-2">
+          <span>🕐</span> SEGERA HADIR
+        </h2>
+        <p className="mb-3 sm:mb-4 text-xs text-[#777]">
+          Game-game berikut sedang dalam proses integrasi.
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {games.filter((game) => game.denominations.every((d) => d.comingSoon)).map((game, i) => (
+            <GameCard
+              key={game.slug}
+              name={game.name}
+              slug={game.slug}
+              image={game.image}
+              developer={game.developer}
+              index={i}
+              comingSoon
             />
           ))}
         </div>
