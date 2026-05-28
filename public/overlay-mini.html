@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NyinyiStore Overlay - Top Right</title>
+  <title>NyinyiStore Overlay - Mini</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,32 +21,63 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(18, 18, 18, 0.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(239, 143, 143, 0.3);
+      background: rgba(18, 18, 18, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid transparent;
       border-radius: 14px;
-      padding: 10px 16px 10px 12px;
-      animation: slideDown 0.6s ease-out, glow 2.5s ease-in-out infinite;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(239, 143, 143, 0.1);
+      padding: 10px 18px 10px 12px;
+      animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), float 4s ease-in-out infinite 1s;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 143, 143, 0.15);
+      background-clip: padding-box;
+      overflow: visible;
+    }
+
+    /* Animated gradient border */
+    .overlay-container::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      border-radius: 16px;
+      background: linear-gradient(270deg, #EF8F8F, #d4af37, #8b5cf6, #3b82f6, #EF8F8F);
+      background-size: 400% 400%;
+      animation: borderRotate 4s linear infinite;
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    /* Inner bg to cover the gradient */
+    .overlay-container::after {
+      content: '';
+      position: absolute;
+      top: 1.5px; left: 1.5px; right: 1.5px; bottom: 1.5px;
+      border-radius: 13px;
+      background: rgba(18, 18, 18, 0.95);
+      z-index: -1;
     }
 
     .logo {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
+      animation: bounce 2s ease-in-out infinite;
     }
 
     .text-content {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      gap: 2px;
     }
 
     .store-name {
       font-family: 'Fredoka', sans-serif;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
-      color: #EF8F8F;
+      background: linear-gradient(90deg, #EF8F8F, #f5b8b8, #EF8F8F);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textShine 3s linear infinite;
     }
 
     .website {
@@ -54,21 +85,90 @@
       font-size: 10px;
       color: #d4af37;
       font-weight: 600;
+      animation: fadeInOut 3s ease-in-out infinite;
     }
+
+    /* Live dot */
+    .live-dot {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      background: #4caf50;
+      border-radius: 50%;
+      border: 2px solid #121212;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    /* Sparkle particles */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #d4af37;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2.5s ease-in-out infinite;
+    }
+    .sparkle:nth-child(1) { top: -5px; left: 20%; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: -8px; left: 50%; animation-delay: 0.8s; }
+    .sparkle:nth-child(3) { top: -4px; right: 20%; animation-delay: 1.6s; }
+    .sparkle:nth-child(4) { bottom: -5px; left: 30%; animation-delay: 0.4s; }
+    .sparkle:nth-child(5) { bottom: -7px; right: 30%; animation-delay: 1.2s; }
 
     @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from { transform: translateY(-60px) scale(0.8); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
     }
 
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(239, 143, 143, 0.1); }
-      50% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 143, 143, 0.25); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-3px) rotate(0.5deg); }
+      75% { transform: translateY(3px) rotate(-0.5deg); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.08) rotate(-3deg); }
+      50% { transform: scale(1) rotate(0deg); }
+      75% { transform: scale(1.05) rotate(3deg); }
+    }
+
+    @keyframes borderRotate {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 400% 50%; }
+    }
+
+    @keyframes textShine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes livePulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 4px #4caf50; }
+      50% { transform: scale(1.3); box-shadow: 0 0 10px #4caf50, 0 0 20px rgba(76, 175, 80, 0.3); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
+      50% { opacity: 1; transform: scale(1) translateY(-8px); }
     }
   </style>
 </head>
 <body>
   <div class="overlay-container">
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="live-dot"></div>
     <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
     <div class="text-content">
       <div class="store-name">NyinyiStore</div>
