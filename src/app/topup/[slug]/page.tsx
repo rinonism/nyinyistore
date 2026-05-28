@@ -548,26 +548,25 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                 {paymentMethod === "bank" && (
                   <div className="mt-3">
                     <p className="text-[11px] text-[#999] mb-2">Pilih Bank:</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                       {bankOptions.map((bank) => (
                         <button
                           key={bank.code}
                           onClick={() => setBankChannel(bank.code)}
-                          className={`relative flex items-center gap-2 rounded-lg border p-2.5 text-left transition-all active:scale-[0.97] ${
+                          className={`flex flex-col items-center justify-center gap-1.5 rounded-xl border p-3 transition-all active:scale-[0.95] ${
                             bankChannel === bank.code
-                              ? "border-[#d4af37] bg-[#d4af37]/10"
-                              : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555]"
+                              ? "border-[#d4af37] bg-[#d4af37]/10 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
+                              : "border-[#3a3a3a] bg-[#1a1a1a] hover:border-[#555] hover:bg-[#222]"
                           }`}
                         >
-                          <img src={bank.logo} alt={bank.name} className="h-5 w-5 object-contain rounded" />
-                          <span className="text-[11px] font-medium text-white">{bank.name}</span>
-                          <span className="absolute bottom-1 right-2 text-[8px] text-[#666]">
+                          <img src={bank.logo} alt={bank.name} className="h-7 w-7 object-contain" />
+                          <span className="text-[10px] font-semibold text-white">{bank.name}</span>
+                          <span className={`text-[8px] ${bankChannel === bank.code ? "text-[#d4af37]" : "text-[#666]"}`}>
                             {bank.code === "BCAVA" ? "+Rp5.500" : "+Rp4.250"}
                           </span>
                         </button>
                       ))}
                     </div>
-                    <p className="text-[10px] text-[#666] mt-2">Fee: Rp 4.250 (BCA: Rp 5.500)</p>
                   </div>
                 )}
               </div>
