@@ -66,16 +66,6 @@ export default function Footer() {
                 </span>
               ))}
             </div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {["Ethereum", "BSC", "Base", "Arbitrum", "Solana"].map((chain) => (
-                <span
-                  key={chain}
-                  className="inline-flex items-center rounded-md border border-[#2a2a2a] bg-[#151515] px-2 py-1 text-[9px] text-[#555]"
-                >
-                  {chain}
-                </span>
-              ))}
-            </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {["QRIS", "BCA", "BRI", "BNI", "Mandiri", "BSI", "CIMB", "Permata"].map((method) => (
                 <span
