@@ -1,6 +1,5 @@
 import GameCard from "@/components/GameCard";
 import BannerCarousel from "@/components/BannerCarousel";
-import Footer from "@/components/Footer";
 import { games } from "@/lib/games";
 
 const faqData = [
@@ -98,8 +97,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      <Footer />
 
       {/* Floating WhatsApp CS Button */}
       <div className="fixed bottom-6 right-6 z-50">
