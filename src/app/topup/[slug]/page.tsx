@@ -242,6 +242,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             user_server_id: serverId || game.region || undefined,
             phone,
             email,
+            nickname: nickname || undefined,
           }),
         });
 
@@ -297,6 +298,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
             phone,
             email,
             payment_channel,
+            nickname: nickname || undefined,
           }),
         });
 

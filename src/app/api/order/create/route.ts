@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
       user_server_id,
       phone,
       email,
+      nickname,
     } = body;
 
     // Validate required fields
@@ -77,6 +78,7 @@ export async function POST(req: NextRequest) {
         user_server_id,
         phone,
         email,
+        nickname: nickname || null,
         status: 'pending',
         expires_at,
       })

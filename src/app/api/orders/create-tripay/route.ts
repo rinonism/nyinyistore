@@ -6,7 +6,7 @@ import { getSupabase, generateOrderId } from "@/lib/supabase";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { game_slug, game_name, item_name, item_sku, price_idr, user_game_id, user_server_id, phone, email, payment_channel } = body;
+    const { game_slug, game_name, item_name, item_sku, price_idr, user_game_id, user_server_id, phone, email, payment_channel, nickname } = body;
 
     // Validate required fields
     if (!game_slug || !item_name || !price_idr || !user_game_id || !payment_channel) {
@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
         user_server_id: user_server_id || null,
         phone: phone || null,
         email: email || null,
+        nickname: nickname || null,
         status: "pending",
         payment_method: "tripay",
         payment_channel,
