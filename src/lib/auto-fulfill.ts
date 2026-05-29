@@ -88,10 +88,7 @@ export async function autoFulfillOrder(orderId: string): Promise<{
 
     // Update order with Digiflazz response
     const updateData: Record<string, unknown> = {
-      digiflazz_ref_id: orderId,
-      digiflazz_status: transaction.status,
-      digiflazz_message: transaction.message,
-      digiflazz_sn: transaction.sn || null,
+      digiflazz_ref: orderId,
       updated_at: new Date().toISOString(),
     };
 
@@ -121,7 +118,6 @@ export async function autoFulfillOrder(orderId: string): Promise<{
       .from("orders")
       .update({
         status: "paid", // Revert to paid so it can be retried
-        digiflazz_message: `Auto-fulfill failed: ${errMsg}`,
         updated_at: new Date().toISOString(),
       })
       .eq("order_id", orderId);
