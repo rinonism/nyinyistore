@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac } from "crypto";
 import { getSupabase } from "@/lib/supabase";
+import { autoFulfillOrder } from "@/lib/auto-fulfill";
 
 const TRIPAY_PRIVATE_KEY = process.env.TRIPAY_PRIVATE_KEY || "";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
     // Send Telegram notification for payment
     if (status === "PAID") {
       try {
-        const msg = `✅ *Pembayaran Diterima!*\n\n📋 Order: \`${merchant_ref}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n💰 Rp ${(total_amount || order.price_idr).toLocaleString("id-ID")}\n👤 ID: ${order.user_game_id}${order.user_server_id ? ` (${order.user_server_id})` : ""}\n💳 ${order.payment_channel}\n🔗 Ref: ${reference}\n\nStatus: ✅ PAID — Siap diproses`;
+        const msg = `✅ *Pembayaran Diterima!*\n\n📋 Order: \`${merchant_ref}\`\n🎮 ${order.game_name}\n💎 ${order.item_name}\n💰 Rp ${(total_amount || order.price_idr).toLocaleString("id-ID")}\n👤 ID: ${order.user_game_id}${order.user_server_id ? ` (${order.user_server_id})` : ""}\n💳 ${order.payment_channel}\n🔗 Ref: ${reference}\n\nStatus: ✅ PAID — Auto-fulfilling...`;
 
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: "POST",
@@ -91,6 +92,13 @@ export async function POST(request: NextRequest) {
         });
       } catch (e) {
         console.error("Telegram notification failed:", e);
+      }
+
+      // Auto-fulfill order via Digiflazz
+      try {
+        await autoFulfillOrder(merchant_ref);
+      } catch (e) {
+        console.error("Auto-fulfill error:", e);
       }
     }
 
