@@ -92,7 +92,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-8 border-t border-[#2a2a2a] pt-6 text-center">
           <p className="text-[11px] text-[#555]">
-            © 2024 NyinyiStore. All rights reserved.
+            © 2026 NyinyiStore. All rights reserved.
           </p>
         </div>
       </div>
