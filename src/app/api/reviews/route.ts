@@ -1,6 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const game_slug = searchParams.get("game_slug");
+    const limit = Math.min(parseInt(searchParams.get("limit") || "10"), 20);
+
+    const supabase = getSupabase();
+    let query = supabase
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (game_slug) {
+      query = query.eq("game_slug", game_slug);
+    }
+
+    const { data: reviews, error } = await query;
+
+    if (error) {
+      return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
+    }
+
+    return NextResponse.json({ reviews: reviews || [] });
+  } catch {
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { order_id, game_slug, rating, review } = await req.json();

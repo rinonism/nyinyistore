@@ -52,6 +52,11 @@ function OrderStatusContent() {
   const [copiedWallet, setCopiedWallet] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [verifying, setVerifying] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviews, setReviews] = useState<{rating: number; review: string; created_at: string; game_slug: string}[]>([]);
 
   const copyToClipboard = (text: string, setter: (v: boolean) => void) => {
     navigator.clipboard.writeText(text);
@@ -72,7 +77,6 @@ function OrderStatusContent() {
       if (data.status && data.status !== "pending") {
         setOrder({ ...order, status: data.status });
       } else if (data.status === "pending") {
-        // Still pending, show message
         alert("Pembayaran belum terdeteksi. Pastikan kamu sudah mengirim dengan nominal dan network yang tepat.");
       }
     } catch {
@@ -80,6 +84,48 @@ function OrderStatusContent() {
     } finally {
       setVerifying(false);
     }
+  };
+
+  const submitReview = async () => {
+    if (!order || reviewRating === 0 || reviewSubmitting) return;
+    setReviewSubmitting(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order_id: order.order_id,
+          game_slug: order.game_slug,
+          rating: reviewRating,
+          review: reviewText,
+        }),
+      });
+      if (res.ok) {
+        setReviewSubmitted(true);
+        fetchReviews(order.game_slug);
+      } else {
+        const data = await res.json();
+        if (data.error === "Review already submitted") {
+          setReviewSubmitted(true);
+        } else {
+          alert("Gagal mengirim review. Coba lagi.");
+        }
+      }
+    } catch {
+      alert("Gagal mengirim review.");
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
+  const fetchReviews = async (gameSlug: string) => {
+    try {
+      const res = await fetch(`/api/reviews?game_slug=${encodeURIComponent(gameSlug)}&limit=5`);
+      if (res.ok) {
+        const data = await res.json();
+        setReviews(data.reviews || []);
+      }
+    } catch {}
   };
 
   // Countdown timer
@@ -146,6 +192,13 @@ function OrderStatusContent() {
 
     return () => clearInterval(interval);
   }, [order?.status, order?.order_id]);
+
+  // Fetch reviews when order is completed
+  useEffect(() => {
+    if (order?.status === "completed" && order.game_slug) {
+      fetchReviews(order.game_slug);
+    }
+  }, [order?.status, order?.game_slug]);
 
   const formatPrice = (price: number) => `Rp ${price.toLocaleString("id-ID")}`;
   const formatDate = (date: string) => new Date(date).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
@@ -442,6 +495,68 @@ function OrderStatusContent() {
                   🏠 Beranda
                 </a>
               </div>
+
+              {/* Review Form */}
+              {!reviewSubmitted ? (
+                <div className="bg-[#141414] rounded-xl p-4 border border-[#2a2a2a] space-y-3">
+                  <p className="text-[10px] uppercase tracking-wider text-[#666] font-semibold">Beri Rating</p>
+                  <div className="flex gap-1 justify-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        onClick={() => setReviewRating(star)}
+                        className={`text-2xl transition-transform hover:scale-110 ${
+                          star <= reviewRating ? "opacity-100" : "opacity-30"
+                        }`}
+                      >
+                        ⭐
+                      </button>
+                    ))}
+                  </div>
+                  <textarea
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    placeholder="Tulis review (opsional)..."
+                    maxLength={500}
+                    className="w-full bg-[#0d0d0d] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-white placeholder-[#555] resize-none h-16 focus:outline-none focus:border-[#d4af37]"
+                  />
+                  <button
+                    onClick={submitReview}
+                    disabled={reviewRating === 0 || reviewSubmitting}
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#b8962e] text-black text-xs font-bold hover:opacity-90 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    {reviewSubmitting ? "⏳ Mengirim..." : "📝 Kirim Review"}
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-[#141414] rounded-xl p-4 border border-green-500/20 text-center">
+                  <p className="text-sm text-[#4caf50]">✅ Terima kasih atas review-nya!</p>
+                </div>
+              )}
+
+              {/* Reviews from others */}
+              {reviews.length > 0 && (
+                <div className="bg-[#141414] rounded-xl p-4 border border-[#2a2a2a] space-y-3">
+                  <p className="text-[10px] uppercase tracking-wider text-[#666] font-semibold">Review Pelanggan</p>
+                  <div className="space-y-2.5">
+                    {reviews.map((r, i) => (
+                      <div key={i} className="bg-[#0d0d0d] rounded-lg p-3 border border-[#1a1a1a]">
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex gap-0.5">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <span key={s} className={`text-xs ${s <= r.rating ? "opacity-100" : "opacity-20"}`}>⭐</span>
+                            ))}
+                          </div>
+                          <span className="text-[9px] text-[#555]">
+                            {new Date(r.created_at).toLocaleDateString("id-ID", { day: "2-digit", month: "short" })}
+                          </span>
+                        </div>
+                        {r.review && <p className="text-[11px] text-[#aaa] leading-relaxed">{r.review}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
