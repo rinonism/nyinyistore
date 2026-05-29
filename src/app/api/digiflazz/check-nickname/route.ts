@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 
-const PROXY_URL = process.env.DIGIFLAZZ_PROXY_URL || "http://43.153.204.244:7890";
-const PROXY_SECRET = process.env.DIGIFLAZZ_PROXY_SECRET || "nyinyi-digi-proxy-2026";
+const USERNAME = process.env.DIGIFLAZZ_USERNAME || "rukizuD8RKag";
+const DEV_KEY = process.env.DIGIFLAZZ_DEV_KEY || "dev-69240ad0-589e-11f1-b96e-298257930237";
+const DIGIFLAZZ_URL = "https://api.digiflazz.com/v1/transaction";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,13 +17,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const res = await fetch(`${PROXY_URL}/check-nickname`, {
+    const refId = `nick-${crypto.randomUUID().replace(/-/g, "").slice(0, 12)}`;
+    const sign = crypto
+      .createHash("md5")
+      .update(USERNAME + DEV_KEY + refId)
+      .digest("hex");
+
+    const payload = {
+      username: USERNAME,
+      buyer_sku_code: game_code,
+      customer_no: customer_no,
+      ref_id: refId,
+      sign: sign,
+      commands: "inq-game",
+    };
+
+    const res = await fetch(DIGIFLAZZ_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Proxy-Secret": PROXY_SECRET,
-      },
-      body: JSON.stringify({ game_code, customer_no }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
