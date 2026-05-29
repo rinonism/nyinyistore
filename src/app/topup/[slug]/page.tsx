@@ -67,6 +67,12 @@ export default function TopUpPage({ params }: TopUpPageProps) {
       showToast("Silahkan isi data akun terlebih dahulu.");
       return;
     }
+    // Block if game supports nickname check but ID not validated
+    const gameCode = GAME_CODES[game.slug];
+    if (gameCode && !nickname) {
+      showToast("ID tidak valid. Pastikan ID dan Server sudah benar.");
+      return;
+    }
     setSelectedDenom(denom);
   };
 
@@ -426,7 +432,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       id="userId"
                       type="text"
                       value={userId}
-                      onChange={(e) => setUserId(e.target.value)}
+                      onChange={(e) => { setUserId(e.target.value); setNickname(null); setSelectedDenom(null); }}
                       onBlur={() => { if (userId) checkNickname(userId, serverId); }}
                       placeholder={game.idPlaceholder || "Masukkan ID"}
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
@@ -441,7 +447,7 @@ export default function TopUpPage({ params }: TopUpPageProps) {
                       id="serverId"
                       type="text"
                       value={serverId}
-                      onChange={(e) => setServerId(e.target.value)}
+                      onChange={(e) => { setServerId(e.target.value); setNickname(null); setSelectedDenom(null); }}
                       onBlur={() => { if (userId && serverId) checkNickname(userId, serverId); }}
                       placeholder="Server"
                       className="w-full rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] px-3 py-2.5 text-sm text-white placeholder-[#666] focus:border-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
