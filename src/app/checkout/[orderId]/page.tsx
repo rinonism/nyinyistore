@@ -47,12 +47,12 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
     return () => clearInterval(interval);
   }, [order]);
 
-  // Auto-check payment every 15 seconds
+  // Auto-check payment every 60 seconds
   useEffect(() => {
     if (!order || order.status !== "pending") return;
     const interval = setInterval(() => {
       checkPayment();
-    }, 15000);
+    }, 60000);
     return () => clearInterval(interval);
   }, [order]);
 
@@ -337,11 +337,11 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
           <button
             onClick={checkPayment}
             disabled={checking}
-            className="mt-3 w-full rounded-lg bg-[#d4af37] py-2.5 text-sm font-medium text-white hover:bg-[#b8944c] disabled:opacity-50"
+            className="mt-3 w-full rounded-lg bg-[#4caf50] py-2.5 text-sm font-medium text-white hover:bg-[#388e3c] disabled:opacity-50"
           >
-            {checking ? "Mengecek..." : "Cek Pembayaran"}
+            {checking ? "Mengecek..." : "✅ Sudah Bayar"}
           </button>
-          <p className="mt-1 text-center text-[9px] text-[#666]">Auto-check setiap 15 detik</p>
+          <p className="mt-1 text-center text-[9px] text-[#666]">Auto-check setiap 1 menit</p>
 
           {/* Cancel button */}
           <button
