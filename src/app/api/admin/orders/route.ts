@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-
-const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
+import { getSupabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   // Simple auth check via cookie
@@ -12,15 +9,22 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    let orders = [];
-    try {
-      const data = await fs.readFile(ORDERS_FILE, "utf-8");
-      orders = JSON.parse(data);
-    } catch {
-      // File doesn't exist yet
+    const supabase = getSupabase();
+    const { data: orders, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch orders" },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ orders });
+    return NextResponse.json({ orders: orders || [] });
   } catch (error) {
     console.error("Failed to read orders:", error);
     return NextResponse.json(
