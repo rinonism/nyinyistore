@@ -132,9 +132,6 @@ export default async function LeaderboardPage() {
               {/* Stats */}
               <div className="text-right">
                 <p className="text-sm font-medium text-[#d4af37]">
-                  {entry.total_orders}x
-                </p>
-                <p className="text-[10px] text-[#999]">
                   {formatPrice(entry.total_spent)}
                 </p>
               </div>
