@@ -50,7 +50,7 @@ export default function TentangKami() {
         <ul className="list-disc list-inside space-y-1 text-[#999]">
           <li>USDT (Ethereum, BSC, Base, Arbitrum, Solana)</li>
           <li>USDC (Ethereum, BSC, Base, Arbitrum, Solana)</li>
-          <li>QRIS, Transfer Bank, E-Wallet (segera hadir)</li>
+          <li>QRIS, Transfer Bank, Minimarket, Cryptocurrency (USDT/USDC)</li>
         </ul>
 
         <h2 className="text-base font-semibold text-white mt-6">Hubungi Kami</h2>
