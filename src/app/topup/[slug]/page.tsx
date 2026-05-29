@@ -128,6 +128,18 @@ export default function TopUpPage({ params }: TopUpPageProps) {
       .then(r => r.json())
       .then(d => { if (d?.tether?.idr) setUsdRate(d.tether.idr); })
       .catch(() => {}); // fallback to 16500
+
+    // Load saved user data from localStorage
+    try {
+      const saved = localStorage.getItem(`nys_user_${game.slug}`);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.userId) setUserId(data.userId);
+        if (data.serverId) setServerId(data.serverId);
+        if (data.email) setEmail(data.email);
+        if (data.phone) setPhone(data.phone);
+      }
+    } catch {}
   }, []);
 
   const paymentMethods = [
@@ -186,6 +198,13 @@ export default function TopUpPage({ params }: TopUpPageProps) {
   const handleConfirmOrder = async () => {
     setShowConfirmModal(false);
     setIsOrdering(true);
+
+    // Save user data to localStorage for repeat orders
+    try {
+      localStorage.setItem(`nys_user_${game.slug}`, JSON.stringify({
+        userId, serverId, email, phone,
+      }));
+    } catch {}
 
     try {
       if (paymentMethod === "crypto") {
