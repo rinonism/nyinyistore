@@ -76,6 +76,32 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "OnlineStore",
+              name: "NyinyiStore",
+              url: "https://nyinyistore.com",
+              description: "Top up game favorit kamu dengan harga termurah. Mobile Legends, Free Fire, PUBG, Genshin Impact, Valorant. Proses cepat 1-3 detik.",
+              logo: "https://nyinyistore.com/favicon.png",
+              sameAs: ["https://t.me/NyinyiStore_bot"],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                email: "support@nyinyistore.com",
+                availableLanguage: ["Indonesian"],
+              },
+              currenciesAccepted: "IDR",
+              paymentAccepted: "QRIS, Bank Transfer, Cryptocurrency",
+              areaServed: {
+                "@type": "Country",
+                name: "Indonesia",
+              },
+            }),
+          }}
+        />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <Script
             defer

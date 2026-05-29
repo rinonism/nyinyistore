@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 interface Props {
   params: { slug: string };
+  children: React.ReactNode;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -42,6 +43,48 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function TopUpLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function TopUpLayout({ params, children }: Props) {
+  const game = games.find((g) => g.slug === params.slug);
+
+  if (!game) {
+    return <>{children}</>;
+  }
+
+  const lowestPrice = Math.min(...game.denominations.filter(d => !d.comingSoon).map(d => d.price));
+  const highestPrice = Math.max(...game.denominations.filter(d => !d.comingSoon).map(d => d.price));
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `Top Up ${game.name}`,
+    description: `Top up ${game.name} harga termurah. ${game.description}. Proses instan 1-3 detik.`,
+    image: `https://nyinyistore.com${game.image}`,
+    brand: {
+      "@type": "Brand",
+      name: game.developer,
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "IDR",
+      lowPrice: lowestPrice,
+      highPrice: highestPrice,
+      offerCount: game.denominations.filter(d => !d.comingSoon).length,
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "NyinyiStore",
+        url: "https://nyinyistore.com",
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      {children}
+    </>
+  );
 }
