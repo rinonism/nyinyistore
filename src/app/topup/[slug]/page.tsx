@@ -18,6 +18,7 @@ const GAME_CODES: Record<string, string> = {
   "magic-chess-go-go": "ml",
   "free-fire": "ff",
   "free-fire-max": "ff",
+  "honkai-star-rail": "hsr",
 };
 
 interface TopUpPageProps {
