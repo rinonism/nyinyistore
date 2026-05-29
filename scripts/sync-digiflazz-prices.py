@@ -45,7 +45,11 @@ def get_price_list():
     with urllib.request.urlopen(req, timeout=30) as resp:
         data = json.loads(resp.read())
     
-    return data.get("data", [])
+    result = data.get("data", [])
+    if isinstance(result, dict):
+        # Error response from Digiflazz
+        return result
+    return result
 
 
 def apply_markup(base_price, sku, product_name):
@@ -128,6 +132,14 @@ def main():
     print("📦 Fetching Digiflazz price list...")
     products = get_price_list()
     print(f"   Got {len(products)} products total")
+    
+    # Check if rate limited (Digiflazz returns error dict instead of list)
+    if not isinstance(products, list):
+        print(f"❌ Digiflazz error: {products}")
+        return
+    if len(products) < 10:
+        print(f"❌ Too few products ({len(products)}), likely rate limited. Skipping.")
+        return
     
     # Filter game products and build SKU → price map
     # Digiflazz SKU codes match our sku field in games.ts

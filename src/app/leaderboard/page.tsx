@@ -44,7 +44,7 @@ async function getLeaderboard(): Promise<LeaderboardEntry[]> {
 
     const { data, error } = await supabase
       .from("orders")
-      .select("user_game_id, game_slug, amount_idr")
+      .select("user_game_id, game_slug, price_idr")
       .in("status", ["completed", "paid", "processing"])
       .gte("created_at", startOfMonth);
 
@@ -67,7 +67,7 @@ async function getLeaderboard(): Promise<LeaderboardEntry[]> {
       }
       const entry = userMap.get(key)!;
       entry.total_orders += 1;
-      entry.total_spent += order.amount_idr || 0;
+      entry.total_spent += order.price_idr || 0;
     }
 
     // Sort by total_orders desc, then total_spent desc
