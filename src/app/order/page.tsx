@@ -51,11 +51,35 @@ function OrderStatusContent() {
   const [copiedAmount, setCopiedAmount] = useState(false);
   const [copiedWallet, setCopiedWallet] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [verifying, setVerifying] = useState(false);
 
   const copyToClipboard = (text: string, setter: (v: boolean) => void) => {
     navigator.clipboard.writeText(text);
     setter(true);
     setTimeout(() => setter(false), 2000);
+  };
+
+  const verifyPayment = async () => {
+    if (!order || verifying) return;
+    setVerifying(true);
+    try {
+      const res = await fetch(`/api/order/verify-crypto`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order_id: order.order_id }),
+      });
+      const data = await res.json();
+      if (data.status && data.status !== "pending") {
+        setOrder({ ...order, status: data.status });
+      } else if (data.status === "pending") {
+        // Still pending, show message
+        alert("Pembayaran belum terdeteksi. Pastikan kamu sudah mengirim dengan nominal dan network yang tepat.");
+      }
+    } catch {
+      alert("Gagal mengecek pembayaran. Coba lagi.");
+    } finally {
+      setVerifying(false);
+    }
   };
 
   // Countdown timer
@@ -327,6 +351,14 @@ function OrderStatusContent() {
                 <div className="mt-3 pt-2.5 border-t border-[#222]">
                   <p className="text-[9px] text-red-400/80">⚠️ Kirim hanya {order.crypto_token.toUpperCase()} di network {order.crypto_chain.toUpperCase()}. Token atau network salah = dana hilang.</p>
                 </div>
+                {/* Confirm payment button */}
+                <button
+                  onClick={verifyPayment}
+                  disabled={verifying}
+                  className="w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#b8962e] text-black text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {verifying ? "⏳ Mengecek..." : "✅ Sudah Bayar? Cek Sekarang"}
+                </button>
               </div>
             </div>
           )}
