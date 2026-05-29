@@ -19,6 +19,8 @@ const GAME_CODES: Record<string, string> = {
   "free-fire": "ff",
   "free-fire-max": "ff",
   "honkai-star-rail": "hsr",
+  "genshin-impact": "gi",
+  "valorant": "valo",
 };
 
 interface TopUpPageProps {
