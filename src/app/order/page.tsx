@@ -129,6 +129,24 @@ function OrderStatusContent() {
     }
   }, [searchParams]);
 
+  // Auto-poll status every 5s for non-final states
+  useEffect(() => {
+    if (!order) return;
+    if (["completed", "failed", "expired"].includes(order.status)) return;
+    
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/order/status?id=${encodeURIComponent(order.order_id)}`);
+        const data = await res.json();
+        if (res.ok && data.order) {
+          setOrder(data.order);
+        }
+      } catch {}
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [order?.status, order?.order_id]);
+
   const formatPrice = (price: number) => `Rp ${price.toLocaleString("id-ID")}`;
   const formatDate = (date: string) => new Date(date).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
 
