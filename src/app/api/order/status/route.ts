@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   const supabase = getSupabase();
   const { data, error } = await supabase
     .from('orders')
-    .select('order_id, game_name, game_slug, item_name, price_idr, price_crypto, crypto_token, crypto_chain, payment_wallet, user_game_id, user_server_id, status, created_at, paid_at, completed_at, expires_at, digiflazz_sn')
+    .select('order_id, game_name, game_slug, item_name, price_idr, price_crypto, crypto_token, crypto_chain, payment_wallet, user_game_id, user_server_id, status, created_at, paid_at, completed_at, expires_at, digiflazz_ref, payment_method, payment_channel, tripay_reference, tx_hash')
     .eq('order_id', orderId)
     .single();
 
