@@ -127,7 +127,15 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
       {/* Header */}
       <div className="mb-4 text-center">
         <h1 className="text-lg font-bold text-white">Checkout</h1>
-        <p className="text-xs text-[#999]">Order #{order.id}</p>
+        <div className="flex items-center justify-center gap-1.5 mt-0.5">
+          <p className="text-xs text-[#999]">Order #{order.id}</p>
+          <button
+            onClick={() => copyToClipboard(order.id, "orderId")}
+            className="text-[10px] text-[#d4af37] hover:text-[#b8944c]"
+          >
+            {copied === "orderId" ? "✓" : "📋"}
+          </button>
+        </div>
       </div>
 
       {/* Status */}
@@ -147,6 +155,31 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
           <button onClick={() => router.back()} className="mt-2 text-xs text-[#d4af37] underline">
             Kembali
           </button>
+        </div>
+      )}
+
+      {/* CS Contact */}
+      {(isPaid || isExpired) && (
+        <div className="mb-4 rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-3 text-center">
+          <p className="text-xs text-[#999]">Ada masalah? Hubungi CS kami</p>
+          <div className="mt-2 flex items-center justify-center gap-3">
+            <a
+              href="https://t.me/NyinyiStore_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-lg bg-[#2a2a2a] px-3 py-1.5 text-xs text-[#29b6f6] hover:bg-[#3a3a3a]"
+            >
+              💬 Telegram
+            </a>
+            <a
+              href="https://wa.me/6285718100782?text=Halo%20min%2C%20saya%20butuh%20bantuan%20order%20%23"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-lg bg-[#2a2a2a] px-3 py-1.5 text-xs text-[#4caf50] hover:bg-[#3a3a3a]"
+            >
+              📱 WhatsApp
+            </a>
+          </div>
         </div>
       )}
 
