@@ -25,6 +25,11 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
   const [copied, setCopied] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [checking, setChecking] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     fetchOrder();
@@ -180,6 +185,74 @@ export default function CheckoutPage({ params }: { params: { orderId: string } }
               📱 WhatsApp
             </a>
           </div>
+        </div>
+      )}
+
+      {/* Review Form */}
+      {isPaid && !reviewSubmitted && (
+        <div className="mb-4 rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-4">
+          <h2 className="text-sm font-medium text-white mb-3">⭐ Beri Ulasan</h2>
+          <p className="text-[11px] text-[#999] mb-3">Bagaimana pengalaman belanja kamu?</p>
+          
+          {/* Star Rating */}
+          <div className="flex items-center justify-center gap-1 mb-3">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
+                className="text-2xl transition-transform hover:scale-110"
+              >
+                {star <= (hoverRating || rating) ? "⭐" : "☆"}
+              </button>
+            ))}
+          </div>
+
+          {/* Review Text */}
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="Tulis ulasan kamu di sini... (opsional)"
+            className="w-full rounded-lg bg-[#252525] border border-[#3a3a3a] p-3 text-xs text-white placeholder-[#666] resize-none focus:border-[#d4af37] focus:outline-none"
+            rows={3}
+            maxLength={500}
+          />
+          <p className="text-[10px] text-[#666] mt-1 text-right">{reviewText.length}/500</p>
+
+          {/* Submit */}
+          <button
+            onClick={async () => {
+              if (rating === 0) return;
+              setSubmittingReview(true);
+              try {
+                await fetch("/api/reviews", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    order_id: order.id,
+                    game_slug: order.game_slug,
+                    rating,
+                    review: reviewText,
+                  }),
+                });
+                setReviewSubmitted(true);
+              } catch {}
+              setSubmittingReview(false);
+            }}
+            disabled={rating === 0 || submittingReview}
+            className="mt-3 w-full rounded-lg bg-[#d4af37] py-2.5 text-sm font-medium text-white hover:bg-[#b8944c] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {submittingReview ? "Mengirim..." : "Kirim Ulasan"}
+          </button>
+        </div>
+      )}
+
+      {/* Review Submitted */}
+      {reviewSubmitted && (
+        <div className="mb-4 rounded-xl border border-[#d4af37]/30 bg-[#d4af37]/10 p-4 text-center">
+          <span className="text-2xl">🙏</span>
+          <p className="mt-1 text-sm font-medium text-[#d4af37]">Terima kasih atas ulasannya!</p>
         </div>
       )}
 
