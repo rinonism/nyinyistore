@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PROXY_URL = process.env.TRIPAY_PROXY_URL || "http://43.153.204.244:3847";
-const PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || "nys-tripay-proxy-2026-secret";
+const PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || "";
 
 export async function POST(req: NextRequest) {
   try {

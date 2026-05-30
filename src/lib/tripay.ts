@@ -85,7 +85,7 @@ export interface CreateTransactionParams {
 const TRIPAY_PRIVATE_KEY = process.env.TRIPAY_PRIVATE_KEY || "";
 const TRIPAY_MERCHANT_CODE = process.env.TRIPAY_MERCHANT_CODE || "";
 const TRIPAY_PROXY_URL = process.env.TRIPAY_PROXY_URL || "http://43.153.204.244:3847/proxy";
-const TRIPAY_PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || "nys-tripay-proxy-2026-secret";
+const TRIPAY_PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || "";
 
 /**
  * Generate HMAC SHA256 signature for Tripay

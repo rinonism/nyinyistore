@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PROXY_URL = process.env.DIGIFLAZZ_PROXY_URL || "http://43.153.204.244:7890";
-const PROXY_SECRET = process.env.DIGIFLAZZ_PROXY_SECRET || "nyinyi-digi-proxy-2026";
+const PROXY_SECRET = process.env.DIGIFLAZZ_PROXY_SECRET || "";
 
 export async function POST(req: NextRequest) {
   try {
