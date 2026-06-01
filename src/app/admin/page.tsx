@@ -5,19 +5,20 @@ import { promoCodes } from "@/lib/promo";
 import type { PromoCode } from "@/lib/promo";
 
 interface Order {
-  id: string;
+  order_id: string;
   game_slug: string;
-  denomination_id: string;
-  denomination_label: string;
-  user_id: string;
-  server_id?: string;
+  game_name?: string;
+  item_name: string;
+  item_sku?: string;
+  user_game_id: string;
+  user_server_id?: string;
+  nickname?: string;
   payment_method?: string;
   payment_channel?: string;
-  payment_chain?: string;
-  payment_token?: string;
-  amount_idr: number;
-  amount_crypto?: string;
-  token_symbol?: string;
+  crypto_chain?: string;
+  crypto_token?: string;
+  price_idr: number;
+  price_crypto?: string;
   status: string;
   created_at: string;
   updated_at?: string;
@@ -78,12 +79,12 @@ export default function AdminDashboard() {
     );
 
     const totalRevenueIDR = revenueOrders
-      .filter((o) => o.payment_method === "tripay" || !o.amount_crypto)
-      .reduce((sum, o) => sum + (o.amount_idr || 0), 0);
+      .filter((o) => o.payment_method === "tripay" || !o.price_crypto)
+      .reduce((sum, o) => sum + (o.price_idr || 0), 0);
 
     const totalRevenueCrypto = revenueOrders
-      .filter((o) => o.amount_crypto)
-      .reduce((sum, o) => sum + parseFloat(o.amount_crypto || "0"), 0);
+      .filter((o) => o.price_crypto)
+      .reduce((sum, o) => sum + parseFloat(o.price_crypto || "0"), 0);
 
     setStats({ totalOrders, totalRevenueIDR, totalRevenueCrypto, pendingOrders, completedOrders, paidOrders, failedOrders });
   };
@@ -180,7 +181,9 @@ export default function AdminDashboard() {
           <div className="p-4 border-b border-[#2a2a2a]">
             <h2 className="text-sm font-semibold text-white">Recent Orders</h2>
           </div>
-          <div className="overflow-x-auto">
+
+          {/* Desktop table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[#2a2a2a]">
@@ -202,18 +205,18 @@ export default function AdminDashboard() {
                   </tr>
                 ) : (
                   recentOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-[#252525]">
-                      <td className="px-4 py-3 text-xs font-mono text-[#d4af37]">{order.id}</td>
-                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">{order.game_slug}</td>
+                    <tr key={order.order_id} className="hover:bg-[#252525]">
+                      <td className="px-4 py-3 text-xs font-mono text-[#d4af37]">{order.order_id}</td>
+                      <td className="px-4 py-3 text-xs text-[#b0b0b0]">{order.game_name || order.game_slug}</td>
                       <td className="px-4 py-3 text-xs text-[#b0b0b0]">
-                        {order.user_id}
-                        {order.server_id && <span className="text-[#555]"> ({order.server_id})</span>}
+                        {order.user_game_id}
+                        {order.user_server_id && <span className="text-[#555]"> ({order.user_server_id})</span>}
                       </td>
                       <td className="px-4 py-3 text-xs text-[#b0b0b0]">
-                        {order.amount_crypto ? `$${order.amount_crypto}` : formatIDR(order.amount_idr)}
+                        {order.price_crypto ? `$${order.price_crypto}` : formatIDR(order.price_idr)}
                       </td>
                       <td className="px-4 py-3 text-xs text-[#b0b0b0]">
-                        {order.payment_channel || order.payment_token?.toUpperCase() || "—"}
+                        {order.payment_channel || order.crypto_token?.toUpperCase() || "—"}
                       </td>
                       <td className="px-4 py-3">{getStatusBadge(order.status)}</td>
                       <td className="px-4 py-3 text-xs text-[#777]">{formatDate(order.created_at)}</td>
@@ -222,6 +225,37 @@ export default function AdminDashboard() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden divide-y divide-[#2a2a2a]">
+            {recentOrders.length === 0 ? (
+              <div className="px-4 py-8 text-center text-xs text-[#777]">Belum ada order</div>
+            ) : (
+              recentOrders.map((order) => (
+                <div key={order.order_id} className="p-4">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <span className="text-xs font-mono text-[#d4af37] break-all">{order.order_id}</span>
+                    {getStatusBadge(order.status)}
+                  </div>
+                  <div className="text-sm text-white mb-1">
+                    {order.game_name || order.game_slug}
+                    <span className="text-[#777]"> · {order.item_name}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#b0b0b0]">
+                    <span>
+                      ID: {order.user_game_id}
+                      {order.user_server_id && ` (${order.user_server_id})`}
+                    </span>
+                    <span className="text-[#4caf50] font-medium">
+                      {order.price_crypto ? `$${order.price_crypto}` : formatIDR(order.price_idr)}
+                    </span>
+                    <span>{order.payment_channel || order.crypto_token?.toUpperCase() || "—"}</span>
+                  </div>
+                  <div className="text-[10px] text-[#777] mt-1">{formatDate(order.created_at)}</div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}

@@ -147,10 +147,10 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-6">Orders</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">Orders</h1>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex gap-2 mb-4 md:mb-6 overflow-x-auto pb-1 -mx-1 px-1">
         {STATUSES.map((status) => (
           <button
             key={status}
@@ -158,7 +158,7 @@ export default function AdminOrdersPage() {
               setFilter(status);
               setPage(1);
             }}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`shrink-0 px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${
               filter === status
                 ? "bg-violet-600 text-white"
                 : "bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700"
@@ -166,7 +166,7 @@ export default function AdminOrdersPage() {
           >
             {status.charAt(0).toUpperCase() + status.slice(1)}
             {status !== "all" && (
-              <span className="ml-2 text-xs opacity-70">
+              <span className="ml-1.5 text-xs opacity-70">
                 ({orders.filter((o) => o.status === status).length})
               </span>
             )}
@@ -176,7 +176,7 @@ export default function AdminOrdersPage() {
 
       {/* Orders table */}
       <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-700">
@@ -370,13 +370,79 @@ export default function AdminOrdersPage() {
           </table>
         </div>
 
+        {/* Mobile cards */}
+        <div className="md:hidden divide-y divide-gray-700">
+          {paginatedOrders.length === 0 ? (
+            <div className="px-4 py-8 text-center text-gray-500">
+              No orders found
+            </div>
+          ) : (
+            paginatedOrders.map((order) => (
+              <div key={order.order_id} className="p-4">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <span className="text-xs font-mono text-violet-300 break-all">
+                    {order.order_id}
+                  </span>
+                  {getStatusBadge(order.status)}
+                </div>
+                <div className="text-sm text-white mb-1">
+                  {order.game_name || order.game_slug}
+                  <span className="text-gray-500"> · {order.item_name}</span>
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-300 mb-2">
+                  <span>
+                    ID: {order.user_game_id}
+                    {order.user_server_id && ` (${order.user_server_id})`}
+                  </span>
+                  <span className="text-green-400 font-medium">
+                    {order.price_crypto
+                      ? `$${order.price_crypto}`
+                      : formatIDR(order.price_idr)}
+                  </span>
+                  <span>
+                    {order.payment_channel ||
+                      order.crypto_token?.toUpperCase() ||
+                      "—"}
+                  </span>
+                </div>
+                {order.nickname && (
+                  <div className="text-xs text-gray-500 mb-2">
+                    Nick: {order.nickname}
+                  </div>
+                )}
+                {order.digiflazz_ref && (
+                  <div className="text-xs text-gray-500 mb-2 font-mono break-all">
+                    Digi: {order.digiflazz_ref}
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-gray-500">
+                    {formatDate(order.created_at)}
+                  </span>
+                  {["paid", "processing", "failed"].includes(order.status) && (
+                    <button
+                      onClick={() => handleFulfill(order.order_id)}
+                      disabled={fulfilling === order.order_id}
+                      className="px-4 py-2 text-xs bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white rounded-lg transition-colors"
+                    >
+                      {fulfilling === order.order_id
+                        ? "..."
+                        : order.status === "paid"
+                        ? "Fulfill"
+                        : "Re-fulfill"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-6 py-4 border-t border-gray-700">
-            <p className="text-sm text-gray-400">
-              Showing {(page - 1) * PAGE_SIZE + 1} -{" "}
-              {Math.min(page * PAGE_SIZE, filteredOrders.length)} of{" "}
-              {filteredOrders.length}
+          <div className="flex items-center justify-between px-4 md:px-6 py-4 border-t border-gray-700">
+            <p className="text-xs md:text-sm text-gray-400">
+              {(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filteredOrders.length)} of {filteredOrders.length}
             </p>
             <div className="flex gap-2">
               <button
