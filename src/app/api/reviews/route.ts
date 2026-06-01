@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
+import { maskName } from "@/lib/mask";
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,7 +25,27 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
     }
 
-    return NextResponse.json({ reviews: reviews || [] });
+    const list = reviews || [];
+
+    // Resolve + mask player nicknames from orders (join by order_id) server-side.
+    const orderIds = list.map((r) => r.order_id).filter(Boolean);
+    const nameMap = new Map<string, string>();
+    if (orderIds.length > 0) {
+      const { data: orders } = await supabase
+        .from("orders")
+        .select("order_id, nickname")
+        .in("order_id", orderIds);
+      for (const o of orders || []) {
+        if (o.nickname) nameMap.set(o.order_id, o.nickname);
+      }
+    }
+
+    const masked = list.map((r) => ({
+      ...r,
+      name: maskName(nameMap.get(r.order_id)),
+    }));
+
+    return NextResponse.json({ reviews: masked });
   } catch {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

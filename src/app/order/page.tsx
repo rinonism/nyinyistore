@@ -56,7 +56,7 @@ function OrderStatusContent() {
   const [reviewText, setReviewText] = useState("");
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
-  const [reviews, setReviews] = useState<{rating: number; review: string; created_at: string; game_slug: string}[]>([]);
+  const [reviews, setReviews] = useState<{rating: number; review: string; created_at: string; game_slug: string; name?: string}[]>([]);
 
   const copyToClipboard = (text: string, setter: (v: boolean) => void) => {
     navigator.clipboard.writeText(text);
@@ -542,10 +542,18 @@ function OrderStatusContent() {
                     {reviews.map((r, i) => (
                       <div key={i} className="bg-[#0d0d0d] rounded-lg p-3 border border-[#1a1a1a]">
                         <div className="flex items-center justify-between mb-1">
-                          <div className="flex gap-0.5">
-                            {[1, 2, 3, 4, 5].map((s) => (
-                              <span key={s} className={`text-xs ${s <= r.rating ? "opacity-100" : "opacity-20"}`}>⭐</span>
-                            ))}
+                          <div className="flex items-center gap-2">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#d4af37]/15 text-[10px] font-bold text-[#d4af37]">
+                              {(r.name || "P").charAt(0).toUpperCase()}
+                            </span>
+                            <div className="flex flex-col">
+                              <span className="text-[10px] font-semibold text-white leading-tight">{r.name || "Pelanggan"}</span>
+                              <div className="flex gap-0.5">
+                                {[1, 2, 3, 4, 5].map((s) => (
+                                  <span key={s} className={`text-[10px] ${s <= r.rating ? "opacity-100" : "opacity-20"}`}>⭐</span>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                           <span className="text-[9px] text-[#555]">
                             {new Date(r.created_at).toLocaleDateString("id-ID", { day: "2-digit", month: "short" })}

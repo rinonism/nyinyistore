@@ -1,4 +1,5 @@
 import { getSupabase } from "@/lib/supabase";
+import { maskName } from "@/lib/mask";
 
 interface Review {
   id: string;
@@ -7,6 +8,7 @@ interface Review {
   rating: number;
   review: string;
   created_at: string;
+  name: string; // masked nickname, resolved server-side
 }
 
 export const revalidate = 60; // Revalidate every 60 seconds
@@ -24,7 +26,28 @@ async function getReviews(): Promise<Review[]> {
       console.error("Failed to fetch reviews:", error);
       return [];
     }
-    return data || [];
+
+    const reviews = data || [];
+    if (reviews.length === 0) return [];
+
+    // Resolve player nicknames from the orders table (join by order_id),
+    // then mask before sending anything to the client.
+    const orderIds = reviews.map((r) => r.order_id).filter(Boolean);
+    const nameMap = new Map<string, string>();
+    if (orderIds.length > 0) {
+      const { data: orders } = await supabase
+        .from("orders")
+        .select("order_id, nickname")
+        .in("order_id", orderIds);
+      for (const o of orders || []) {
+        if (o.nickname) nameMap.set(o.order_id, o.nickname);
+      }
+    }
+
+    return reviews.map((r) => ({
+      ...r,
+      name: maskName(nameMap.get(r.order_id)),
+    }));
   } catch {
     return [];
   }
@@ -117,10 +140,18 @@ export default async function UlasanPage() {
               <div key={r.id} className="rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <StarRating rating={r.rating} />
-                    <span className="text-[10px] rounded bg-[#2a2a2a] px-1.5 py-0.5 text-[#999]">
-                      {getGameName(r.game_slug)}
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#d4af37]/15 text-[11px] font-bold text-[#d4af37]">
+                      {r.name.charAt(0).toUpperCase()}
                     </span>
+                    <div>
+                      <p className="text-[11px] font-semibold text-white leading-tight">{r.name}</p>
+                      <div className="flex items-center gap-1.5">
+                        <StarRating rating={r.rating} />
+                        <span className="text-[10px] rounded bg-[#2a2a2a] px-1.5 py-0.5 text-[#999]">
+                          {getGameName(r.game_slug)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                   <span className="text-[10px] text-[#666]">{formatDate(r.created_at)}</span>
                 </div>
