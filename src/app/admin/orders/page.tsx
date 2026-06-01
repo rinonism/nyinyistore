@@ -3,26 +3,30 @@
 import { useEffect, useState } from "react";
 
 interface Order {
-  id: string;
+  order_id: string;
   game_slug: string;
-  denomination_id: string;
-  denomination_label: string;
-  user_id: string;
-  server_id?: string;
+  game_name?: string;
+  item_name: string;
+  item_sku?: string;
+  user_game_id: string;
+  user_server_id?: string;
+  nickname?: string;
   payment_method?: string;
   payment_channel?: string;
-  payment_chain?: string;
-  payment_token?: string;
-  amount_idr: number;
-  amount_crypto?: string;
-  token_symbol?: string;
+  crypto_chain?: string;
+  crypto_token?: string;
+  price_idr: number;
+  price_crypto?: string;
   status: string;
   created_at: string;
   updated_at?: string;
+  paid_at?: string;
+  completed_at?: string;
   tripay_reference?: string;
-  digiflazz_ref_id?: string;
-  digiflazz_sn?: string;
-  digiflazz_message?: string;
+  digiflazz_ref?: string;
+  tx_hash?: string;
+  phone?: string;
+  email?: string;
 }
 
 const STATUSES = [
@@ -71,11 +75,13 @@ export default function AdminOrdersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ order_id: orderId }),
       });
+      const data = await res.json();
       if (res.ok) {
+        const charged = data.charged === false ? " (tidak di-charge ulang)" : "";
+        alert(`✅ ${data.status || "OK"}: ${data.message || "Order diproses"}${charged}${data.sn ? `\nSN: ${data.sn}` : ""}`);
         await fetchOrders();
       } else {
-        const data = await res.json();
-        alert(`Fulfillment failed: ${data.error || "Unknown error"}`);
+        alert(`❌ Gagal: ${data.error || "Unknown error"}`);
       }
     } catch {
       alert("Network error during fulfillment");
@@ -214,36 +220,41 @@ export default function AdminOrdersPage() {
                 paginatedOrders.map((order) => (
                   <>
                     <tr
-                      key={order.id}
+                      key={order.order_id}
                       className="hover:bg-gray-750 cursor-pointer"
                       onClick={() =>
                         setExpandedOrder(
-                          expandedOrder === order.id ? null : order.id
+                          expandedOrder === order.order_id ? null : order.order_id
                         )
                       }
                     >
                       <td className="px-6 py-4 text-sm font-mono text-violet-300">
-                        {order.id}
+                        {order.order_id}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-300">
-                        {order.game_slug}
+                        {order.game_name || order.game_slug}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-300">
-                        {order.user_id}
-                        {order.server_id && (
+                        {order.user_game_id}
+                        {order.user_server_id && (
                           <span className="text-gray-500 ml-1">
-                            ({order.server_id})
+                            ({order.user_server_id})
+                          </span>
+                        )}
+                        {order.nickname && (
+                          <span className="block text-xs text-gray-500">
+                            {order.nickname}
                           </span>
                         )}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-300">
-                        {order.amount_crypto
-                          ? `$${order.amount_crypto}`
-                          : formatIDR(order.amount_idr)}
+                        {order.price_crypto
+                          ? `$${order.price_crypto}`
+                          : formatIDR(order.price_idr)}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-300">
                         {order.payment_channel ||
-                          order.payment_token?.toUpperCase() ||
+                          order.crypto_token?.toUpperCase() ||
                           "—"}
                       </td>
                       <td className="px-6 py-4">
@@ -253,33 +264,39 @@ export default function AdminOrdersPage() {
                         {formatDate(order.created_at)}
                       </td>
                       <td className="px-6 py-4">
-                        {order.status === "paid" && (
+                        {["paid", "processing", "failed"].includes(order.status) && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleFulfill(order.id);
+                              handleFulfill(order.order_id);
                             }}
-                            disabled={fulfilling === order.id}
+                            disabled={fulfilling === order.order_id}
                             className="px-3 py-1 text-xs bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white rounded-lg transition-colors"
                           >
-                            {fulfilling === order.id
+                            {fulfilling === order.order_id
                               ? "..."
-                              : "Fulfill"}
+                              : order.status === "paid"
+                              ? "Fulfill"
+                              : "Re-fulfill"}
                           </button>
                         )}
                       </td>
                     </tr>
-                    {expandedOrder === order.id && (
-                      <tr key={`${order.id}-detail`}>
+                    {expandedOrder === order.order_id && (
+                      <tr key={`${order.order_id}-detail`}>
                         <td colSpan={8} className="px-6 py-4 bg-gray-850">
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                             <div>
                               <span className="text-gray-500">
-                                Denomination:
+                                Item:
                               </span>
                               <p className="text-gray-300">
-                                {order.denomination_label ||
-                                  order.denomination_id}
+                                {order.item_name}
+                                {order.item_sku && (
+                                  <span className="text-gray-500 ml-1">
+                                    ({order.item_sku})
+                                  </span>
+                                )}
                               </p>
                             </div>
                             <div>
@@ -302,29 +319,35 @@ export default function AdminOrdersPage() {
                                 </p>
                               </div>
                             )}
-                            {order.digiflazz_ref_id && (
+                            {order.digiflazz_ref && (
                               <div>
                                 <span className="text-gray-500">
                                   Digiflazz Ref:
                                 </span>
                                 <p className="text-gray-300 font-mono text-xs">
-                                  {order.digiflazz_ref_id}
+                                  {order.digiflazz_ref}
                                 </p>
                               </div>
                             )}
-                            {order.digiflazz_sn && (
+                            {order.tx_hash && (
                               <div>
-                                <span className="text-gray-500">SN:</span>
-                                <p className="text-gray-300 font-mono text-xs">
-                                  {order.digiflazz_sn}
+                                <span className="text-gray-500">Tx Hash:</span>
+                                <p className="text-gray-300 font-mono text-xs break-all">
+                                  {order.tx_hash}
                                 </p>
                               </div>
                             )}
-                            {order.digiflazz_message && (
+                            {order.phone && (
                               <div>
-                                <span className="text-gray-500">Message:</span>
+                                <span className="text-gray-500">HP:</span>
+                                <p className="text-gray-300">{order.phone}</p>
+                              </div>
+                            )}
+                            {order.completed_at && (
+                              <div>
+                                <span className="text-gray-500">Completed:</span>
                                 <p className="text-gray-300">
-                                  {order.digiflazz_message}
+                                  {formatDate(order.completed_at)}
                                 </p>
                               </div>
                             )}

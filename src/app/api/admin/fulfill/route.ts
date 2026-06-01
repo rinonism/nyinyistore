@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-import { fulfillPaidOrders } from "@/lib/fulfillment";
-
-const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
+import { manualFulfillOrder } from "@/lib/auto-fulfill";
 
 export async function POST(request: NextRequest) {
   // Simple auth check via cookie
@@ -23,53 +19,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Read orders and verify the order exists and is paid
-    let orders: Record<string, unknown>[] = [];
-    try {
-      const data = await fs.readFile(ORDERS_FILE, "utf-8");
-      orders = JSON.parse(data);
-    } catch {
-      return NextResponse.json(
-        { error: "Orders file not found" },
-        { status: 500 }
-      );
-    }
+    const result = await manualFulfillOrder(order_id);
 
-    const orderIndex = orders.findIndex((o) => o.id === order_id);
-    if (orderIndex === -1) {
-      return NextResponse.json({ error: "Order not found" }, { status: 404 });
-    }
-
-    const order = orders[orderIndex];
-    if (order.status !== "paid") {
-      return NextResponse.json(
-        { error: `Order status is '${order.status}', must be 'paid' to fulfill` },
-        { status: 400 }
-      );
-    }
-
-    // Trigger fulfillment
-    const result = await fulfillPaidOrders();
-
-    const wasFulfilled = result.fulfilled.includes(order_id);
-    const hadError = result.errors.find((e) => e.orderId === order_id);
-
-    if (wasFulfilled) {
+    if (result.success) {
       return NextResponse.json({
         success: true,
-        message: "Order sent for fulfillment",
+        status: result.status,
+        message: result.message,
+        sn: result.sn,
+        charged: result.charged,
       });
-    } else if (hadError) {
-      return NextResponse.json(
-        { error: `Fulfillment error: ${hadError.error}` },
-        { status: 500 }
-      );
-    } else {
-      return NextResponse.json(
-        { error: "Order was not fulfilled (may have already been processed)" },
-        { status: 400 }
-      );
     }
+
+    return NextResponse.json(
+      { error: result.error || "Fulfillment failed" },
+      { status: 400 }
+    );
   } catch (error) {
     console.error("Manual fulfill error:", error);
     return NextResponse.json(
