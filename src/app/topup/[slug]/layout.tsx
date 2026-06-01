@@ -6,6 +6,15 @@ interface Props {
   children: React.ReactNode;
 }
 
+// Prerender every game page as static HTML at build time.
+// Without this, [slug] is server-rendered on demand (Node cold start ~2-3s per cold hit).
+export function generateStaticParams() {
+  return games.map((game) => ({ slug: game.slug }));
+}
+
+// Unknown slugs 404 immediately instead of spinning up a serverless render.
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const game = games.find((g) => g.slug === params.slug);
   if (!game) {
