@@ -58,7 +58,8 @@ export default function AdminOrdersPage() {
       const res = await fetch("/api/admin/orders");
       if (res.ok) {
         const data = await res.json();
-        setOrders((data.orders || []).reverse());
+        // API already returns newest-first (created_at desc)
+        setOrders(data.orders || []);
       }
     } catch (err) {
       console.error("Failed to fetch orders:", err);

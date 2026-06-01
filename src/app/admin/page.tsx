@@ -121,7 +121,8 @@ export default function AdminDashboard() {
     );
   }
 
-  const recentOrders = orders.slice(-20).reverse();
+  // API returns newest-first (created_at desc) — take the latest 20
+  const recentOrders = orders.slice(0, 20);
 
   return (
     <div>
