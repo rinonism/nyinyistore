@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "top up game murah",
       "nyinyistore",
     ],
+    alternates: {
+      canonical: `https://nyinyistore.com/topup/${game.slug}`,
+    },
     openGraph: {
       title,
       description,
