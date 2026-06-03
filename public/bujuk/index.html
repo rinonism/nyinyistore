@@ -114,16 +114,16 @@
     <div class="page active" id="page1">
         <div class="cat-circle">
             <img src="https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg" alt="Kucing">
-            <div class="bubble">🐱 maaf ya...</div>
+            <div class="bubble" onclick="showMessage()">🐱 tap aku dulu</div>
         </div>
         <p class="title-text">Hai, Nyinyi... 🐾</p>
         <p class="sub-text">Ada yang mau ngomong sesuatu.</p>
         <p class="sub-text">Baca dulu ya, jangan langsung di-close 🙏</p>
-        <div class="msg-box">
+        <div class="msg-box" id="msgBox" style="display:none; margin-top:20px;">
             <p>🐱</p>
             <p class="msg-text">Maaf yaa... Aku tau aku salah. Biar kamu ga cemberut lagi, aku punya sesuatu buat kamu. ♡</p>
         </div>
-        <button class="btn-kesal" onclick="goPage2()">KLIK KALO KAMU LAGI KESAL 😾</button>
+        <button class="btn-kesal" id="btnKesal" style="display:none; margin-top:20px;" onclick="goPage2()">KLIK KALO KAMU LAGI KESAL 😾</button>
     </div>
 
     <!-- PAGE 2: Tap Cat Game -->
@@ -159,6 +159,12 @@
 
         let taps = 0;
         const maxTaps = 20;
+
+        function showMessage() {
+            document.getElementById('msgBox').style.display = 'block';
+            document.getElementById('btnKesal').style.display = 'inline-block';
+            document.querySelector('.bubble').style.display = 'none';
+        }
 
         function goPage2() {
             document.getElementById('page1').classList.remove('active');
