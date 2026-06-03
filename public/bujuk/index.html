@@ -106,6 +106,28 @@
         .final { display: none; animation: fadeIn 0.8s ease; margin-top: 20px; }
         .final.show { display: block; }
         .final p { font-size: 1.05rem; color: #4c1d95; line-height: 1.8; }
+
+        /* Popup */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; animation: fadeIn 0.3s ease;
+        }
+        .popup-box {
+            background: white; border-radius: 20px; padding: 28px;
+            max-width: 320px; width: 90%; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .popup-emoji { font-size: 2rem; margin-bottom: 12px; }
+        .popup-text { font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 20px; }
+        .popup-btn {
+            background: linear-gradient(135deg, #c084fc, #7c3aed);
+            color: white; border: none; padding: 12px 28px;
+            font-size: 0.95rem; font-weight: 600; border-radius: 30px;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+        }
+        .popup-btn:active { transform: scale(0.95); }
         .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
         .heart { position: absolute; animation: fall 3s ease-in forwards; }
         @keyframes fall { 0% { opacity:1; transform: translateY(-20px) rotate(0); } 100% { opacity:0; transform: translateY(100vh) rotate(360deg); } }
@@ -132,12 +154,21 @@
 
     <!-- PAGE 2: Tap Cat Game -->
     <div class="page" id="page2">
-        <h1 class="game-title">Elus Kucingnya 20x! 🐾</h1>
-        <p class="sub-text" style="margin-bottom:16px">Tap kucingnya sampe dia seneng~</p>
+        <h1 class="game-title">Pelepasan Emosi 😾</h1>
+        <p class="sub-text" style="margin-bottom:16px">Klik kucingnya 20x buat nurunin kemarahanmu~</p>
         <img class="tap-cat" id="tapCat" src="https://cdn.pixabay.com/photo/2019/11/08/11/36/kitten-4611189_640.jpg" alt="Tap kucing" onclick="tapKucing()">
         <div class="counter" id="counter">0 / 20</div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         <p class="hint">tap tap tap~ 🐾</p>
+
+        <!-- Pop-up overlay -->
+        <div class="popup-overlay" id="popup" style="display:none;">
+            <div class="popup-box">
+                <p class="popup-emoji">🐱</p>
+                <p class="popup-text" id="popupText"></p>
+                <button class="popup-btn" onclick="closePopup()">Lanjut ➜</button>
+            </div>
+        </div>
 
         <div class="final" id="final">
             <p>Kucingnya udah seneng! 🥰<br><br>
@@ -222,6 +253,7 @@
 
         function tapKucing() {
             if (taps >= maxTaps) return;
+            if (paused) return;
             taps++;
             document.getElementById('counter').textContent = taps + ' / ' + maxTaps;
             document.getElementById('progressFill').style.width = (taps / maxTaps * 100) + '%';
@@ -229,6 +261,15 @@
             const cat = document.getElementById('tapCat');
             cat.style.transform = 'scale(0.92)';
             setTimeout(() => cat.style.transform = 'scale(1)', 100);
+
+            // Pop-up messages at certain clicks
+            if (taps === 5) {
+                showPopup("Kata si olong km, dia minta maaf ya. tadi dia nyesel banget sampe ngacak ngacak pasir. 🐾");
+            } else if (taps === 10) {
+                showPopup("Dia nyesel sama perbuatan nya dan janji bakal ngurangin ngeselinnya. aman aja kak nyinyi kalau bohong nanti aku gigit dia! 😾");
+            } else if (taps === 15) {
+                showPopup("5 klik lagi nih... Kasihan dia udah nungguin dimaafin dari tadi. Yuk bisa yuk! 💪");
+            }
 
             if (taps >= maxTaps) {
                 setTimeout(() => {
@@ -238,6 +279,20 @@
                     showHearts();
                 }, 300);
             }
+        }
+
+        let paused = false;
+        function showPopup(text) {
+            paused = true;
+            const popup = document.getElementById('popup');
+            document.getElementById('popupText').textContent = text;
+            popup.style.display = 'block';
+            popup.style.animation = 'fadeIn 0.4s ease';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            paused = false;
         }
 
         function showHearts() {
