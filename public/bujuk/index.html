@@ -62,6 +62,26 @@
             line-height: 1.5;
         }
 
+        /* Page 2 - Message box */
+        .msg-box {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.1);
+            border: 1px solid #ede9fe;
+        }
+        .msg-box p:first-child { font-size: 1.5rem; margin-bottom: 12px; }
+        .msg-text { font-size: 1rem; color: #4b5563; line-height: 1.7; }
+        .btn-kesal {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white; border: none; padding: 16px 32px;
+            font-size: 1rem; font-weight: 700; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 6px 20px rgba(196,77,255,0.4);
+            transition: transform 0.2s; text-transform: uppercase;
+        }
+        .btn-kesal:active { transform: scale(0.95); }
+
         /* Page 2 - Tap Game */
         .tap-cat {
             width: 180px; height: 180px; object-fit: cover;
@@ -94,15 +114,24 @@
     <div class="page active" id="page1">
         <div class="cat-circle">
             <img src="https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg" alt="Kucing">
-            <div class="bubble" onclick="goPage2()">🥺 tap aku dulu</div>
+            <div class="bubble" onclick="goPage2()">🐱 maaf ya...</div>
         </div>
-        <p class="title-text">Hai, Nyinyi... 🐾🐾</p>
+        <p class="title-text">Hai, Nyinyi... 🐾</p>
         <p class="sub-text">Ada yang mau ngomong sesuatu.</p>
         <p class="sub-text">Baca dulu ya, jangan langsung di-close 🙏</p>
     </div>
 
-    <!-- PAGE 2: Tap Cat Game -->
+    <!-- PAGE 2: Pesan Maaf -->
     <div class="page" id="page2">
+        <div class="msg-box">
+            <p>🐱</p>
+            <p class="msg-text">Maaf yaa... Aku tau aku salah. Biar kamu ga cemberut lagi, aku punya sesuatu buat kamu. ♡</p>
+        </div>
+        <button class="btn-kesal" onclick="goPage3()">KLIK KALO KAMU LAGI KESAL 😾</button>
+    </div>
+
+    <!-- PAGE 3: Tap Cat Game -->
+    <div class="page" id="page3">
         <h1 class="game-title">Elus Kucingnya 20x! 🐾</h1>
         <p class="sub-text" style="margin-bottom:16px">Tap kucingnya sampe dia seneng~</p>
         <img class="tap-cat" id="tapCat" src="https://cdn.pixabay.com/photo/2019/11/08/11/36/kitten-4611189_640.jpg" alt="Tap kucing" onclick="tapKucing()">
@@ -138,6 +167,11 @@
         function goPage2() {
             document.getElementById('page1').classList.remove('active');
             document.getElementById('page2').classList.add('active');
+        }
+
+        function goPage3() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.add('active');
         }
 
         function tapKucing() {
