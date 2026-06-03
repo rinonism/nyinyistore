@@ -165,6 +165,26 @@
         const maxTaps = 20;
 
         function showMessage() {
+            // Meow sound
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(800, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(500, ctx.currentTime + 0.2);
+            osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.35);
+            osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.6);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.7);
+
+            // Paw rain effect
+            showPaws();
+
+            // Bubble animation
             const bubble = document.querySelector('.bubble');
             bubble.style.transform = 'translateX(-50%) scale(1.2)';
             bubble.style.opacity = '0';
@@ -176,6 +196,23 @@
                 document.getElementById('btnKesal').style.display = 'inline-block';
                 document.getElementById('btnKesal').style.animation = 'fadeIn 0.5s ease 0.3s both';
             }, 300);
+        }
+
+        function showPaws() {
+            const c = document.getElementById('hearts');
+            const paws = ['🐾','🐾','🐾','✨','🐱','💫'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('span');
+                    p.classList.add('heart');
+                    p.textContent = paws[Math.floor(Math.random() * paws.length)];
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.fontSize = (1 + Math.random() * 0.8) + 'rem';
+                    p.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    c.appendChild(p);
+                    setTimeout(() => p.remove(), 4000);
+                }, i * 60);
+            }
         }
 
         function goPage2() {
