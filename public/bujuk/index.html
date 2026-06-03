@@ -120,6 +120,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         .popup-emoji { font-size: 2rem; margin-bottom: 12px; }
+        .popup-img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin: 0 auto 14px; display: block; border: 3px solid #e9d5ff; }
         .popup-text { font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 20px; }
         .popup-btn {
             background: linear-gradient(135deg, #c084fc, #7c3aed);
@@ -164,7 +165,7 @@
         <!-- Pop-up overlay -->
         <div class="popup-overlay" id="popup" style="display:none;">
             <div class="popup-box">
-                <p class="popup-emoji">🐱</p>
+                <img class="popup-img" id="popupImg" src="" alt="Kucing" style="display:none;">
                 <p class="popup-text" id="popupText"></p>
                 <button class="popup-btn" onclick="closePopup()">Lanjut ➜</button>
             </div>
@@ -264,11 +265,11 @@
 
             // Pop-up messages at certain clicks
             if (taps === 5) {
-                showPopup("Kata si olong km, dia minta maaf ya. tadi dia nyesel banget sampe ngacak ngacak pasir. 🐾");
+                showPopup("Kata si olong km, dia minta maaf ya. tadi dia nyesel banget sampe ngacak ngacak pasir. 🐾", "/bujuk/cats/5.jpg");
             } else if (taps === 10) {
-                showPopup("Dia nyesel sama perbuatan nya dan janji bakal ngurangin ngeselinnya. aman aja kak nyinyi kalau bohong nanti aku gigit dia! 😾");
+                showPopup("Dia nyesel sama perbuatan nya dan janji bakal ngurangin ngeselinnya. aman aja kak nyinyi kalau bohong nanti aku gigit dia! 😾", "/bujuk/cats/3.jpg");
             } else if (taps === 15) {
-                showPopup("5 klik lagi nih... Kasihan dia udah nungguin dimaafin dari tadi. Yuk bisa yuk! 💪");
+                showPopup("5 klik lagi nih... Kasihan dia udah nungguin dimaafin dari tadi. Yuk bisa yuk! 💪", "/bujuk/cats/6.jpg");
             }
 
             if (taps >= maxTaps) {
@@ -282,11 +283,18 @@
         }
 
         let paused = false;
-        function showPopup(text) {
+        function showPopup(text, imgSrc) {
             paused = true;
             const popup = document.getElementById('popup');
             document.getElementById('popupText').textContent = text;
-            popup.style.display = 'block';
+            const imgEl = document.getElementById('popupImg');
+            if (imgSrc) {
+                imgEl.src = imgSrc;
+                imgEl.style.display = 'block';
+            } else {
+                imgEl.style.display = 'none';
+            }
+            popup.style.display = 'flex';
             popup.style.animation = 'fadeIn 0.4s ease';
         }
 
