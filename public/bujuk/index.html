@@ -165,9 +165,17 @@
         const maxTaps = 20;
 
         function showMessage() {
-            document.getElementById('msgBox').style.display = 'block';
-            document.getElementById('btnKesal').style.display = 'inline-block';
-            document.querySelector('.bubble').style.display = 'none';
+            const bubble = document.querySelector('.bubble');
+            bubble.style.transform = 'translateX(-50%) scale(1.2)';
+            bubble.style.opacity = '0';
+            bubble.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
+                bubble.style.display = 'none';
+                document.getElementById('msgBox').style.display = 'block';
+                document.getElementById('msgBox').style.animation = 'fadeIn 0.5s ease';
+                document.getElementById('btnKesal').style.display = 'inline-block';
+                document.getElementById('btnKesal').style.animation = 'fadeIn 0.5s ease 0.3s both';
+            }, 300);
         }
 
         function goPage2() {
