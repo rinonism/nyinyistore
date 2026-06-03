@@ -120,14 +120,17 @@
     </div>
 
     <script>
-        // Random cat images tiap load - use working pixabay URLs + local fallback
+        // Random cat images tiap load
         const catImages = [
-            'cats/1.jpg','cats/3.jpg','cats/5.jpg','cats/6.jpg','cats/7.jpg','cats/8.jpg'
+            '/bujuk/cats/1.jpg','/bujuk/cats/3.jpg','/bujuk/cats/5.jpg',
+            '/bujuk/cats/6.jpg','/bujuk/cats/7.jpg','/bujuk/cats/8.jpg'
         ];
         function randomCat() { return catImages[Math.floor(Math.random() * catImages.length)]; }
         // Set random cats on load
-        document.querySelector('.cat-circle img').src = randomCat();
-        document.getElementById('tapCat').src = randomCat();
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.cat-circle img').src = randomCat();
+            document.getElementById('tapCat').src = randomCat();
+        });
 
         let taps = 0;
         const maxTaps = 20;
