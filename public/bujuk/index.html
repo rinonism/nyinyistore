@@ -110,11 +110,13 @@
         /* Page 3 - Chase */
         .chase-container {
             position: relative;
-            min-height: 200px;
+            min-height: 300px;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
+            overflow: visible;
         }
         .btn-maafin {
             background: linear-gradient(135deg, #34d399, #059669);
@@ -428,19 +430,25 @@
         let runCount = 0;
         function runAway() {
             const btn = document.getElementById('btnMarah');
-            const container = document.getElementById('chaseContainer');
-            const rect = container.getBoundingClientRect();
-            const maxX = rect.width - btn.offsetWidth - 20;
-            const maxY = rect.height - btn.offsetHeight;
-            const randX = Math.floor(Math.random() * maxX) - maxX/2;
-            const randY = Math.floor(Math.random() * maxY);
-            btn.style.position = 'absolute';
-            btn.style.left = (rect.width/2 + randX) + 'px';
+            // Kabur ke mana-mana di seluruh viewport
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const bw = btn.offsetWidth;
+            const bh = btn.offsetHeight;
+            const randX = Math.floor(Math.random() * (vw - bw));
+            const randY = Math.floor(Math.random() * (vh - bh));
+            btn.style.position = 'fixed';
+            btn.style.left = randX + 'px';
             btn.style.top = randY + 'px';
-            btn.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+            btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg) scale(' + (0.8 + Math.random() * 0.4) + ')';
+            btn.style.zIndex = '999';
             runCount++;
             if (runCount >= 3) {
                 document.getElementById('chaseHint').style.display = 'block';
+            }
+            // Makin lama makin cepet kabur
+            if (runCount > 5) {
+                btn.style.transition = 'all 0.1s ease';
             }
         }
 
