@@ -114,6 +114,28 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Page 2 - Frame box */
+        .frame-box {
+            position: relative;
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 2px dashed rgba(255,255,255,0.4);
+            border-radius: 16px;
+            background: rgba(124,58,237,0.15);
+            backdrop-filter: blur(8px);
+        }
+        .frame-corner {
+            position: absolute;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: spinFlower 4s linear infinite;
+        }
+        .frame-corner.tl { top: -8px; left: -8px; }
+        .frame-corner.tr { top: -8px; right: -8px; }
+        .frame-corner.bl { bottom: -8px; left: -8px; }
+        .frame-corner.br { bottom: -8px; right: -8px; }
+        @keyframes spinFlower { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         /* Page 2 - Message box */
         .msg-box {
             background: rgba(255,255,255,0.95);
@@ -371,7 +393,11 @@
         <div class="text-card">
             <h1 class="game-title" style="margin-bottom:0">Persekongkolan ak dengan meng dimulai 😼</h1>
         </div>
-        <div class="text-card">
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
             <p class="sub-text" style="margin-bottom:0">Ak dan meng mau bantuin km buat<br>reda in emosi/marahnya km nih 🐾</p>
         </div>
         <p class="sub-text" style="font-size:0.85rem; opacity:0.85; color:#fbbcdc; margin-bottom:14px;">Ak kasih kesukaan km nih meng lucuuu~<br>setiap tap ngebantu ngereda in marahnya km hehe ♡</p>
