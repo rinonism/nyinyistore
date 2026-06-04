@@ -577,16 +577,16 @@
                 basket.style.left = basketX + '%';
             });
 
-            // Spawn items
+            // Spawn items (jarang-jarang)
             catchInterval = setInterval(() => {
                 if (catchScore >= 100) return;
                 spawnTreat();
-            }, 700);
+            }, 1500);
         }
 
         function spawnTreat() {
             const area = document.getElementById('catchArea');
-            const treats = ['🍬','🍈','🍣','❤️','🐟','🍭','🧁','🍩'];
+            const treats = ['🍬','🍈','🍣','🐟'];
             const item = document.createElement('div');
             item.classList.add('catch-item');
             item.textContent = treats[Math.floor(Math.random() * treats.length)];
