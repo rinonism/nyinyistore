@@ -395,6 +395,9 @@
             // Vibration haptic feedback
             if (navigator.vibrate) navigator.vibrate(30);
 
+            // Pop sound
+            playPop();
+
             const cat = document.getElementById('tapCat');
             cat.style.transform = 'scale(0.85) rotate(' + (Math.random() * 10 - 5) + 'deg)';
             setTimeout(() => cat.style.transform = 'scale(1) rotate(0deg)', 150);
@@ -525,29 +528,46 @@
             }
         })();
 
-        // Tap burst effect
+        // Tap burst effect (bigger, more particles)
         function tapBurst(el) {
             const rect = el.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            const emojis = ['🐾','✨','💫','⭐','💥','🐱'];
-            for (let i = 0; i < 8; i++) {
+            const emojis = ['🐾','✨','💫','⭐','💥','🐱','🩷','😾'];
+            for (let i = 0; i < 14; i++) {
                 const span = document.createElement('span');
                 span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                span.style.cssText = 'position:fixed;pointer-events:none;font-size:' + (0.8 + Math.random() * 0.8) + 'rem;z-index:999;transition:all 0.6s ease-out;opacity:1;';
+                span.style.cssText = 'position:fixed;pointer-events:none;font-size:' + (1.2 + Math.random() * 1.2) + 'rem;z-index:999;transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94);opacity:1;';
                 span.style.left = cx + 'px';
                 span.style.top = cy + 'px';
                 document.body.appendChild(span);
-                const angle = (Math.PI * 2 / 8) * i;
-                const dist = 40 + Math.random() * 40;
+                const angle = (Math.PI * 2 / 14) * i + (Math.random() * 0.3);
+                const dist = 60 + Math.random() * 70;
                 requestAnimationFrame(() => {
                     span.style.left = (cx + Math.cos(angle) * dist) + 'px';
                     span.style.top = (cy + Math.sin(angle) * dist) + 'px';
                     span.style.opacity = '0';
-                    span.style.transform = 'scale(0.3)';
+                    span.style.transform = 'scale(0.2) rotate(' + (Math.random() * 360) + 'deg)';
                 });
-                setTimeout(() => span.remove(), 700);
+                setTimeout(() => span.remove(), 800);
             }
+        }
+
+        // Pop sound effect (synthesized, no file needed)
+        function playPop() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
         }
     </script>
 </body>
