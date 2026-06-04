@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid Position Guide</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #c471f5 75%, #667eea 100%);
+    background-size: 400% 400%;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+}
+.cell {
+    border: 1px dashed rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.05);
+}
+.cell:hover { background: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+<div class="grid">
+    <div class="cell">1</div>
+    <div class="cell">2</div>
+    <div class="cell">3</div>
+    <div class="cell">4</div>
+    <div class="cell">5</div>
+    <div class="cell">6</div>
+    <div class="cell">7</div>
+    <div class="cell">8</div>
+    <div class="cell">9</div>
+    <div class="cell">10</div>
+    <div class="cell">11</div>
+    <div class="cell">12</div>
+    <div class="cell">13</div>
+    <div class="cell">14</div>
+    <div class="cell">15</div>
+    <div class="cell">16</div>
+    <div class="cell">17</div>
+    <div class="cell">18</div>
+    <div class="cell">19</div>
+    <div class="cell">20</div>
+    <div class="cell">21</div>
+    <div class="cell">22</div>
+    <div class="cell">23</div>
+    <div class="cell">24</div>
+    <div class="cell">25</div>
+    <div class="cell">26</div>
+    <div class="cell">27</div>
+    <div class="cell">28</div>
+    <div class="cell">29</div>
+    <div class="cell">30</div>
+    <div class="cell">31</div>
+    <div class="cell">32</div>
+</div>
+</body>
+</html>
