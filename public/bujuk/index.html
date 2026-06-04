@@ -116,8 +116,18 @@
             animation: pulse 2s ease-in-out infinite;
         }
         .tap-cat:active { transform: scale(0.85); animation: shake 0.3s; }
-        .progress-bar { width: 80%; height: 12px; background: rgba(255,255,255,0.3); border-radius: 6px; overflow: hidden; margin: 16px auto; backdrop-filter: blur(5px); }
+        .progress-bar { width: 80%; height: 12px; background: rgba(255,255,255,0.3); border-radius: 6px; overflow: visible; margin: 16px auto; backdrop-filter: blur(5px); position: relative; }
         .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f093fb, #c471f5, #7c3aed); border-radius: 6px; transition: width 0.3s; box-shadow: 0 0 10px rgba(192,132,252,0.5); }
+        .progress-cat {
+            position: absolute;
+            top: -20px;
+            left: 0%;
+            transition: left 0.3s ease;
+            font-size: 1.2rem;
+            transform: translateX(-50%);
+            animation: walkBounce 0.4s ease infinite;
+        }
+        @keyframes walkBounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-3px); } }
         .counter { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         .hint { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
         h1.game-title { font-size: 1.5rem; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
@@ -333,7 +343,7 @@
             <img class="tap-cat" id="tapCat" src="https://cdn.pixabay.com/photo/2019/11/08/11/36/kitten-4611189_640.jpg" alt="Tap kucing" onclick="tapKucing()">
         </div>
         <div class="counter" id="counter">0 / 20</div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div><span class="progress-cat" id="progressCat">🐾</span></div>
         <p class="hint">breathe in, breathe out 💫</p>
 
         <!-- Pop-up overlay -->
@@ -480,6 +490,7 @@
             taps++;
             document.getElementById('counter').textContent = taps + ' / ' + maxTaps;
             document.getElementById('progressFill').style.width = (taps / maxTaps * 100) + '%';
+            document.getElementById('progressCat').style.left = (taps / maxTaps * 100) + '%';
 
             // Vibration haptic feedback
             if (navigator.vibrate) navigator.vibrate(30);
