@@ -302,7 +302,10 @@
         const maxTaps = 20;
 
         function showMessage() {
-            // Meow sound removed
+            // Meow sound 1.25x speed
+            const meow = new Audio('/bujuk/meow.mp3');
+            meow.playbackRate = 1.25;
+            meow.play().catch(() => {});
 
             // Paw rain effect
             showPaws();
