@@ -264,7 +264,7 @@
         <!-- Chase popup -->
         <div class="popup-overlay" id="chasePopup" style="display:none;">
             <div class="popup-box">
-                <img class="popup-img" src="/bujuk/cats/angry.jpg" alt="Kucing">
+                <img class="popup-img" src="/bujuk/cats/5.jpg" alt="Kucing">
                 <div class="popup-speech">
                     <p class="popup-name">🐾 Kucing Berkata:</p>
                     <p class="popup-text">Ga bisa ya bei? Udah maafin aja 🤪</p>
@@ -452,11 +452,11 @@
             btn.style.position = 'fixed';
             btn.style.left = randX + 'px';
             btn.style.top = randY + 'px';
-            btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg) scale(' + (0.8 + Math.random() * 0.4) + ')';
+            btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg)';
             btn.style.zIndex = '999';
             runCount++;
-            if (runCount === 3) {
-                // Show popup after 3 attempts
+            if (runCount === 6) {
+                // Show popup after 6 attempts
                 btn.style.display = 'none';
                 showChasePopup();
             }
