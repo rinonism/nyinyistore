@@ -274,6 +274,8 @@
 
             if (taps >= maxTaps) {
                 setTimeout(() => {
+                    // Ganti gambar kucing ke happy cat
+                    document.getElementById('tapCat').src = '/bujuk/cats/6.jpg';
                     document.getElementById('final').classList.add('show');
                     document.querySelector('.hint').style.display = 'none';
                     document.getElementById('counter').textContent = '✅ Selesai!';
