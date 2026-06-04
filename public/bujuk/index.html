@@ -299,6 +299,68 @@
         }
         @keyframes catchFall { 0% { top: -30px; } 100% { top: 340px; } }
 
+
+        /* Page 4 - Score progress bar */
+        .score-bar { width: 80%; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; margin: 0 auto 14px; overflow: hidden; }
+        .score-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f9a825, #ff6d00, #ff1744); border-radius: 5px; transition: width 0.4s ease; box-shadow: 0 0 8px rgba(255,109,0,0.5); }
+
+        /* Page 4 - Cat speech bubble */
+        .cat-speech {
+            position: absolute;
+            bottom: 55px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            color: #4c1d95;
+            font-size: 0.8rem; font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .cat-speech.show { opacity: 1; animation: popIn 0.3s ease; }
+        @keyframes popIn { 0% { transform: translateX(-50%) scale(0.5); } 100% { transform: translateX(-50%) scale(1); } }
+
+        /* Page 4 - Sparkle trail */
+        .sparkle-trail {
+            position: absolute;
+            font-size: 0.7rem;
+            pointer-events: none;
+            animation: sparkleFade 0.6s ease forwards;
+            z-index: 5;
+        }
+        @keyframes sparkleFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.3) translateY(-15px); } }
+
+        /* Page 4 - Wobble treats */
+        .catch-item.wobble { animation: catchFall linear forwards, treatWobble 0.5s ease infinite; }
+        @keyframes treatWobble { 0%,100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+
+        /* Page 4 - Emoji rain background */
+        .emoji-rain {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; overflow: hidden; z-index: 0;
+        }
+        .emoji-drop {
+            position: absolute;
+            top: -30px;
+            font-size: 1rem;
+            opacity: 0.3;
+            animation: emojiDrop linear infinite;
+        }
+        @keyframes emojiDrop { 0% { top: -30px; opacity: 0.3; } 100% { top: 100%; opacity: 0; } }
+
+        /* Page 4 - Confetti */
+        .confetti-piece {
+            position: absolute;
+            font-size: 1.4rem;
+            pointer-events: none;
+            z-index: 20;
+            animation: confettiBurst 1s ease forwards;
+        }
+        @keyframes confettiBurst { 0% { opacity:1; transform: scale(1) translate(0,0); } 100% { opacity:0; transform: scale(0.5) translate(var(--tx,20px), var(--ty,-80px)); } }
+
         /* Page 4 - Final msg */
         .final-msg {
             background: rgba(255,255,255,0.95); border-radius: 24px; padding: 32px;
@@ -456,8 +518,10 @@
         <h1 class="game-title">Catch the Treats! 🍬</h1>
         <p class="sub-text" style="margin-bottom:12px">Tangkap makanan kesukaan kamu! Target: 100 poin 🎯</p>
         <div class="catch-score">Skor: <span id="catchScore">0</span> / 100</div>
+        <div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
         <div class="catch-area" id="catchArea">
-            <div class="catch-basket" id="catchBasket"></div>
+            <div class="emoji-rain" id="emojiRain"></div>
+            <div class="catch-basket" id="catchBasket"><span class="cat-speech" id="catSpeech"></span></div>
         </div>
         <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
     </div>
@@ -683,6 +747,8 @@
         function startCatchGame() {
             const area = document.getElementById('catchArea');
             const basket = document.getElementById('catchBasket');
+            startEmojiRain();
+            startBgm();
             
             // Touch/mouse controls
             area.addEventListener('touchmove', function(e) {
@@ -712,7 +778,7 @@
             const area = document.getElementById('catchArea');
             const treats = ['🍬','🍈','🍣','🐟'];
             const item = document.createElement('div');
-            item.classList.add('catch-item');
+            item.classList.add('catch-item', 'wobble');
             item.textContent = treats[Math.floor(Math.random() * treats.length)];
             item.style.left = (5 + Math.random() * 85) + '%';
             const speed = 2 + Math.random() * 1.5;
@@ -733,25 +799,38 @@
                     // Caught!
                     catchScore += 10;
                     document.getElementById('catchScore').textContent = catchScore;
+                    document.getElementById('scoreFill').style.width = catchScore + '%';
                     item.remove();
                     clearInterval(checkInterval);
                     if (navigator.vibrate) navigator.vibrate(20);
                     playPop();
+                    showCatSpeech(true);
+                    spawnSparkle();
+
+                    // Confetti at milestones
+                    if (catchScore % 25 === 0 && catchScore < 100) confettiBurst();
 
                     if (catchScore >= 100) {
+                        confettiBurst();
                         clearInterval(catchInterval);
+                        stopBgm();
                         setTimeout(() => {
                             document.getElementById('page4').classList.remove('active');
                             document.getElementById('page5').classList.add('active');
                             showHearts();
                         }, 800);
+                    } else {
+                        updateBgmTempo();
                     }
                 }
             }, 50);
 
             // Remove if missed (no penalty)
             setTimeout(() => {
-                if (item.parentNode) item.remove();
+                if (item.parentNode) {
+                    item.remove();
+                    showCatSpeech(false);
+                }
                 clearInterval(checkInterval);
             }, 4000);
         }
@@ -815,6 +894,140 @@
                 osc.stop(ctx.currentTime + 0.1);
             } catch(e) {}
         }
+
+        // === CAT SPEECH BUBBLE ===
+        const catchPhrases = ['Nyam! 😋', 'Enak! 🤤', 'Lagi! 🐱', 'Yummy~ 💕', 'Asik! ✨'];
+        const missPhrases = ['Yah~ 😿', 'Huhu 🥺', 'Missed..', 'Aw~ 😾'];
+        let speechTimeout = null;
+        function showCatSpeech(caught) {
+            const el = document.getElementById('catSpeech');
+            const phrases = caught ? catchPhrases : missPhrases;
+            el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            el.classList.add('show');
+            clearTimeout(speechTimeout);
+            speechTimeout = setTimeout(() => el.classList.remove('show'), 1000);
+        }
+
+        // === SPARKLE TRAIL ===
+        function spawnSparkle() {
+            const basket = document.getElementById('catchBasket');
+            const area = document.getElementById('catchArea');
+            const sparkles = ['✨','⭐','💫','🌟'];
+            for (let i = 0; i < 3; i++) {
+                const s = document.createElement('span');
+                s.classList.add('sparkle-trail');
+                s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                s.style.left = (parseFloat(basket.style.left || 50) + (Math.random() * 10 - 5)) + '%';
+                s.style.bottom = '50px';
+                area.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            }
+        }
+
+        // === CONFETTI BURST ===
+        function confettiBurst() {
+            const area = document.getElementById('catchArea');
+            const emojis = ['🎉','✨','⭐','🎊','💜','🩷','🐾','🎈'];
+            for (let i = 0; i < 16; i++) {
+                const c = document.createElement('span');
+                c.classList.add('confetti-piece');
+                c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                c.style.left = (10 + Math.random() * 80) + '%';
+                c.style.top = (20 + Math.random() * 60) + '%';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 40 + Math.random() * 60;
+                c.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                c.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                area.appendChild(c);
+                setTimeout(() => c.remove(), 1000);
+            }
+        }
+
+        // === EMOJI RAIN BACKGROUND ===
+        function startEmojiRain() {
+            const rain = document.getElementById('emojiRain');
+            const emojis = ['🐾','💜','✨','🐱','🩷','⭐'];
+            setInterval(() => {
+                if (catchScore >= 100) return;
+                const drop = document.createElement('span');
+                drop.classList.add('emoji-drop');
+                drop.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = (3 + Math.random() * 4) + 's';
+                rain.appendChild(drop);
+                setTimeout(() => drop.remove(), 7000);
+            }, 800);
+        }
+
+        // === BGM (Web Audio - soft loop, tempo increases) ===
+        let bgmCtx = null, bgmOsc = null, bgmGain = null, bgmInterval = null;
+        let bgmTempo = 300; // ms between notes
+        const bgmNotes = [523, 587, 659, 698, 784, 698, 659, 587]; // C5 scale
+        let bgmIndex = 0;
+        function startBgm() {
+            try {
+                bgmCtx = new (window.AudioContext || window.webkitAudioContext)();
+                bgmGain = bgmCtx.createGain();
+                bgmGain.connect(bgmCtx.destination);
+                bgmGain.gain.value = 0.08;
+                playBgmNote();
+                bgmInterval = setInterval(playBgmNote, bgmTempo);
+            } catch(e) {}
+        }
+        function playBgmNote() {
+            if (!bgmCtx) return;
+            const osc = bgmCtx.createOscillator();
+            const noteGain = bgmCtx.createGain();
+            osc.connect(noteGain);
+            noteGain.connect(bgmGain);
+            osc.type = 'sine';
+            osc.frequency.value = bgmNotes[bgmIndex % bgmNotes.length];
+            noteGain.gain.setValueAtTime(0.3, bgmCtx.currentTime);
+            noteGain.gain.exponentialRampToValueAtTime(0.01, bgmCtx.currentTime + 0.2);
+            osc.start(bgmCtx.currentTime);
+            osc.stop(bgmCtx.currentTime + 0.25);
+            bgmIndex++;
+        }
+        function updateBgmTempo() {
+            // Speed up as score increases
+            const newTempo = Math.max(150, 300 - (catchScore * 1.5));
+            if (Math.abs(newTempo - bgmTempo) > 20) {
+                bgmTempo = newTempo;
+                clearInterval(bgmInterval);
+                bgmInterval = setInterval(playBgmNote, bgmTempo);
+            }
+        }
+        function stopBgm() {
+            clearInterval(bgmInterval);
+            if (bgmGain) bgmGain.gain.value = 0;
+        }
+
+        // === SPARKLE TRAIL ON BASKET MOVE ===
+        (function() {
+            const area = document.getElementById('catchArea');
+            if (!area) return;
+            let lastSparkle = 0;
+            function trailOnMove(x) {
+                const now = Date.now();
+                if (now - lastSparkle < 100) return;
+                lastSparkle = now;
+                const sparkles = ['✨','·','⋆'];
+                const s = document.createElement('span');
+                s.classList.add('sparkle-trail');
+                s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                const rect = area.getBoundingClientRect();
+                s.style.left = ((x - rect.left) / rect.width * 100) + '%';
+                s.style.bottom = '15px';
+                area.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            }
+            area.addEventListener('touchmove', function(e) {
+                trailOnMove(e.touches[0].clientX);
+            });
+            area.addEventListener('mousemove', function(e) {
+                trailOnMove(e.clientX);
+            });
+        })();
     </script>
 </body>
 </html>
