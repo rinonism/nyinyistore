@@ -160,6 +160,36 @@
         }
         .chase-hint { font-size: 0.95rem; color: rgba(255,255,255,0.9); font-style: italic; }
 
+        /* Page 4 - Catch the Treats */
+        .catch-score { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .catch-area {
+            position: relative;
+            width: 100%; height: 350px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            touch-action: none;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .catch-basket {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            width: 60px;
+            text-align: center;
+            transition: left 0.05s linear;
+        }
+        .catch-item {
+            position: absolute;
+            font-size: 1.8rem;
+            top: -30px;
+            animation: catchFall linear forwards;
+        }
+        @keyframes catchFall { 0% { top: -30px; } 100% { top: 340px; } }
+
         /* Page 4 - Final msg */
         .final-msg {
             background: rgba(255,255,255,0.95); border-radius: 24px; padding: 32px;
@@ -298,8 +328,19 @@
         </div>
     </div>
 
-    <!-- PAGE 4: Selesai -->
+    <!-- PAGE 4: Catch the Treats -->
     <div class="page" id="page4">
+        <h1 class="game-title">Catch the Treats! 🍬</h1>
+        <p class="sub-text" style="margin-bottom:12px">Tangkap makanan kesukaan kamu! Target: 100 poin 🎯</p>
+        <div class="catch-score">Skor: <span id="catchScore">0</span> / 100</div>
+        <div class="catch-area" id="catchArea">
+            <div class="catch-basket" id="catchBasket">🐱</div>
+        </div>
+        <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
+    </div>
+
+    <!-- PAGE 5: Selesai -->
+    <div class="page" id="page5">
         <div class="final-msg">
             <p style="font-size:2rem; margin-bottom:16px;">🥰💕</p>
             <p>Sama kayak aku yang seneng kalo kamu udah ga marah lagi.<br><br>
@@ -503,11 +544,92 @@
             document.getElementById('page3').classList.remove('active');
             document.getElementById('page4').classList.add('active');
             document.getElementById('chasePopup').style.display = 'none';
-            showHearts();
+            startCatchGame();
         }
 
         function showChasePopup() {
             document.getElementById('chasePopup').style.display = 'flex';
+        }
+
+        // === CATCH THE TREATS GAME ===
+        let catchScore = 0;
+        let catchInterval = null;
+        let basketX = 50; // percent
+
+        function startCatchGame() {
+            const area = document.getElementById('catchArea');
+            const basket = document.getElementById('catchBasket');
+            
+            // Touch/mouse controls
+            area.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = area.getBoundingClientRect();
+                basketX = ((touch.clientX - rect.left) / rect.width) * 100;
+                basketX = Math.max(8, Math.min(92, basketX));
+                basket.style.left = basketX + '%';
+            }, {passive: false});
+
+            area.addEventListener('mousemove', function(e) {
+                const rect = area.getBoundingClientRect();
+                basketX = ((e.clientX - rect.left) / rect.width) * 100;
+                basketX = Math.max(8, Math.min(92, basketX));
+                basket.style.left = basketX + '%';
+            });
+
+            // Spawn items
+            catchInterval = setInterval(() => {
+                if (catchScore >= 100) return;
+                spawnTreat();
+            }, 700);
+        }
+
+        function spawnTreat() {
+            const area = document.getElementById('catchArea');
+            const treats = ['🍬','🍈','🍣','❤️','🐟','🍭','🧁','🍩'];
+            const item = document.createElement('div');
+            item.classList.add('catch-item');
+            item.textContent = treats[Math.floor(Math.random() * treats.length)];
+            item.style.left = (5 + Math.random() * 85) + '%';
+            const speed = 2 + Math.random() * 1.5;
+            item.style.animationDuration = speed + 's';
+            area.appendChild(item);
+
+            // Check collision during fall
+            let checkInterval = setInterval(() => {
+                const itemRect = item.getBoundingClientRect();
+                const basket = document.getElementById('catchBasket');
+                const basketRect = basket.getBoundingClientRect();
+                
+                // Collision check
+                if (itemRect.bottom >= basketRect.top &&
+                    itemRect.top <= basketRect.bottom &&
+                    itemRect.right >= basketRect.left - 15 &&
+                    itemRect.left <= basketRect.right + 15) {
+                    // Caught!
+                    catchScore += 10;
+                    document.getElementById('catchScore').textContent = catchScore;
+                    item.remove();
+                    clearInterval(checkInterval);
+                    if (navigator.vibrate) navigator.vibrate(20);
+                    playPop();
+
+                    if (catchScore >= 100) {
+                        clearInterval(catchInterval);
+                        setTimeout(() => {
+                            document.getElementById('page4').classList.remove('active');
+                            document.getElementById('page5').classList.add('active');
+                            showHearts();
+                        }, 800);
+                    }
+                }
+            }, 50);
+
+            // Remove if missed (no penalty)
+            setTimeout(() => {
+                if (item.parentNode) item.remove();
+                clearInterval(checkInterval);
+            }, 4000);
         }
 
         // Generate floating particles
