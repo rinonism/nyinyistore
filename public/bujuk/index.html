@@ -107,6 +107,44 @@
         .final.show { display: block; }
         .final p { font-size: 1.05rem; color: #4c1d95; line-height: 1.8; }
 
+        /* Page 3 - Chase */
+        .chase-container {
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-maafin {
+            background: linear-gradient(135deg, #34d399, #059669);
+            color: white; border: none; padding: 18px 40px;
+            font-size: 1.2rem; font-weight: 700; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 6px 20px rgba(5,150,105,0.4);
+            transition: transform 0.2s;
+            z-index: 2;
+        }
+        .btn-maafin:active { transform: scale(0.95); }
+        .btn-marah {
+            background: linear-gradient(135deg, #f87171, #dc2626);
+            color: white; border: none; padding: 14px 30px;
+            font-size: 1rem; font-weight: 600; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(220,38,38,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .chase-hint { font-size: 0.9rem; color: #7c3aed; font-style: italic; }
+
+        /* Page 4 - Final msg */
+        .final-msg {
+            background: white; border-radius: 20px; padding: 28px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 2px solid #e9d5ff;
+            animation: fadeIn 0.8s ease;
+        }
+        .final-msg p { font-size: 1.05rem; color: #4c1d95; line-height: 1.8; }
+
         /* Popup */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -207,8 +245,26 @@
         </div>
 
         <div class="final" id="final">
-            <p>Kucingnya udah seneng! 🥰<br><br>
-            Sama kayak aku yang seneng kalo kamu udah ga marah lagi.<br>
+            <p>Kucingnya udah seneng! 🥰</p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: Ujian Keras Kepala -->
+    <div class="page" id="page3">
+        <h1 class="game-title">Ujian Keras Kepala 😼</h1>
+        <p class="sub-text" style="margin-bottom:20px">Gimana, udah dimaafin belum?</p>
+        <div class="chase-container" id="chaseContainer">
+            <button class="btn-maafin" onclick="forgiven()">Udah Dong 💚</button>
+            <button class="btn-marah" id="btnMarah" onmouseover="runAway()" ontouchstart="runAway()">Masih Marah! 😤</button>
+        </div>
+        <p class="chase-hint" id="chaseHint" style="display:none; margin-top:16px;">😂 Gak bisa ya? Udah maafin aja~</p>
+    </div>
+
+    <!-- PAGE 4: Selesai -->
+    <div class="page" id="page4">
+        <div class="final-msg">
+            <p style="font-size:2rem; margin-bottom:16px;">🥰💕</p>
+            <p>Sama kayak aku yang seneng kalo kamu udah ga marah lagi.<br><br>
             Maafin aku ya bei~ 💕<br><br>
             Kamu tuh spesial banget buat aku.<br>
             Ga mau kehilangan kamu. ❤️</p>
@@ -324,6 +380,11 @@
                     document.querySelector('.hint').style.display = 'none';
                     document.getElementById('counter').textContent = '✅ Selesai!';
                     showHearts();
+                    // After 2.5s go to page 3
+                    setTimeout(() => {
+                        document.getElementById('page2').classList.remove('active');
+                        document.getElementById('page3').classList.add('active');
+                    }, 2500);
                 }, 300);
             }
         }
@@ -358,6 +419,32 @@
                     setTimeout(() => h.remove(), 4000);
                 }, i * 80);
             }
+        }
+
+        // Page 3 - Chase button
+        let runCount = 0;
+        function runAway() {
+            const btn = document.getElementById('btnMarah');
+            const container = document.getElementById('chaseContainer');
+            const rect = container.getBoundingClientRect();
+            const maxX = rect.width - btn.offsetWidth - 20;
+            const maxY = rect.height - btn.offsetHeight;
+            const randX = Math.floor(Math.random() * maxX) - maxX/2;
+            const randY = Math.floor(Math.random() * maxY);
+            btn.style.position = 'absolute';
+            btn.style.left = (rect.width/2 + randX) + 'px';
+            btn.style.top = randY + 'px';
+            btn.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+            runCount++;
+            if (runCount >= 3) {
+                document.getElementById('chaseHint').style.display = 'block';
+            }
+        }
+
+        function forgiven() {
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.add('active');
+            showHearts();
         }
     </script>
 </body>
