@@ -110,23 +110,55 @@
         /* Popup */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
             z-index: 100; animation: fadeIn 0.3s ease;
         }
         .popup-box {
-            background: white; border-radius: 20px; padding: 28px;
-            max-width: 320px; width: 90%; text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            background: transparent; max-width: 340px; width: 90%;
+            text-align: center; position: relative;
         }
-        .popup-emoji { font-size: 2rem; margin-bottom: 12px; }
-        .popup-img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin: 0 auto 14px; display: block; border: 3px solid #e9d5ff; }
-        .popup-text { font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 20px; }
+        .popup-img {
+            width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+            margin: 0 auto; display: block; border: 4px solid #c4b5fd;
+            box-shadow: 0 6px 20px rgba(168,85,247,0.3);
+            position: relative; z-index: 2;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .popup-speech {
+            background: white; border-radius: 18px; padding: 22px 20px 20px;
+            margin-top: -15px; position: relative; z-index: 1;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 2px solid #e9d5ff;
+        }
+        .popup-speech::before {
+            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-bottom: 12px solid white;
+        }
+        .popup-speech::after {
+            content: ''; position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 11px solid transparent; border-right: 11px solid transparent;
+            border-bottom: 13px solid #e9d5ff;
+            z-index: -1;
+        }
+        .popup-name {
+            font-size: 0.8rem; color: #7c3aed; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+        }
+        .popup-text {
+            font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 18px;
+            font-style: italic;
+        }
         .popup-btn {
             background: linear-gradient(135deg, #c084fc, #7c3aed);
             color: white; border: none; padding: 12px 28px;
             font-size: 0.95rem; font-weight: 600; border-radius: 30px;
             cursor: pointer; box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+            transition: transform 0.2s;
         }
         .popup-btn:active { transform: scale(0.95); }
         .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
@@ -165,9 +197,12 @@
         <!-- Pop-up overlay -->
         <div class="popup-overlay" id="popup" style="display:none;">
             <div class="popup-box">
-                <img class="popup-img" id="popupImg" src="" alt="Kucing" style="display:none;">
-                <p class="popup-text" id="popupText"></p>
-                <button class="popup-btn" onclick="closePopup()">Lanjut ➜</button>
+                <img class="popup-img" id="popupImg" src="" alt="Kucing">
+                <div class="popup-speech">
+                    <p class="popup-name">🐾 Kucing Berkata:</p>
+                    <p class="popup-text" id="popupText"></p>
+                    <button class="popup-btn" onclick="closePopup()">Lanjut ➜</button>
+                </div>
             </div>
         </div>
 
@@ -298,13 +333,7 @@
             paused = true;
             const popup = document.getElementById('popup');
             document.getElementById('popupText').textContent = text;
-            const imgEl = document.getElementById('popupImg');
-            if (imgSrc) {
-                imgEl.src = imgSrc;
-                imgEl.style.display = 'block';
-            } else {
-                imgEl.style.display = 'none';
-            }
+            document.getElementById('popupImg').src = imgSrc;
             popup.style.display = 'flex';
             popup.style.animation = 'fadeIn 0.4s ease';
         }
