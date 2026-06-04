@@ -301,14 +301,18 @@
         let taps = 0;
         const maxTaps = 20;
 
+        // Preload meow sound
+        const meowSound = new Audio('/bujuk/meow.mp3');
+        meowSound.playbackRate = 1.25;
+        meowSound.preload = 'auto';
+
         let messageFired = false;
         function showMessage() {
             if (messageFired) return;
             messageFired = true;
-            // Meow sound 1.25x speed - plays immediately on tap
-            const meow = new Audio('/bujuk/meow.mp3');
-            meow.playbackRate = 1.25;
-            meow.play().catch(() => {});
+            // Play meow IMMEDIATELY as tap sound
+            meowSound.currentTime = 0;
+            meowSound.play().catch(() => {});
 
             // Paw rain effect
             showPaws();
