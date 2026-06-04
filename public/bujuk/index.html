@@ -260,6 +260,18 @@
             <button class="btn-marah" id="btnMarah" onmouseover="runAway()" ontouchstart="runAway()">Masih Marah! 😤</button>
         </div>
         <p class="chase-hint" id="chaseHint" style="display:none; margin-top:16px;">😂 Gak bisa ya? Udah maafin aja~</p>
+
+        <!-- Chase popup -->
+        <div class="popup-overlay" id="chasePopup" style="display:none;">
+            <div class="popup-box">
+                <img class="popup-img" src="/bujuk/cats/angry.jpg" alt="Kucing">
+                <div class="popup-speech">
+                    <p class="popup-name">🐾 Kucing Berkata:</p>
+                    <p class="popup-text">Ga bisa ya bei? Udah maafin aja 🤪</p>
+                    <button class="btn-maafin" onclick="forgiven()">Iya deh, maafin 💚</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- PAGE 4: Selesai -->
@@ -443,19 +455,22 @@
             btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg) scale(' + (0.8 + Math.random() * 0.4) + ')';
             btn.style.zIndex = '999';
             runCount++;
-            if (runCount >= 3) {
-                document.getElementById('chaseHint').style.display = 'block';
-            }
-            // Makin lama makin cepet kabur
-            if (runCount > 5) {
-                btn.style.transition = 'all 0.1s ease';
+            if (runCount === 3) {
+                // Show popup after 3 attempts
+                btn.style.display = 'none';
+                showChasePopup();
             }
         }
 
         function forgiven() {
             document.getElementById('page3').classList.remove('active');
             document.getElementById('page4').classList.add('active');
+            document.getElementById('chasePopup').style.display = 'none';
             showHearts();
+        }
+
+        function showChasePopup() {
+            document.getElementById('chasePopup').style.display = 'flex';
         }
     </script>
 </body>
