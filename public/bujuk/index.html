@@ -84,11 +84,34 @@
         .text-card {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(12px);
-            border: 2px solid rgba(255,255,255,0.25);
+            border: 2px solid transparent;
             border-radius: 20px;
             padding: 22px 20px;
             margin-bottom: 16px;
             box-shadow: 0 4px 24px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+            background-image: linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.03)), linear-gradient(135deg, #c084fc, #f0abfc, #818cf8, #c084fc);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: cardGlow 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .text-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent 30%);
+            animation: shimmerRotate 4s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes cardGlow {
+            0%, 100% { box-shadow: 0 4px 24px rgba(124,58,237,0.2), 0 0 15px rgba(192,132,252,0.1); }
+            50% { box-shadow: 0 4px 30px rgba(124,58,237,0.35), 0 0 25px rgba(192,132,252,0.25); }
+        }
+        @keyframes shimmerRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Page 2 - Message box */
