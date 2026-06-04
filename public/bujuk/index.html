@@ -132,13 +132,13 @@
         .cat-glow-ring {
             position: relative;
             display: inline-block;
-            padding: 8px;
+            padding: 5px;
             border-radius: 50%;
             background: conic-gradient(from 0deg, #c084fc, #f093fb, #7c3aed, #e879f9, #c084fc);
             animation: spinGlow 4s linear infinite;
-            box-shadow: 0 0 30px rgba(192,132,252,0.4), 0 0 60px rgba(192,132,252,0.2);
+            box-shadow: 0 0 20px rgba(192,132,252,0.3);
         }
-        @keyframes spinGlow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+        @keyframes spinGlow { 0%,100% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .tap-badge {
             margin-top: 12px;
             display: inline-block;
@@ -332,7 +332,6 @@
         <div class="cat-glow-ring">
             <img class="tap-cat" id="tapCat" src="https://cdn.pixabay.com/photo/2019/11/08/11/36/kitten-4611189_640.jpg" alt="Tap kucing" onclick="tapKucing()">
         </div>
-        <div class="tap-badge">setiap tap = satu maaf 💜</div>
         <div class="counter" id="counter">0 / 20</div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         <p class="hint">breathe in, breathe out 💫</p>
