@@ -177,10 +177,24 @@
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2.5rem;
-            width: 60px;
+            width: 70px;
+            height: 40px;
             text-align: center;
             transition: left 0.05s linear;
+            background: linear-gradient(180deg, #f9a825, #f57f17);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            border: 3px solid #e65100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .catch-basket::before {
+            content: '🐱';
+            position: absolute;
+            top: -22px;
+            font-size: 1.3rem;
         }
         .catch-item {
             position: absolute;
@@ -334,7 +348,7 @@
         <p class="sub-text" style="margin-bottom:12px">Tangkap makanan kesukaan kamu! Target: 100 poin 🎯</p>
         <div class="catch-score">Skor: <span id="catchScore">0</span> / 100</div>
         <div class="catch-area" id="catchArea">
-            <div class="catch-basket" id="catchBasket">🐱</div>
+            <div class="catch-basket" id="catchBasket"></div>
         </div>
         <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
     </div>
