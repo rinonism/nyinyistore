@@ -308,32 +308,19 @@
         let taps = 0;
         const maxTaps = 20;
 
-        // Web Audio API for instant playback (zero latency)
-        let audioCtx, meowBuffer;
-        async function initMeow() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const response = await fetch('/bujuk/meow.mp3');
-            const arrayBuffer = await response.arrayBuffer();
-            meowBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-        }
-        initMeow();
-
-        function playMeow() {
-            if (!audioCtx || !meowBuffer) return;
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const source = audioCtx.createBufferSource();
-            source.buffer = meowBuffer;
-            source.playbackRate.value = 2;
-            source.connect(audioCtx.destination);
-            source.start(0);
-        }
+        // Preload meow sound
+        const meowSound = new Audio('/bujuk/meow.mp3');
+        meowSound.playbackRate = 2;
+        meowSound.preload = 'auto';
+        meowSound.load();
 
         let messageFired = false;
         function showMessage() {
             if (messageFired) return;
             messageFired = true;
             // Play meow IMMEDIATELY as tap sound
-            playMeow();
+            meowSound.currentTime = 0;
+            meowSound.play().catch(() => {});
 
             // Paw rain effect
             showPaws();
