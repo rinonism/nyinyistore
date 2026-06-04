@@ -362,6 +362,82 @@
         }
         @keyframes confettiBurst { 0% { opacity:1; transform: scale(1) translate(0,0); } 100% { opacity:0; transform: scale(0.5) translate(var(--tx,20px), var(--ty,-80px)); } }
 
+
+        /* Page 5 - Whack a Mole */
+        .whack-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 320px;
+            margin: 0 auto 16px;
+        }
+        .whack-hole {
+            position: relative;
+            width: 90px; height: 90px;
+            margin: 0 auto;
+            background: radial-gradient(ellipse at center, #3b0764 0%, #1e0536 100%);
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
+            border: 3px solid #581c87;
+        }
+        .whack-mole {
+            position: absolute;
+            bottom: -80px;
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: bottom 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .whack-mole.up { bottom: 8px; }
+        .whack-mole.hit { 
+            bottom: 8px;
+            animation: whackHit 0.3s ease;
+        }
+        @keyframes whackHit { 
+            0% { transform: translateX(-50%) scale(1); } 
+            50% { transform: translateX(-50%) scale(0.7) rotate(10deg); } 
+            100% { transform: translateX(-50%) scale(1); } 
+        }
+        .whack-mole.olong {
+            border: 3px solid #f59e0b;
+            box-shadow: 0 0 12px rgba(245,158,11,0.6);
+        }
+        .cat-ears {
+            position: absolute;
+            top: -5px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.4rem;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .whack-mole.up ~ .cat-ears { opacity: 1; }
+        .whack-speech {
+            position: absolute;
+            top: -30px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            color: #4c1d95;
+            font-size: 0.7rem; font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.2s;
+        }
+        .whack-speech.show { opacity: 1; }
+        .whack-score { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .whack-timer { font-size: 0.95rem; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+
         /* Page 4 - Final msg */
         .final-msg {
             background: rgba(255,255,255,0.95); border-radius: 24px; padding: 32px;
@@ -537,8 +613,35 @@
         <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
     </div>
 
-    <!-- PAGE 5: Selesai -->
+    <!-- PAGE 5: Whack-a-Mole -->
     <div class="page" id="page5">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:0">Pukul Kucing Nakal 😾👊</h1>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Kucing nakal muncul dari lubang!<br>Tap buat pukul~ kalo muncul muka olong dapet poin ganda 😼</p>
+        </div>
+        <p class="sub-text" style="font-size:0.85rem; opacity:0.85; color:#fbbcdc; margin-bottom:14px;">Ini buat ngelampiasinn kekeselin km ke ak ya hehe~ pukul aja sepuasnya ♡</p>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+        <div class="whack-score">Skor: <span id="whackScore">0</span> / 50</div>
+        <div class="score-bar"><div class="score-fill" id="whackFill"></div></div>
+        <div class="whack-grid" id="whackGrid">
+            <div class="whack-hole"><img class="whack-mole" id="mole0"><span class="cat-ears" id="ears0">🐱</span><span class="whack-speech" id="speech0"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole1"><span class="cat-ears" id="ears1">🐱</span><span class="whack-speech" id="speech1"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole2"><span class="cat-ears" id="ears2">🐱</span><span class="whack-speech" id="speech2"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole3"><span class="cat-ears" id="ears3">🐱</span><span class="whack-speech" id="speech3"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole4"><span class="cat-ears" id="ears4">🐱</span><span class="whack-speech" id="speech4"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole5"><span class="cat-ears" id="ears5">🐱</span><span class="whack-speech" id="speech5"></span></div>
+        </div>
+        <p class="hint">Tap kucing yang muncul! 👆</p>
+    </div>
+
+    <!-- PAGE 6: Selesai -->
+    <div class="page" id="page6">
         <div class="final-msg">
             <p style="font-size:2rem; margin-bottom:16px;">🥰💕</p>
             <p>Sama kayak aku yang seneng kalo kamu udah ga marah lagi.<br><br>
@@ -828,7 +931,7 @@
                         setTimeout(() => {
                             document.getElementById('page4').classList.remove('active');
                             document.getElementById('page5').classList.add('active');
-                            showHearts();
+                            startWhackGame();
                         }, 800);
                     } else {
                         updateBgmTempo();
@@ -1039,6 +1142,106 @@
                 trailOnMove(e.clientX);
             });
         })();
+
+        // === WHACK-A-MOLE GAME ===
+        let whackScore = 0;
+        let whackInterval = null;
+        let whackActive = true;
+        const angryCats = ['/bujuk/cats/angry.jpg'];
+        const cuteCats = catImages;
+        const olongImg = '/bujuk/cats/olong.jpg';
+        
+        // Preload olong
+        (function(){ const img = new Image(); img.src = olongImg; })();
+
+        function startWhackGame() {
+            whackScore = 0;
+            whackActive = true;
+            document.getElementById('whackScore').textContent = '0';
+            document.getElementById('whackFill').style.width = '0%';
+            whackInterval = setInterval(spawnMole, 1200);
+        }
+
+        function spawnMole() {
+            if (!whackActive) return;
+            const holeIndex = Math.floor(Math.random() * 6);
+            const mole = document.getElementById('mole' + holeIndex);
+            const ears = document.getElementById('ears' + holeIndex);
+            const speech = document.getElementById('speech' + holeIndex);
+            
+            // Don't spawn if already up
+            if (mole.classList.contains('up')) return;
+
+            // 20% chance olong, 80% angry cat
+            const isOlong = Math.random() < 0.2;
+            
+            if (isOlong) {
+                mole.src = olongImg;
+                mole.classList.add('olong');
+                ears.textContent = '😺';
+            } else {
+                mole.src = '/bujuk/cats/angry.jpg';
+                mole.classList.remove('olong');
+                ears.textContent = '😾';
+            }
+            
+            mole.classList.add('up');
+            ears.style.opacity = '1';
+
+            // Set tap handler
+            mole.onclick = function() {
+                if (!mole.classList.contains('up')) return;
+                mole.classList.add('hit');
+                
+                if (isOlong) {
+                    // Olong hit - double points
+                    whackScore += 10;
+                    speech.textContent = 'Aduh! Sakit tau 😭';
+                    if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+                } else {
+                    // Angry cat hit - becomes cute
+                    whackScore += 5;
+                    mole.src = cuteCats[Math.floor(Math.random() * cuteCats.length)];
+                    ears.textContent = '😻';
+                    speech.textContent = 'Meow~ 🥺';
+                    if (navigator.vibrate) navigator.vibrate(20);
+                }
+                
+                playPop();
+                speech.classList.add('show');
+                document.getElementById('whackScore').textContent = whackScore;
+                document.getElementById('whackFill').style.width = Math.min(100, whackScore * 2) + '%';
+
+                setTimeout(() => {
+                    mole.classList.remove('up', 'hit', 'olong');
+                    ears.style.opacity = '0';
+                    speech.classList.remove('show');
+                    mole.onclick = null;
+                }, 500);
+
+                // Check win
+                if (whackScore >= 50) {
+                    whackActive = false;
+                    clearInterval(whackInterval);
+                    confettiBurst();
+                    setTimeout(() => {
+                        document.getElementById('page5').classList.remove('active');
+                        document.getElementById('page6').classList.add('active');
+                        showHearts();
+                    }, 1200);
+                }
+            };
+
+            // Auto hide after time
+            setTimeout(() => {
+                if (mole.classList.contains('up') && !mole.classList.contains('hit')) {
+                    mole.classList.remove('up', 'olong');
+                    ears.style.opacity = '0';
+                    speech.classList.remove('show');
+                    mole.onclick = null;
+                }
+            }, 1000 + Math.random() * 500);
+        }
     </script>
 </body>
 </html>
