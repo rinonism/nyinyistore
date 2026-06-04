@@ -308,18 +308,12 @@
         let taps = 0;
         const maxTaps = 20;
 
-        // Preload meow sound + unlock audio on first touch anywhere
+        // Preload meow sound
         const meowSound = new Audio('/bujuk/meow.mp3');
         meowSound.playbackRate = 2;
         meowSound.preload = 'auto';
-        // Unlock audio context on first user interaction
-        function unlockAudio() {
-            meowSound.play().then(() => { meowSound.pause(); meowSound.currentTime = 0; }).catch(() => {});
-            document.removeEventListener('touchstart', unlockAudio);
-            document.removeEventListener('click', unlockAudio);
-        }
-        document.addEventListener('touchstart', unlockAudio, {once: true});
-        document.addEventListener('click', unlockAudio, {once: true});
+        // Force load the audio buffer
+        meowSound.load();
 
         let messageFired = false;
         function showMessage() {
