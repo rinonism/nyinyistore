@@ -275,7 +275,7 @@
             width: 70px;
             height: 40px;
             text-align: center;
-            transition: left 0.05s linear;
+            transition: none;
             background: linear-gradient(180deg, #f9a825, #f57f17);
             border-radius: 0 0 50% 50% / 0 0 100% 100%;
             border: 3px solid #e65100;
@@ -326,12 +326,13 @@
         /* Page 4 - Sparkle trail */
         .sparkle-trail {
             position: absolute;
-            font-size: 0.7rem;
+            font-size: 1.2rem;
             pointer-events: none;
-            animation: sparkleFade 0.6s ease forwards;
+            animation: sparkleFade 0.8s ease forwards;
             z-index: 5;
+            text-shadow: 0 0 6px rgba(255,255,255,0.8);
         }
-        @keyframes sparkleFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.3) translateY(-15px); } }
+        @keyframes sparkleFade { 0% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(0.3) translateY(-25px); } }
 
         /* Page 4 - Wobble treats */
         .catch-item.wobble { animation: catchFall linear forwards, treatWobble 0.5s ease infinite; }
@@ -1009,9 +1010,9 @@
             let lastSparkle = 0;
             function trailOnMove(x) {
                 const now = Date.now();
-                if (now - lastSparkle < 100) return;
+                if (now - lastSparkle < 50) return;
                 lastSparkle = now;
-                const sparkles = ['✨','·','⋆'];
+                const sparkles = ['✨','⭐','💫','✦','·'];
                 const s = document.createElement('span');
                 s.classList.add('sparkle-trail');
                 s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
