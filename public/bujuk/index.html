@@ -438,6 +438,72 @@
         .whack-score { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         .whack-timer { font-size: 0.95rem; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
 
+
+        /* Page 6 - Gacha */
+        .gacha-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px auto;
+        }
+        .gacha-box {
+            width: 95px; height: 110px;
+            perspective: 600px;
+            cursor: pointer;
+        }
+        .gacha-box .gacha-front, .gacha-box .gacha-back {
+            width: 100%; height: 100%;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-align: center;
+            backface-visibility: hidden;
+            transition: transform 0.5s ease;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .gacha-box .gacha-front {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+            color: white;
+            animation: gachaFloat 2s ease-in-out infinite;
+        }
+        .gacha-box .gacha-back {
+            background: linear-gradient(135deg, #f9a825, #ff6d00);
+            border: 3px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 20px rgba(249,168,37,0.5);
+            transform: rotateY(180deg);
+            font-size: 0.8rem;
+            color: white;
+            font-weight: 700;
+            padding: 8px;
+        }
+        .gacha-box {
+            position: relative;
+        }
+        .gacha-box.opened .gacha-front { transform: rotateY(180deg); }
+        .gacha-box.opened .gacha-back { transform: rotateY(0deg); }
+        .gacha-box.dimmed { opacity: 0.4; pointer-events: none; }
+        @keyframes gachaFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        .btn-wa {
+            display: inline-block;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+
+        @keyframes heartFall { 0% { top: -20px; opacity: 1; transform: rotate(0deg); } 100% { top: 110vh; opacity: 0.3; transform: rotate(360deg); } }
         /* Page 4 - Final msg */
         .final-msg {
             background: rgba(255,255,255,0.95); border-radius: 24px; padding: 32px;
@@ -643,14 +709,39 @@
         <p class="hint">Tap kucing yang muncul! 👆</p>
     </div>
 
-    <!-- PAGE 6: Selesai -->
+    <!-- PAGE 6: Gacha Perdamaian -->
     <div class="page" id="page6">
-        <div class="final-msg">
-            <p style="font-size:2rem; margin-bottom:16px;">🥰💕</p>
-            <p>Sama kayak aku yang seneng kalo kamu udah ga marah lagi.<br><br>
-            Maafin aku ya bei~ 💕<br><br>
-            Kamu tuh spesial banget buat aku.<br>
-            Ga mau kehilangan kamu. ❤️</p>
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:0">🎉 Yeay! Makasih udah mainin sampe sini~</h1>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Sebagai tanda damai, pilih 1 hadiah misterius dari aku~ 🎁<br>Kamu beruntung dapet apa ya? 😼</p>
+        </div>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+        <div class="gacha-boxes" id="gachaBoxes">
+            <div class="gacha-box" onclick="openGacha(0)">
+                <div class="gacha-front">🐱<br><span style="font-size:0.7rem">???</span></div>
+                <div class="gacha-back" id="gacha0"></div>
+            </div>
+            <div class="gacha-box" onclick="openGacha(1)">
+                <div class="gacha-front">😺<br><span style="font-size:0.7rem">???</span></div>
+                <div class="gacha-back" id="gacha1"></div>
+            </div>
+            <div class="gacha-box" onclick="openGacha(2)">
+                <div class="gacha-front">😸<br><span style="font-size:0.7rem">???</span></div>
+                <div class="gacha-back" id="gacha2"></div>
+            </div>
+        </div>
+        <div id="gachaResult" style="display:none; margin-top:20px;">
+            <div class="text-card" style="background:rgba(255,255,255,0.15);">
+                <p class="sub-text" style="font-size:1.1rem; margin-bottom:8px;" id="gachaVoucher"></p>
+                <p class="sub-text" style="font-size:0.85rem; opacity:0.8;">Klaim ke ak ya~ biar ak tepatin 💕</p>
+            </div>
+            <a class="btn-wa" id="btnWa" href="#" target="_blank">Klaim ke WhatsApp 💬</a>
         </div>
     </div>
 
@@ -1244,6 +1335,69 @@
                     mole.onclick = null;
                 }
             }, 1000 + Math.random() * 500);
+        }
+
+        // === GACHA PERDAMAIAN ===
+        const vouchers = [
+            '🎫 Voucher Bebas Omel 1 Hari',
+            '🧋 Voucher Dibeliin Boba',
+            '👑 Voucher Dituruti Maunya 1x',
+            '🍕 Voucher Ditraktir Makan',
+            '💤 Voucher Bebas Gangguin 1 Hari'
+        ];
+        let gachaOpened = false;
+
+        function openGacha(index) {
+            if (gachaOpened) return;
+            gachaOpened = true;
+
+            // Pick random voucher
+            const voucher = vouchers[Math.floor(Math.random() * vouchers.length)];
+            
+            // Show on the opened box
+            document.getElementById('gacha' + index).textContent = voucher;
+
+            // Flip animation
+            const boxes = document.querySelectorAll('.gacha-box');
+            boxes.forEach((box, i) => {
+                if (i === index) {
+                    box.classList.add('opened');
+                } else {
+                    box.classList.add('dimmed');
+                }
+            });
+
+            // Confetti hearts
+            showHeartConfetti();
+            playPop();
+            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+
+            // Show result after flip
+            setTimeout(() => {
+                document.getElementById('gachaVoucher').textContent = '🎉 Kamu dapet: ' + voucher;
+                document.getElementById('gachaResult').style.display = 'block';
+                document.getElementById('gachaResult').style.animation = 'fadeIn 0.5s ease';
+                
+                // Set WA link
+                const waText = encodeURIComponent('Aku pilih hadiah yang ini ya: ' + voucher + '\nJangan nakal lagi! 😤💕');
+                document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
+            }, 600);
+        }
+
+        // Heart confetti for gacha
+        function showHeartConfetti() {
+            const page = document.getElementById('page6');
+            const hearts = ['❤️','💕','💗','💜','🩷','💖'];
+            for (let i = 0; i < 30; i++) {
+                const h = document.createElement('span');
+                h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                h.style.cssText = 'position:fixed;top:-20px;font-size:' + (1 + Math.random() * 1.5) + 'rem;pointer-events:none;z-index:999;opacity:0.9;';
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.animation = 'heartFall ' + (2 + Math.random() * 2) + 's linear forwards';
+                h.style.animationDelay = (Math.random() * 1) + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 4000);
+            }
         }
     </script>
 </body>
