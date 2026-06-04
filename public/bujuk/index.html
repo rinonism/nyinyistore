@@ -297,6 +297,8 @@
             '/bujuk/cats/21.jpg','/bujuk/cats/22.jpg'
         ];
         function randomCat() { return catImages[Math.floor(Math.random() * catImages.length)]; }
+        // Preload all cat images into browser cache
+        catImages.forEach(src => { const img = new Image(); img.src = src; });
         // Set random cats on load
         window.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.cat-circle img').src = randomCat();
