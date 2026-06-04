@@ -274,8 +274,17 @@
 
             if (taps >= maxTaps) {
                 setTimeout(() => {
-                    // Ganti gambar kucing ke happy cat
-                    document.getElementById('tapCat').src = '/bujuk/cats/6.jpg';
+                    // Ganti gambar kucing ke video loop
+                    const cat = document.getElementById('tapCat');
+                    const video = document.createElement('video');
+                    video.src = '/bujuk/cats/finish.mp4';
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.className = 'tap-cat';
+                    video.style.pointerEvents = 'none';
+                    cat.replaceWith(video);
                     document.getElementById('final').classList.add('show');
                     document.querySelector('.hint').style.display = 'none';
                     document.getElementById('counter').textContent = '✅ Selesai!';
