@@ -354,6 +354,9 @@
             cat.style.transform = 'scale(0.92)';
             setTimeout(() => cat.style.transform = 'scale(1)', 100);
 
+            // Ganti gambar kucing tiap tap
+            cat.src = randomCat();
+
             // Pop-up messages at certain clicks
             if (taps === 5) {
                 showPopup("Kata si olong km, dia minta maaf ya. tadi dia nyesel banget sampe ngacak ngacak pasir. 🐾", "/bujuk/cats/5.jpg");
