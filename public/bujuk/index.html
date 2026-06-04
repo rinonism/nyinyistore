@@ -627,7 +627,7 @@
         </div>
         <p class="sub-text" style="font-size:0.85rem; opacity:0.85; color:#fbbcdc; margin-bottom:14px;">Ini buat ngelampiasinn kekeselin km ke ak ya hehe~ pukul aja sepuasnya ♡</p>
         <div class="divider">· ˚ ✦ ˚ ·</div>
-        <div class="whack-score">Skor: <span id="whackScore">0</span> / 50</div>
+        <div class="whack-score">Skor: <span id="whackScore">0</span> / 100</div>
         <div class="score-bar"><div class="score-fill" id="whackFill"></div></div>
         <div class="whack-grid" id="whackGrid">
             <div class="whack-hole"><img class="whack-mole" id="mole0"><span class="cat-ears" id="ears0">🐱</span><span class="whack-speech" id="speech0"></span></div>
@@ -636,6 +636,9 @@
             <div class="whack-hole"><img class="whack-mole" id="mole3"><span class="cat-ears" id="ears3">🐱</span><span class="whack-speech" id="speech3"></span></div>
             <div class="whack-hole"><img class="whack-mole" id="mole4"><span class="cat-ears" id="ears4">🐱</span><span class="whack-speech" id="speech4"></span></div>
             <div class="whack-hole"><img class="whack-mole" id="mole5"><span class="cat-ears" id="ears5">🐱</span><span class="whack-speech" id="speech5"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole6"><span class="cat-ears" id="ears6">🐱</span><span class="whack-speech" id="speech6"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole7"><span class="cat-ears" id="ears7">🐱</span><span class="whack-speech" id="speech7"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole8"><span class="cat-ears" id="ears8">🐱</span><span class="whack-speech" id="speech8"></span></div>
         </div>
         <p class="hint">Tap kucing yang muncul! 👆</p>
     </div>
@@ -1164,7 +1167,7 @@
 
         function spawnMole() {
             if (!whackActive) return;
-            const holeIndex = Math.floor(Math.random() * 6);
+            const holeIndex = Math.floor(Math.random() * 9);
             const mole = document.getElementById('mole' + holeIndex);
             const ears = document.getElementById('ears' + holeIndex);
             const speech = document.getElementById('speech' + holeIndex);
@@ -1210,7 +1213,7 @@
                 playPop();
                 speech.classList.add('show');
                 document.getElementById('whackScore').textContent = whackScore;
-                document.getElementById('whackFill').style.width = Math.min(100, whackScore * 2) + '%';
+                document.getElementById('whackFill').style.width = Math.min(100, whackScore) + '%';
 
                 setTimeout(() => {
                     mole.classList.remove('up', 'hit', 'olong');
@@ -1220,7 +1223,7 @@
                 }, 500);
 
                 // Check win
-                if (whackScore >= 50) {
+                if (whackScore >= 100) {
                     whackActive = false;
                     clearInterval(whackInterval);
                     confettiBurst();
