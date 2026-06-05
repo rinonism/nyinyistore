@@ -1389,13 +1389,22 @@
         function spawnMole() {
             if (!whackActive) return;
             
-            // Only spawn 1 at a time - find if any is already up
+            // Only spawn max 2 at a time
             let activeCount = 0;
             for (let i = 0; i < 9; i++) {
                 if (document.getElementById('mole' + i).classList.contains('up')) activeCount++;
             }
-            if (activeCount >= 1) return;
+            if (activeCount >= 2) return;
             
+            // Random: kadang 1, kadang 2 sekaligus
+            const spawnCount = activeCount === 0 ? (Math.random() < 0.4 ? 2 : 1) : 1;
+            
+            for (let s = 0; s < spawnCount; s++) {
+                spawnSingleMole();
+            }
+        }
+
+        function spawnSingleMole() {
             const holeIndex = Math.floor(Math.random() * 9);
             const mole = document.getElementById('mole' + holeIndex);
             const ears = document.getElementById('ears' + holeIndex);
