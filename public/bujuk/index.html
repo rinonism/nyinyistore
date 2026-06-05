@@ -593,6 +593,30 @@
             background: transparent; max-width: 340px; width: 90%;
             text-align: center; position: relative;
         }
+        .popup-bounce {
+            animation: popupBounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popupBounceIn { 0% { transform: scale(0) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+        /* Cat speech bubble page 3 */
+        .cat-speech-bubble {
+            display: flex; align-items: center; gap: 10px;
+            justify-content: center; margin-top: 16px;
+            animation: speechPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cat-bubble-text {
+            background: white; color: #7c3aed; font-weight: 600;
+            padding: 8px 14px; border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(124,58,237,0.2);
+            font-size: 0.95rem;
+            position: relative;
+        }
+        .cat-bubble-text::before {
+            content: ''; position: absolute; left: -6px; top: 50%;
+            transform: translateY(-50%); border: 6px solid transparent;
+            border-right-color: white;
+        }
+        @keyframes speechPop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .popup-img {
             width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
             margin: 0 auto; display: block; border: 6px solid #7c3aed;
@@ -724,11 +748,15 @@
             <button class="btn-maafin" onclick="forgiven()">Udah Dong 💚</button>
             <button class="btn-marah" id="btnMarah" onmouseover="runAway()" ontouchstart="runAway()">Masih Marah! 😤</button>
         </div>
+        <div class="cat-speech-bubble" id="catChaseSpeech" style="display:none;">
+            <img src="/bujuk/cats/blep.jpg" alt="kucing" style="width:50px;height:50px;border-radius:50%;border:3px solid #7c3aed;">
+            <span class="cat-bubble-text">yaudah maafin aja~ 🥺</span>
+        </div>
         <p class="chase-hint" id="chaseHint" style="display:none; margin-top:16px;">😂 Gak bisa ya? Udah maafin aja~</p>
 
         <!-- Chase popup -->
         <div class="popup-overlay" id="chasePopup" style="display:none;">
-            <div class="popup-box">
+            <div class="popup-box popup-bounce">
                 <img class="popup-img" src="/bujuk/cats/blep.jpg" alt="Kucing">
                 <div class="popup-speech">
                     <p class="popup-name">🐾 Kucing Berkata:</p>
@@ -1025,6 +1053,11 @@
             btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg) scale(' + (0.7 + Math.random() * 0.6) + ')';
             btn.style.zIndex = '999';
             runCount++;
+            // Show cat speech bubble after 3 attempts
+            if (runCount === 3) {
+                const speech = document.getElementById('catChaseSpeech');
+                speech.style.display = 'flex';
+            }
             if (runCount === 6) {
                 // Show popup after 6 attempts
                 btn.style.display = 'none';
