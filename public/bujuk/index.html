@@ -1388,6 +1388,14 @@
 
         function spawnMole() {
             if (!whackActive) return;
+            
+            // Only spawn 1 at a time - find if any is already up
+            let activeCount = 0;
+            for (let i = 0; i < 9; i++) {
+                if (document.getElementById('mole' + i).classList.contains('up')) activeCount++;
+            }
+            if (activeCount >= 1) return;
+            
             const holeIndex = Math.floor(Math.random() * 9);
             const mole = document.getElementById('mole' + holeIndex);
             const ears = document.getElementById('ears' + holeIndex);
@@ -1396,8 +1404,8 @@
             // Don't spawn if already up
             if (mole.classList.contains('up')) return;
 
-            // 20% chance olong, 80% angry cat
-            const isOlong = Math.random() < 0.2;
+            // 40% chance olong, 60% angry cat
+            const isOlong = Math.random() < 0.4;
             
             if (isOlong) {
                 mole.src = olongImg;
