@@ -70,13 +70,9 @@
         /* Page 1 - Typing effect */
         .typing-text {
             display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
             border-right: 2px solid rgba(255,255,255,0.8);
-            animation: typing 2s steps(16) 0.8s both, blinkCursor 0.6s step-end infinite;
-            max-width: 0;
+            animation: blinkCursor 0.6s step-end infinite;
         }
-        @keyframes typing { to { max-width: 100%; } }
         @keyframes blinkCursor { 0%,100% { border-color: rgba(255,255,255,0.8); } 50% { border-color: transparent; } }
 
         /* Page 1 - Cat blink overlay */
@@ -692,9 +688,9 @@
                 <div class="sparkle-orbit"><span>✨</span><span>⭐</span><span>✨</span><span>⭐</span></div>
             </div>
         </div>
-        <p class="title-text page1-enter"><span class="typing-text">Hai, Nyinyi... 🐾</span></p>
-        <p class="sub-text page1-enter">Ada yang mau ngomong sesuatu.</p>
-        <p class="sub-text page1-enter">Baca dulu ya, jangan langsung di-close 🙏</p>
+        <p class="title-text page1-enter" style="animation-delay:0.6s"><span class="typing-text">Hai, Nyinyi... 🐾</span></p>
+        <p class="sub-text page1-enter" style="animation-delay:1s">Ada yang mau ngomong sesuatu.</p>
+        <p class="sub-text page1-enter" style="animation-delay:1.3s">Baca dulu ya, jangan langsung di-close 🙏</p>
         <div class="msg-box" id="msgBox" style="display:none; margin-top:20px;">
             <p>🐱</p>
             <p class="msg-text">Maaf ya bei, suka bikin km sedih. Biar kamu ga murung lagi, ak punya sesuatu nih buat km ♡</p>
@@ -872,6 +868,19 @@
         window.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.cat-circle img').src = randomCat();
             document.getElementById('tapCat').src = randomCat();
+            
+            // JS typing effect - reliable across all devices
+            const typingEl = document.querySelector('.typing-text');
+            const fullText = typingEl.textContent;
+            typingEl.textContent = '';
+            let i = 0;
+            setTimeout(function typeChar() {
+                if (i < fullText.length) {
+                    typingEl.textContent += fullText[i];
+                    i++;
+                    setTimeout(typeChar, 100);
+                }
+            }, 1000);
         });
 
         let taps = 0;
