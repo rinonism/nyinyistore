@@ -735,6 +735,7 @@
 
         <div class="final" id="final">
             <p>Bar nya udah keisi penuh tuh asekkk, ak dan meng seneng 🥰</p>
+            <button class="btn-maafin" style="margin-top:16px;" onclick="goPage3()">Lanjut ➜</button>
         </div>
     </div>
 
@@ -945,6 +946,11 @@
             document.getElementById('page2').classList.add('active');
         }
 
+        function goPage3() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.add('active');
+        }
+
         function tapKucing() {
             if (taps >= maxTaps) return;
             if (paused) return;
@@ -995,11 +1001,6 @@
                     document.querySelector('.hint').style.display = 'none';
                     document.getElementById('counter').textContent = '✅ Asekk!';
                     showHearts();
-                    // After 2.5s go to page 3
-                    setTimeout(() => {
-                        document.getElementById('page2').classList.remove('active');
-                        document.getElementById('page3').classList.add('active');
-                    }, 2500);
                 }, 300);
             }
         }
