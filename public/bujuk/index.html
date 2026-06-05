@@ -75,28 +75,7 @@
         }
         @keyframes blinkCursor { 0%,100% { border-color: rgba(255,255,255,0.8); } 50% { border-color: transparent; } }
 
-        /* Page 1 - Cat blink overlay */
         .cat-circle { position: relative; }
-        .blink-overlay {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            pointer-events: none;
-            background: transparent;
-        }
-        .blink-overlay::before {
-            content: '';
-            position: absolute;
-            top: 42%; left: 25%;
-            width: 50%; height: 8%;
-            background: rgba(200,180,160,0.9);
-            border-radius: 50%;
-            opacity: 0;
-            animation: catBlink 4s ease infinite;
-        }
-        @keyframes catBlink { 0%,92%,100% { opacity: 0; } 95%,97% { opacity: 1; } }
 
         /* Page 1 - Sparkle orbit around bubble */
         .sparkle-orbit {
@@ -683,7 +662,6 @@
     <div class="page active page1-bg-pulse" id="page1">
         <div class="cat-circle page1-enter">
             <img src="/bujuk/cats/1.jpg" alt="Kucing">
-            <div class="blink-overlay"></div>
             <div class="bubble" ontouchstart="showMessage()" onclick="showMessage()">😊 tap aku dulu
                 <div class="sparkle-orbit"><span>✨</span><span>⭐</span><span>✨</span><span>⭐</span></div>
             </div>
