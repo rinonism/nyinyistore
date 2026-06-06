@@ -22,24 +22,18 @@ export default function AdminLayout({
       return;
     }
 
-    const hasToken = document.cookie.includes("admin_token=");
-    if (!hasToken) {
-      // Try API check since cookie is httpOnly
-      fetch("/api/admin/orders").then(res => {
-        if (!res.ok) {
-          router.push("/admin/login");
-        } else {
-          setAuthenticated(true);
-        }
-        setChecking(false);
-      }).catch(() => {
+    // Verify auth via API call (cookie is httpOnly, can't read from JS)
+    fetch("/api/admin/orders").then(res => {
+      if (!res.ok) {
         router.push("/admin/login");
-        setChecking(false);
-      });
-      return;
-    }
-    setAuthenticated(true);
-    setChecking(false);
+      } else {
+        setAuthenticated(true);
+      }
+      setChecking(false);
+    }).catch(() => {
+      router.push("/admin/login");
+      setChecking(false);
+    });
   }, [pathname, router]);
 
   // Close mobile drawer on route change
@@ -92,8 +86,8 @@ export default function AdminLayout({
       </nav>
       <div className="p-3 border-t border-[#2a2a2a]">
         <button
-          onClick={() => {
-            document.cookie = "admin_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          onClick={async () => {
+            await fetch("/api/admin/logout", { method: "POST" });
             router.push("/admin/login");
           }}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-[#777] hover:bg-red-900/20 hover:text-red-400 transition-colors"

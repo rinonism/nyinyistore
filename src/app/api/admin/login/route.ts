@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createAdminToken } from "@/lib/admin-auth";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
 
@@ -21,10 +22,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Set auth cookie
+    // Generate signed JWT token
+    const token = await createAdminToken();
+
     const response = NextResponse.json({ success: true });
-    response.cookies.set("admin_token", generateToken(), {
-      httpOnly: false,
+    response.cookies.set("admin_token", token, {
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 60 * 60 * 24, // 24 hours
@@ -38,10 +41,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-function generateToken(): string {
-  const timestamp = Date.now().toString(36);
-  const random = Math.random().toString(36).substring(2, 10);
-  return `admin_${timestamp}_${random}`;
 }

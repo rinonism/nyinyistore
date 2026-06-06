@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { manualFulfillOrder } from "@/lib/auto-fulfill";
+import { isAuthenticated } from "@/lib/admin-auth";
 
 export async function POST(request: NextRequest) {
-  // Simple auth check via cookie
-  const adminToken = request.cookies.get("admin_token");
-  if (!adminToken?.value) {
+  // Verify JWT token
+  const authed = await isAuthenticated(request);
+  if (!authed) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

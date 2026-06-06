@@ -15,6 +15,7 @@
     "@supabase/supabase-js": "^2.106.2",
     "autoprefixer": "^10.4.17",
     "crypto-js": "^4.2.0",
+    "jose": "^6.2.3",
     "next": "14.1.0",
     "postcss": "^8.4.33",
     "qrcode.react": "^4.2.0",
