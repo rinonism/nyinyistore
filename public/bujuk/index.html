@@ -1006,7 +1006,7 @@
         </div>
 
         <!-- WA Button below video 2 -->
-        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="position:fixed; top:95%; left:50%; transform:translateX(-50%); z-index:3;">Klaim Hadiah di WhatsApp 💬</a>
+        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:3;">Klaim Hadiah di WhatsApp 💬</a>
 
         <!-- Background music -->
         <audio id="page7Song" src="/bujuk/song.mp3" preload="auto" loop></audio>
@@ -1147,9 +1147,12 @@
             document.getElementById('page6').classList.remove('active');
             document.getElementById('page7').classList.add('active');
             // Force play videos
-            document.querySelectorAll('#page7 video').forEach(v => v.play().catch(()=>{}));
+            document.querySelectorAll('#page7 video').forEach(v => { v.muted = false; v.play().catch(()=>{}); });
             // Play song — if blocked, show tap overlay
-            document.getElementById('page7Song').play().then(()=>{}).catch(()=>{
+            var song = document.getElementById('page7Song');
+            song.currentTime = 0;
+            song.volume = 1;
+            song.play().then(()=>{}).catch(()=>{
                 document.getElementById('tapToPlay').style.display = 'flex';
             });
             confettiBurst();
