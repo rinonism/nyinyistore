@@ -183,6 +183,23 @@
         }
 
         /* Page 2 - Frame box */
+        .chat-bubble-right {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 18px 18px 4px 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            font-style: italic;
+            align-self: flex-end;
+            max-width: 85%;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+            animation: bubblePop 0.4s ease both;
+        }
+        .chat-bubble-right:nth-child(2) { animation-delay: 0.3s; }
+        .chat-bubble-right:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes bubblePop { from { opacity:0; transform: scale(0.8) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+
         .frame-box {
             position: relative;
             padding: 22px 24px;
@@ -977,16 +994,10 @@
             <h1 class="game-title" style="margin-bottom:8px">🎉 Hadiahnya udah siap!</h1>
             <p class="sub-text" style="margin-bottom:0; opacity:1; color:#4a1a6b;" id="page7Prize"></p>
         </div>
-        <div class="frame-box" style="margin-bottom:12px">
-            <span class="frame-corner tl">✿</span>
-            <span class="frame-corner tr">✿</span>
-            <span class="frame-corner bl">✿</span>
-            <span class="frame-corner br">✿</span>
-            <p class="sub-text" style="margin-bottom:8px; font-style:italic; line-height:1.6">
-                "You complicate my mind in the most beautiful way possible"<br><br>
-                "Some people are poetry, some are prose. You are the entire library"<br><br>
-                "I like the universe when you're in it"
-            </p>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px; padding:0 8px;">
+            <div class="chat-bubble-right">You complicate my mind in the most beautiful way possible 💜</div>
+            <div class="chat-bubble-right">Some people are poetry, some are prose. You are the entire library 📚</div>
+            <div class="chat-bubble-right">I like the universe when you're in it ✨</div>
         </div>
         <div class="frame-box">
             <span class="frame-corner tl">✿</span>
