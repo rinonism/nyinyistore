@@ -996,17 +996,17 @@
         <div class="chat-bubble-right" style="position:fixed; top:74%; left:70%; transform:rotate(-5deg); z-index:2; max-width:240px; font-size:1rem;">makasih ya, makasih ya, makasih ya, makasih ya bei</div>
 
         <!-- VIDEO 1 -->
-        <div id="videoSlot" style="position:fixed; left:3%; top:3%; width:94%; height:38%; z-index:2; border-radius:16px; overflow:hidden;">
+        <div id="videoSlot" style="position:fixed; left:15%; top:2%; width:70%; height:45%; z-index:2; border-radius:16px; overflow:hidden;">
             <video src="/bujuk/video.mp4" playsinline webkit-playsinline autoplay loop muted preload="auto" style="width:100%; height:100%; object-fit:contain; border-radius:16px; display:block;"></video>
         </div>
 
         <!-- VIDEO 2 -->
-        <div id="videoSlot2" style="position:fixed; left:3%; top:44%; width:94%; height:38%; z-index:2; border-radius:16px; overflow:hidden;">
+        <div id="videoSlot2" style="position:fixed; left:15%; top:49%; width:70%; height:45%; z-index:2; border-radius:16px; overflow:hidden;">
             <video src="/bujuk/video2.mp4" playsinline webkit-playsinline autoplay loop muted preload="auto" style="width:100%; height:100%; object-fit:contain; border-radius:16px; display:block;"></video>
         </div>
 
         <!-- WA Button below video 2 -->
-        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="position:fixed; top:84%; left:50%; transform:translateX(-50%); z-index:3;">Klaim Hadiah di WhatsApp 💬</a>
+        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="position:fixed; top:95%; left:50%; transform:translateX(-50%); z-index:3;">Klaim Hadiah di WhatsApp 💬</a>
 
         <!-- Background music -->
         <audio id="page7Song" src="/bujuk/song.mp3" preload="auto" loop></audio>
@@ -1146,9 +1146,6 @@
             document.getElementById('giftResult').style.display = 'none';
             document.getElementById('page6').classList.remove('active');
             document.getElementById('page7').classList.add('active');
-            // Set prize text on page 7
-            const prizeText = document.getElementById('giftText').textContent;
-            document.getElementById('page7Prize').textContent = prizeText;
             // Force play videos
             document.querySelectorAll('#page7 video').forEach(v => v.play().catch(()=>{}));
             // Play song — if blocked, show tap overlay
