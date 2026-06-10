@@ -73,6 +73,14 @@ export async function autoFulfillOrder(orderId: string): Promise<{
     order.user_server_id
   );
 
+  // Validate customer_no before submitting
+  if (!customerNo || customerNo.trim() === "") {
+    await notifyTelegram(
+      `⚠️ *Auto-Fulfill Gagal*\n\n📋 Order: \`${orderId}\`\n❌ customer_no kosong\n\nPerlu fulfill manual.`
+    );
+    return { success: false, error: "customer_no is empty" };
+  }
+
   try {
     // Update status to processing
     await supabase
@@ -83,8 +91,24 @@ export async function autoFulfillOrder(orderId: string): Promise<{
       })
       .eq("order_id", orderId);
 
-    // Hit Digiflazz API
-    const transaction = await createTransaction(sku, customerNo, orderId);
+    // Hit Digiflazz API with retry (3 attempts, 10s delay)
+    let transaction: Awaited<ReturnType<typeof createTransaction>> | null = null;
+    let lastError = "";
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        transaction = await createTransaction(sku, customerNo, orderId);
+        break; // success
+      } catch (e) {
+        lastError = e instanceof Error ? e.message : "Unknown error";
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, 10000)); // wait 10s
+        }
+      }
+    }
+
+    if (!transaction) {
+      throw new Error(`Failed after 3 retries: ${lastError}`);
+    }
 
     // Update order with Digiflazz response
     const updateData: Record<string, unknown> = {

@@ -124,15 +124,22 @@ export async function createTransaction(
     }),
   });
 
-  if (!response.ok) {
-    throw new Error(`Digiflazz transaction error: ${response.status}`);
+  // Parse response body even on non-2xx for better error messages
+  let result: Record<string, unknown>;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error(`Digiflazz transaction error: HTTP ${response.status} (no body)`);
   }
 
-  const result = await response.json();
+  if (!response.ok) {
+    const msg = (result.data as Record<string, unknown>)?.message || `HTTP ${response.status}`;
+    throw new Error(`Digiflazz transaction error: ${msg} (HTTP ${response.status})`);
+  }
 
-  if (result.data?.rc && result.data.rc !== "00" && result.data.rc !== "03") {
+  if (result.data && (result.data as Record<string, unknown>).rc && (result.data as Record<string, unknown>).rc !== "00" && (result.data as Record<string, unknown>).rc !== "03") {
     throw new Error(
-      `Digiflazz transaction failed: ${result.data.message} (rc: ${result.data.rc})`
+      `Digiflazz transaction failed: ${(result.data as Record<string, unknown>).message} (rc: ${(result.data as Record<string, unknown>).rc})`
     );
   }
 
