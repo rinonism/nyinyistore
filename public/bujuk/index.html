@@ -1400,7 +1400,7 @@
             whackActive = true;
             document.getElementById('whackScore').textContent = '0';
             document.getElementById('whackFill').style.width = '0%';
-            whackInterval = setInterval(spawnMole, 1200);
+            whackInterval = setInterval(spawnMole, 1800);
         }
 
         function spawnMole() {
@@ -1430,8 +1430,8 @@
             // Don't spawn if already up
             if (mole.classList.contains('up')) return;
 
-            // 40% chance olong, 60% angry cat
-            const isOlong = Math.random() < 0.4;
+            // 60% chance olong, 40% angry cat
+            const isOlong = Math.random() < 0.6;
             
             if (isOlong) {
                 mole.src = olongImg;
