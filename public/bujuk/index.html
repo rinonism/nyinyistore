@@ -788,19 +788,23 @@
             <div class="catch-basket" id="catchBasket"><span class="cat-speech" id="catSpeech"></span></div>
         </div>
         <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
+        <div id="page4Done" style="display:none; text-align:center; margin-top:16px;">
+            <p class="sub-text" style="opacity:1; color:#fff;">Yeyy selesai! 🎉</p>
+            <button class="btn-maafin" onclick="goPage5()">Lanjut ➜</button>
+        </div>
     </div>
 
     <!-- PAGE 5: Whack-a-Mole -->
     <div class="page" id="page5">
         <div class="text-card">
-            <h1 class="game-title" style="margin-bottom:0">Pukul Kucing Nakal 😾👊</h1>
+            <h1 class="game-title" style="margin-bottom:0">Pukul Muka Rino 😾👊</h1>
         </div>
         <div class="frame-box">
             <span class="frame-corner tl">✿</span>
             <span class="frame-corner tr">✿</span>
             <span class="frame-corner bl">✿</span>
             <span class="frame-corner br">✿</span>
-            <p class="sub-text" style="margin-bottom:0">Kucing nakal muncul dari lubang!<br>Tap buat pukul~ kalo muncul muka olong dapet poin ganda 😼</p>
+            <p class="sub-text" style="margin-bottom:0">Pukulin aja pukul komuk gw bei~<br>Dapet dobel point tuh kalo komuk gw, kalo mengnya ga dobel wlee 😼<br>Biar ilang itu emosinya mukulin gw wleee akwkawkawk</p>
         </div>
         <p class="sub-text" style="font-size:0.9rem; opacity:1; color:#ffffff; margin-bottom:14px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Ini buat ngelampiasinn kekeselin km ke ak ya hehe~ pukul aja sepuasnya ♡</p>
         <div class="divider">· ˚ ✦ ˚ ·</div>
@@ -818,12 +822,18 @@
             <div class="whack-hole"><img class="whack-mole" id="mole8"><span class="cat-ears" id="ears8">🐱</span><span class="whack-speech" id="speech8"></span></div>
         </div>
         <p class="hint">Tap kucing yang muncul! 👆</p>
+        <div id="page5Done" style="display:none; text-align:center; margin-top:16px;">
+            <p class="sub-text" style="opacity:1; color:#fff;">Puas kan mukulin gw? 😂</p>
+            <button class="btn-maafin" onclick="goPage6()">Lanjut ➜</button>
+        </div>
     </div>
-
-    <!-- PAGE 6: Gacha Perdamaian -->
     <div class="page" id="page6">
         <div class="text-card">
-            <h1 class="game-title" style="margin-bottom:0">🎉 Yeay! Makasih udah mainin sampe sini~</h1>
+            <h1 class="game-title" style="margin-bottom:0">🎉 Anjayyy akhirnya final page!</h1>
+        </div>
+        <img src="/bujuk/cats/1.jpg" alt="Kucing hepi" style="width:150px; height:150px; border-radius:50%; object-fit:cover; margin:12px auto; display:block; box-shadow:0 0 20px rgba(255,255,255,0.3);">
+        <div class="text-card" style="margin-top:10px;">
+            <p class="sub-text" style="margin-bottom:0; opacity:1; color:#4a1a6b;">Makasih ya udah mau mainin sampe sini, seneng rasanya ♡</p>
         </div>
         <div class="frame-box">
             <span class="frame-corner tl">✿</span>
@@ -948,6 +958,18 @@
         function goPage3() {
             document.getElementById('page2').classList.remove('active');
             document.getElementById('page3').classList.add('active');
+        }
+
+        function goPage5() {
+            document.getElementById('page4').classList.remove('active');
+            document.getElementById('page5').classList.add('active');
+            startWhackGame();
+        }
+
+        function goPage6() {
+            document.getElementById('page5').classList.remove('active');
+            document.getElementById('page6').classList.add('active');
+            showHearts();
         }
 
         function tapKucing() {
@@ -1151,11 +1173,7 @@
                         confettiBurst();
                         clearInterval(catchInterval);
                         stopBgm();
-                        setTimeout(() => {
-                            document.getElementById('page4').classList.remove('active');
-                            document.getElementById('page5').classList.add('active');
-                            startWhackGame();
-                        }, 800);
+                        document.getElementById('page4Done').style.display = 'block';
                     } else {
                         updateBgmTempo();
                     }
@@ -1464,11 +1482,7 @@
                     whackActive = false;
                     clearInterval(whackInterval);
                     confettiBurst();
-                    setTimeout(() => {
-                        document.getElementById('page5').classList.remove('active');
-                        document.getElementById('page6').classList.add('active');
-                        showHearts();
-                    }, 1200);
+                    document.getElementById('page5Done').style.display = 'block';
                 }
             };
 
