@@ -369,7 +369,7 @@
         /* Gift Box */
         .gift-box-wrapper {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 8px;
         }
         .gift-box {
             display: inline-block;
@@ -379,13 +379,13 @@
         }
         .gift-box:active { transform: scale(0.95); }
         .gift-body {
-            font-size: 5rem;
+            font-size: 7rem;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
         }
         .gift-lid {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             position: absolute;
-            top: -20px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
             transition: all 0.3s;
@@ -1617,11 +1617,8 @@
 
         // === GIFT BOX ===
         const vouchers = [
-            '🎫 Voucher Bebas Omel 1 Hari',
-            '🧋 Voucher Dibeliin Boba',
-            '👑 Voucher Dituruti Maunya 1x',
-            '🍕 Voucher Ditraktir Makan',
-            '💤 Voucher Bebas Gangguin 1 Hari'
+            '🧘‍♀️ Voucher Pilates Bareng',
+            '🍦 Voucher Jajan Sepuasnya'
         ];
         let giftOpened = false;
 
@@ -1633,9 +1630,9 @@
             const hint = document.getElementById('giftHint');
             hint.style.display = 'none';
 
-            // Phase 1: Shake for 1.5s
+            // Phase 1: Shake for 2.5s
             box.classList.add('shaking');
-            if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 50, 30, 50]);
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 50, 30, 50, 30, 50, 30, 50, 30, 50]);
 
             setTimeout(() => {
                 // Phase 2: Open (lid flies, box explodes)
@@ -1654,7 +1651,7 @@
                     const waText = encodeURIComponent('Aku mau klaim hadiah ini ya: ' + voucher + '\nJangan nakal lagi! 😤💕');
                     document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
                 }, 800);
-            }, 1500);
+            }, 2500);
         }
 
         // Heart confetti for gacha
