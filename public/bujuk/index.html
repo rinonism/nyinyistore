@@ -993,7 +993,7 @@
             <h1 class="game-title" style="margin-bottom:8px">🎉 Hadiahnya udah siap!</h1>
             <p class="sub-text" style="margin-bottom:0; opacity:1; color:#4a1a6b;" id="page7Prize"></p>
         </div>
-        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px; padding:0 8px; align-items:flex-start;">
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px; padding:0 8px; align-items:flex-start; text-align:left;">
             <div class="chat-bubble-right">You complicate my mind in the most beautiful way possible 💜</div>
             <div class="chat-bubble-right">Some people are poetry, some are prose. You are the entire library 📚</div>
             <div class="chat-bubble-right">I like the universe when you're in it ✨</div>
@@ -1042,7 +1042,11 @@
             if (skipTo) {
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 const target = document.getElementById('page' + skipTo);
-                if (target) { target.classList.add('active'); }
+                if (target) {
+                    target.classList.add('active');
+                    // Force play videos if skipping to page with videos
+                    target.querySelectorAll('video').forEach(v => v.play().catch(()=>{}));
+                }
             }
         })();
 
@@ -1144,6 +1148,8 @@
             // Set prize text on page 7
             const prizeText = document.getElementById('giftText').textContent;
             document.getElementById('page7Prize').textContent = prizeText;
+            // Force play videos
+            document.querySelectorAll('#page7 video').forEach(v => v.play().catch(()=>{}));
             confettiBurst();
         }
 
