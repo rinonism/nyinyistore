@@ -312,6 +312,60 @@
             z-index: 2;
         }
         .btn-maafin:active { transform: scale(0.95); }
+
+        /* Win popup overlay */
+        .win-popup-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+        .win-popup-box {
+            background: linear-gradient(135deg, #a855f7, #6d28d9);
+            border-radius: 24px;
+            padding: 32px 28px;
+            text-align: center;
+            max-width: 320px;
+            width: 85%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(168,85,247,0.4);
+            animation: popBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .win-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            animation: wiggle 0.6s ease 0.5s;
+        }
+        .win-title {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .win-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popBounce {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
         .btn-marah {
             background: linear-gradient(135deg, #f87171, #dc2626);
             color: white; border: none; padding: 14px 30px;
@@ -788,9 +842,13 @@
             <div class="catch-basket" id="catchBasket"><span class="cat-speech" id="catSpeech"></span></div>
         </div>
         <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
-        <div id="page4Done" style="display:none; text-align:center; margin-top:16px;">
-            <p class="sub-text" style="opacity:1; color:#fff;">Yeyy selesai! 🎉</p>
-            <button class="btn-maafin" onclick="goPage5()">Lanjut ➜</button>
+        <div id="page4Done" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">🎉🐾🎉</div>
+                <h2 class="win-title">Yeyy selesai!</h2>
+                <p class="win-text">Meng nya udah kenyang nih makasih bei~ ♡</p>
+                <button class="btn-maafin" onclick="goPage5()">Lanjut ➜</button>
+            </div>
         </div>
     </div>
 
@@ -822,9 +880,13 @@
             <div class="whack-hole"><img class="whack-mole" id="mole8"><span class="cat-ears" id="ears8">🐱</span><span class="whack-speech" id="speech8"></span></div>
         </div>
         <p class="hint">Tap kucing yang muncul! 👆</p>
-        <div id="page5Done" style="display:none; text-align:center; margin-top:16px;">
-            <p class="sub-text" style="opacity:1; color:#fff;">Puas kan mukulin gw? 😂</p>
-            <button class="btn-maafin" onclick="goPage6()">Lanjut ➜</button>
+        <div id="page5Done" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">😂👊😂</div>
+                <h2 class="win-title">Puas kan mukulin gw?</h2>
+                <p class="win-text">Awas ntar bonyok beneran gw akwkawk ♡</p>
+                <button class="btn-maafin" onclick="goPage6()">Lanjut ➜</button>
+            </div>
         </div>
     </div>
     <div class="page" id="page6">
@@ -1173,7 +1235,11 @@
                         confettiBurst();
                         clearInterval(catchInterval);
                         stopBgm();
-                        document.getElementById('page4Done').style.display = 'block';
+                        // Stop game - remove all falling items
+                        document.querySelectorAll('.emoji-item').forEach(el => el.remove());
+                        setTimeout(() => {
+                            document.getElementById('page4Done').style.display = 'flex';
+                        }, 400);
                     } else {
                         updateBgmTempo();
                     }
@@ -1482,7 +1548,16 @@
                     whackActive = false;
                     clearInterval(whackInterval);
                     confettiBurst();
-                    document.getElementById('page5Done').style.display = 'block';
+                    // Stop game - hide all moles
+                    document.querySelectorAll('.whack-mole').forEach(el => {
+                        el.classList.remove('up', 'olong');
+                    });
+                    document.querySelectorAll('.cat-ears').forEach(el => {
+                        el.style.opacity = '0';
+                    });
+                    setTimeout(() => {
+                        document.getElementById('page5Done').style.display = 'flex';
+                    }, 400);
                 }
             };
 
