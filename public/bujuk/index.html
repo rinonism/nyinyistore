@@ -966,9 +966,26 @@
                 <div class="win-emoji">🎁✨🎉</div>
                 <h2 class="win-title">Kado buat kamu~</h2>
                 <p class="win-text" id="giftText"></p>
-                <a class="btn-wa" id="btnWa" href="#" target="_blank">Klaim ke WhatsApp 💬</a>
+                <button class="btn-maafin" onclick="goPage7()">Lanjut ➜</button>
             </div>
         </div>
+    </div>
+
+    <!-- PAGE 7: Klaim Hadiah -->
+    <div class="page" id="page7">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:8px">🎉 Hadiahnya udah siap!</h1>
+            <p class="sub-text" style="margin-bottom:0; opacity:1; color:#4a1a6b;" id="page7Prize"></p>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Klaim hadiahnya lewat WhatsApp ya bei~<br>ntar ak tepatin janji 💕</p>
+        </div>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="display:inline-block; margin-top:16px;">Klaim ke WhatsApp 💬</a>
     </div>
 
     <script>
@@ -1075,6 +1092,16 @@
             document.getElementById('page5').classList.remove('active');
             document.getElementById('page6').classList.add('active');
             showHearts();
+        }
+
+        function goPage7() {
+            document.getElementById('giftResult').style.display = 'none';
+            document.getElementById('page6').classList.remove('active');
+            document.getElementById('page7').classList.add('active');
+            // Set prize text on page 7
+            const prizeText = document.getElementById('giftText').textContent;
+            document.getElementById('page7Prize').textContent = prizeText;
+            confettiBurst();
         }
 
         function tapKucing() {
@@ -1647,7 +1674,7 @@
                     document.getElementById('giftText').textContent = '🎉 Kamu dapet: ' + voucher;
                     document.getElementById('giftResult').style.display = 'flex';
 
-                    // Set WA link
+                    // Set WA link on page 7
                     const waText = encodeURIComponent('Aku mau klaim hadiah ini ya: ' + voucher + '\nJangan nakal lagi! 😤💕');
                     document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
                 }, 800);
