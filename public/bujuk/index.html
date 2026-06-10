@@ -366,6 +366,54 @@
             75% { transform: rotate(10deg); }
         }
 
+        /* Gift Box */
+        .gift-box-wrapper {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .gift-box {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .gift-box:active { transform: scale(0.95); }
+        .gift-body {
+            font-size: 5rem;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+        .gift-lid {
+            font-size: 2.5rem;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+        }
+        .gift-box.shaking {
+            animation: giftShake 0.1s infinite;
+        }
+        .gift-box.opened .gift-lid {
+            animation: lidFly 0.5s forwards;
+        }
+        .gift-box.opened .gift-body {
+            animation: boxExplode 0.5s forwards 0.3s;
+        }
+        @keyframes giftShake {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-4px) rotate(-3deg); }
+            75% { transform: translateX(4px) rotate(3deg); }
+        }
+        @keyframes lidFly {
+            0% { transform: translateX(-50%) translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(-80px) rotate(20deg); opacity: 0; }
+        }
+        @keyframes boxExplode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
         .btn-marah {
             background: linear-gradient(135deg, #f87171, #dc2626);
             color: white; border: none; padding: 14px 30px;
@@ -902,29 +950,27 @@
             <span class="frame-corner tr">✿</span>
             <span class="frame-corner bl">✿</span>
             <span class="frame-corner br">✿</span>
-            <p class="sub-text" style="margin-bottom:0">Sebagai tanda damai, pilih 1 hadiah misterius dari aku~ 🎁<br>Kamu beruntung dapet apa ya? 😼</p>
+            <p class="sub-text" style="margin-bottom:0">Ini ada kado buat kamu~ tap buat buka ya 🎁</p>
         </div>
         <div class="divider">· ˚ ✦ ˚ ·</div>
-        <div class="gacha-boxes" id="gachaBoxes">
-            <div class="gacha-box" onclick="openGacha(0)">
-                <div class="gacha-front">🐱<br><span style="font-size:0.7rem">???</span></div>
-                <div class="gacha-back" id="gacha0"></div>
+
+        <!-- Gift Box -->
+        <div class="gift-box-wrapper" id="giftBoxWrapper">
+            <div class="gift-box" id="giftBox" onclick="openGiftBox()">
+                <div class="gift-lid" id="giftLid">🎀</div>
+                <div class="gift-body">🎁</div>
             </div>
-            <div class="gacha-box" onclick="openGacha(1)">
-                <div class="gacha-front">😺<br><span style="font-size:0.7rem">???</span></div>
-                <div class="gacha-back" id="gacha1"></div>
-            </div>
-            <div class="gacha-box" onclick="openGacha(2)">
-                <div class="gacha-front">😸<br><span style="font-size:0.7rem">???</span></div>
-                <div class="gacha-back" id="gacha2"></div>
-            </div>
+            <p class="hint" id="giftHint">Tap kado nya! 👆</p>
         </div>
-        <div id="gachaResult" style="display:none; margin-top:20px;">
-            <div class="text-card" style="background:rgba(255,255,255,0.15);">
-                <p class="sub-text" style="font-size:1.1rem; margin-bottom:8px;" id="gachaVoucher"></p>
-                <p class="sub-text" style="font-size:0.85rem; opacity:0.8;">Klaim ke ak ya~ biar ak tepatin 💕</p>
+
+        <!-- Gift Result Popup -->
+        <div id="giftResult" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">🎁✨🎉</div>
+                <h2 class="win-title">Kado buat kamu~</h2>
+                <p class="win-text" id="giftText"></p>
+                <a class="btn-wa" id="btnWa" href="#" target="_blank">Klaim ke WhatsApp 💬</a>
             </div>
-            <a class="btn-wa" id="btnWa" href="#" target="_blank">Klaim ke WhatsApp 💬</a>
         </div>
     </div>
 
@@ -1572,7 +1618,7 @@
             }, 1000 + Math.random() * 500);
         }
 
-        // === GACHA PERDAMAIAN ===
+        // === GIFT BOX ===
         const vouchers = [
             '🎫 Voucher Bebas Omel 1 Hari',
             '🧋 Voucher Dibeliin Boba',
@@ -1580,43 +1626,38 @@
             '🍕 Voucher Ditraktir Makan',
             '💤 Voucher Bebas Gangguin 1 Hari'
         ];
-        let gachaOpened = false;
+        let giftOpened = false;
 
-        function openGacha(index) {
-            if (gachaOpened) return;
-            gachaOpened = true;
+        function openGiftBox() {
+            if (giftOpened) return;
+            giftOpened = true;
 
-            // Pick random voucher
-            const voucher = vouchers[Math.floor(Math.random() * vouchers.length)];
-            
-            // Show on the opened box
-            document.getElementById('gacha' + index).textContent = voucher;
+            const box = document.getElementById('giftBox');
+            const hint = document.getElementById('giftHint');
+            hint.style.display = 'none';
 
-            // Flip animation
-            const boxes = document.querySelectorAll('.gacha-box');
-            boxes.forEach((box, i) => {
-                if (i === index) {
-                    box.classList.add('opened');
-                } else {
-                    box.classList.add('dimmed');
-                }
-            });
+            // Phase 1: Shake for 1.5s
+            box.classList.add('shaking');
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 50, 30, 50]);
 
-            // Confetti hearts
-            showHeartConfetti();
-            playPop();
-            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
-
-            // Show result after flip
             setTimeout(() => {
-                document.getElementById('gachaVoucher').textContent = '🎉 Kamu dapet: ' + voucher;
-                document.getElementById('gachaResult').style.display = 'block';
-                document.getElementById('gachaResult').style.animation = 'fadeIn 0.5s ease';
-                
-                // Set WA link
-                const waText = encodeURIComponent('Aku pilih hadiah yang ini ya: ' + voucher + '\nJangan nakal lagi! 😤💕');
-                document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
-            }, 600);
+                // Phase 2: Open (lid flies, box explodes)
+                box.classList.remove('shaking');
+                box.classList.add('opened');
+                playPop();
+                confettiBurst();
+
+                // Phase 3: Show popup after box disappears
+                setTimeout(() => {
+                    const voucher = vouchers[Math.floor(Math.random() * vouchers.length)];
+                    document.getElementById('giftText').textContent = '🎉 Kamu dapet: ' + voucher;
+                    document.getElementById('giftResult').style.display = 'flex';
+
+                    // Set WA link
+                    const waText = encodeURIComponent('Aku mau klaim hadiah ini ya: ' + voucher + '\nJangan nakal lagi! 😤💕');
+                    document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
+                }, 800);
+            }, 1500);
         }
 
         // Heart confetti for gacha
