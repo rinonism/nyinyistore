@@ -1037,6 +1037,15 @@
         catImages.forEach(src => { const img = new Image(); img.src = src; });
         // Set random cats on load
         window.addEventListener('DOMContentLoaded', function() {
+            // URL param skip: ?page=7
+            const urlParams = new URLSearchParams(window.location.search);
+            const skipTo = urlParams.get('page');
+            if (skipTo) {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                const target = document.getElementById('page' + skipTo);
+                if (target) { target.classList.add('active'); return; }
+            }
+
             document.querySelector('.cat-circle img').src = randomCat();
             document.getElementById('tapCat').src = randomCat();
             
