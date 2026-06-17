@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase';
+import { autoFulfillOrder } from '@/lib/auto-fulfill';
 
 const PROXY_URL = process.env.TRIPAY_PROXY_URL || 'http://43.153.204.244:3847';
 const PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || '';
@@ -65,6 +66,14 @@ export async function POST(req: NextRequest) {
             .from('orders')
             .update({ status: 'paid', paid_at: new Date().toISOString(), tx_hash: data.tx_hash })
             .eq('order_id', order_id);
+
+          // Auto-fulfill the order (same as Tripay webhook flow)
+          try {
+            await autoFulfillOrder(order_id);
+          } catch (e) {
+            console.error('Auto-fulfill after crypto payment failed:', e);
+          }
+
           return NextResponse.json({ status: 'paid', tx_hash: data.tx_hash });
         }
       }
