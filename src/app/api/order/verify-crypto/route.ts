@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     // Call proxy to check on-chain payment
     try {
-      const res = await fetch(`${PROXY_URL}/check-crypto-payment`, {
+      const res = await fetch(`${PROXY_URL}/check-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,26 +54,22 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           order_id: order.order_id,
-          amount: order.price_crypto,
-          token: order.crypto_token,
-          chain: order.crypto_chain,
-          wallet: order.payment_wallet,
         }),
       });
 
       if (res.ok) {
         const data = await res.json();
-        if (data.paid) {
+        if (data.status === 'paid') {
           // Update order status to paid
           await supabase
             .from('orders')
-            .update({ status: 'paid', paid_at: new Date().toISOString() })
+            .update({ status: 'paid', paid_at: new Date().toISOString(), tx_hash: data.tx_hash })
             .eq('order_id', order_id);
           return NextResponse.json({ status: 'paid', tx_hash: data.tx_hash });
         }
       }
     } catch (e) {
-      console.error('Proxy check-crypto-payment error:', e);
+      console.error('Proxy check-payment error:', e);
     }
 
     return NextResponse.json({ status: 'pending' });

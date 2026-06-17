@@ -137,6 +137,27 @@ export async function POST(req: NextRequest) {
       console.error('Telegram notification failed:', e);
     }
 
+    // Save order to proxy for on-chain payment verification
+    try {
+      const PROXY_URL = process.env.TRIPAY_PROXY_URL || 'http://43.153.204.244:3847';
+      const PROXY_SECRET = process.env.TRIPAY_PROXY_SECRET || '';
+      await fetch(`${PROXY_URL}/save-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Proxy-Secret': PROXY_SECRET },
+        body: JSON.stringify({
+          id: order_id,
+          payment_chain: crypto_chain,
+          payment_token: crypto_token,
+          payment_address: payment_wallet,
+          amount_crypto: String(unique_price_crypto),
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        }),
+      });
+    } catch (e) {
+      console.error('Proxy save-order failed:', e);
+    }
+
     return NextResponse.json({
       success: true,
       order_id,
