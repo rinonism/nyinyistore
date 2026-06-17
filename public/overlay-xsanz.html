@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xSanZ Rotating Overlay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: transparent;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .overlay {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    /* Logo container with 3D rotation */
+    .logo-container {
+      width: 80px;
+      height: 80px;
+      perspective: 600px;
+      position: relative;
+    }
+
+    .logo-spinner {
+      width: 100%;
+      height: 100%;
+      animation: spin3D 6s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    .logo-spinner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    /* Glow behind logo */
+    .logo-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 200, 255, 0.4) 0%, transparent 70%);
+      animation: glowPulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Ring around logo */
+    .logo-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(100, 200, 255, 0.3);
+      animation: ringRotate 8s linear infinite;
+      pointer-events: none;
+    }
+
+    .logo-ring::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: #00d4ff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+    }
+
+    /* Username */
+    .name-block {
+      margin-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .username {
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #e0f4ff;
+      text-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+      animation: textGlow 3s ease-in-out infinite alternate;
+    }
+
+    .status {
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(150, 220, 255, 0.6);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background: #00e5ff;
+      border-radius: 50%;
+      margin-right: 5px;
+      animation: dotPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 6px rgba(0, 229, 255, 0.8);
+    }
+
+    /* Particles */
+    .particle {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: rgba(100, 200, 255, 0.7);
+      border-radius: 50%;
+      animation: particleUp 6s ease-in-out infinite;
+      opacity: 0;
+    }
+    .particle:nth-child(1) { bottom: 50px; left: 40px; animation-delay: 0s; }
+    .particle:nth-child(2) { bottom: 70px; left: 75px; animation-delay: 1.5s; }
+    .particle:nth-child(3) { bottom: 45px; left: 100px; animation-delay: 3s; }
+    .particle:nth-child(4) { bottom: 80px; left: 55px; animation-delay: 4.5s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes spin3D {
+      0% { transform: rotateY(0deg); }
+      25% { transform: rotateY(180deg); }
+      50% { transform: rotateY(360deg); }
+      75% { transform: rotateY(360deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    }
+
+    @keyframes ringRotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 8px rgba(100, 200, 255, 0.3); }
+      100% { text-shadow: 0 0 16px rgba(100, 200, 255, 0.7); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.6); }
+    }
+
+    @keyframes particleUp {
+      0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+      30% { opacity: 0.6; }
+      50% { opacity: 0.9; transform: translateY(-30px) scale(1); }
+      70% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-60px) scale(0.2); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <!-- Overlay -->
+  <div class="overlay">
+    <div class="logo-container">
+      <div class="logo-glow"></div>
+      <div class="logo-ring"></div>
+      <div class="logo-spinner">
+        <img src="https://v3b.fal.media/files/b/0a9e6926/mD0IcH56MJqXVpMaFjgFG_6AxA0p0i.png" alt="xSZ" />
+      </div>
+    </div>
+    <div class="name-block">
+      <div class="username">xSanZ</div>
+      <div class="status"><span class="status-dot"></span>live</div>
+    </div>
+  </div>
+</body>
+</html>

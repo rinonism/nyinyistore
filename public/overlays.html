@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyinyiStore - OBS Overlays</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0f0f1a;
+      font-family: 'Fredoka', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #EF8F8F, #fff, #EF8F8F);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shine 3s linear infinite;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(239, 143, 143, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .link-card:hover {
+      background: rgba(239, 143, 143, 0.1);
+      border-color: rgba(239, 143, 143, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .link-info {
+      text-align: left;
+    }
+
+    .link-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .link-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .link-url {
+      font-size: 11px;
+      color: #EF8F8F;
+      background: rgba(239, 143, 143, 0.1);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      margin-top: 24px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    @keyframes shine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
+    <h1>NyinyiStore Overlays</h1>
+    <p>OBS Browser Source overlays untuk streaming</p>
+
+    <div class="links">
+      <a href="https://nyinyistore.com/overlay.html" target="_blank" class="link-card">
+        <div class="link-info">
+          <div class="link-title">🖥️ Full Overlay</div>
+          <div class="link-desc">Pojok kiri bawah — logo besar + teks + animasi</div>
+        </div>
+        <div class="link-url">overlay.html</div>
+      </a>
+
+      <a href="https://nyinyistore.com/overlay-mini.html" target="_blank" class="link-card">
+        <div class="link-info">
+          <div class="link-title">📌 Mini Overlay</div>
+          <div class="link-desc">Pojok kanan atas — compact, minimal, clean</div>
+        </div>
+        <div class="link-url">overlay-mini.html</div>
+      </a>
+    </div>
+
+    <div class="copy-btn">Klik untuk buka — copy URL untuk OBS Browser Source</div>
+  </div>
+</body>
+</html>

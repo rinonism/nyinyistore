@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyinyiStore Overlay - Mini</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: transparent;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .overlay-container {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      animation: float 3s ease-in-out infinite;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 8px rgba(239, 143, 143, 0.5));
+    }
+
+    .text-area {
+      position: relative;
+      min-width: 150px;
+      height: 52px;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      opacity: 0;
+      animation: sceneSwitch 6s ease-in-out infinite;
+    }
+
+    .scene-1 { animation-delay: 0s; }
+    .scene-2 { animation-delay: 3s; }
+
+    .store-name {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #EF8F8F, #fff, #EF8F8F);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textShine 2.5s linear infinite;
+      white-space: nowrap;
+      filter: drop-shadow(0 1px 3px rgba(239, 143, 143, 0.6));
+    }
+
+    .tagline {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 12px;
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      text-shadow: 0 1px 6px rgba(239, 143, 143, 0.8);
+    }
+
+    .subtitle {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 400;
+      white-space: nowrap;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .website {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      color: #EF8F8F;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+      text-align: center;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @keyframes textShine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes sceneSwitch {
+      0%, 3% { opacity: 0; transform: translateY(5px); }
+      8%, 42% { opacity: 1; transform: translateY(0); }
+      47%, 100% { opacity: 0; transform: translateY(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay-container">
+    <img src="https://nyinyistore.com/logo-cat.png" alt="NyinyiStore" class="logo" />
+    <div class="text-area">
+      <!-- Scene 1: NyinyiStore -->
+      <div class="scene scene-1">
+        <div class="store-name">NyinyiStore</div>
+      </div>
+      <!-- Scene 2: Tagline + On + Website -->
+      <div class="scene scene-2">
+        <div class="tagline">⚡️Top Up Game Murah⚡️</div>
+        <div class="subtitle">on 24/7</div>
+        <div class="website">Nyinyistore.com</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

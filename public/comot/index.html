@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maap Ya 🐱</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #c471f5 75%, #667eea 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* Floating particles background */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; opacity: 0.4; animation: floatParticle linear infinite; }
+        @keyframes floatParticle { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-20px) rotate(720deg); opacity: 0; } }
+
+        /* Decorative scattered images - fixed to viewport edges */
+        .decor-img {
+            position: fixed;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .decor-img.d1 { top: 32.1%; left: 18.8%; width: 140px; transform: translate(-50%, -50%) rotate(-10deg); }
+        .decor-img.d2 { top: 60.7%; left: 31.2%; width: 135px; transform: translate(-50%, -50%) rotate(8deg); }
+        .decor-img.d3 { top: 82.1%; left: 6.2%; width: 140px; transform: translate(-50%, -50%) rotate(6deg); }
+        .decor-img.d4 { top: 17.9%; left: 6.2%; width: 130px; transform: translate(-50%, -50%) rotate(-7deg); }
+        .decor-img.d5 { top: 32.1%; left: 81.2%; width: 135px; transform: translate(-50%, -50%) rotate(-12deg); }
+        .decor-img.d6 { top: 17.9%; left: 93.8%; width: 140px; transform: translate(-50%, -50%) rotate(10deg); }
+        .decor-img.d7 { top: 82.1%; left: 93.8%; width: 130px; transform: translate(-50%, -50%) rotate(5deg); }
+        .decor-img.d8 { top: 67.9%; left: 68.8%; width: 138px; transform: translate(-50%, -50%) rotate(-5deg); }
+        .decor-img.d9 { top: 3.6%; left: 50.0%; width: 135px; transform: translate(-50%, -50%) rotate(12deg); }
+        .decor-img.d10 { top: 89.3%; left: 50.0%; width: 140px; transform: translate(-50%, -50%) rotate(-8deg); }
+        .decor-img.d11 { top: 17.9%; left: 31.2%; width: 130px; transform: translate(-50%, -50%) rotate(5deg); }
+
+        .page { display: none; text-align: center; max-width: 400px; width: 100%; animation: fadeIn 0.6s ease; position: relative; z-index: 1; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 20px rgba(168,85,247,0.3); } 50% { box-shadow: 0 0 40px rgba(168,85,247,0.6), 0 0 60px rgba(168,85,247,0.2); } }
+        @keyframes glow { 0%,100% { text-shadow: 0 0 10px rgba(255,255,255,0.5); } 50% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(168,85,247,0.4); } }
+
+
+        /* Page 1 - Staggered entrance */
+        .page1-enter { opacity: 0; transform: translateY(20px); animation: staggerIn 0.6s ease forwards; }
+        .page1-enter.cat-circle { animation: staggerIn 0.6s ease forwards, float 3s ease-in-out infinite; animation-delay: 0.2s, 0.8s; }
+        .page1-enter:nth-child(1) { animation-delay: 0.2s; }
+        .page1-enter:nth-child(2) { animation-delay: 0.6s; }
+        .page1-enter:nth-child(3) { animation-delay: 1s; }
+        .page1-enter:nth-child(4) { animation-delay: 1.3s; }
+        @keyframes staggerIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Page 1 - Bubble bounce */
+        .bubble { animation: bubbleBounce 1.5s ease-in-out infinite; }
+        @keyframes bubbleBounce { 0%,100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.08) translateY(-4px); } }
+
+        /* Page 1 - Typing effect */
+        .typing-text {
+            display: inline-block;
+            border-right: 2px solid rgba(255,255,255,0.8);
+            animation: blinkCursor 0.6s step-end infinite;
+        }
+        @keyframes blinkCursor { 0%,100% { border-color: rgba(255,255,255,0.8); } 50% { border-color: transparent; } }
+
+        .cat-circle { position: relative; }
+
+        /* Page 1 - Sparkle orbit around bubble */
+        .sparkle-orbit {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 120%; height: 120%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: orbitSpin 3s linear infinite;
+        }
+        .sparkle-orbit span {
+            position: absolute;
+            font-size: 0.7rem;
+        }
+        .sparkle-orbit span:nth-child(1) { top: 0; left: 50%; }
+        .sparkle-orbit span:nth-child(2) { top: 50%; right: 0; }
+        .sparkle-orbit span:nth-child(3) { bottom: 0; left: 50%; }
+        .sparkle-orbit span:nth-child(4) { top: 50%; left: 0; }
+        @keyframes orbitSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* Page 1 - Background heartbeat */
+        .page1-bg-pulse {
+            animation: bgHeartbeat 3s ease-in-out infinite;
+        }
+        @keyframes bgHeartbeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+
+        /* Page 1 */
+        .cat-circle {
+            position: relative;
+            width: 200px; height: 200px;
+            margin: 0 auto 30px;
+        }
+        .cat-circle img {
+            width: 200px; height: 200px; object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #7c3aed;
+            box-shadow: 0 8px 30px rgba(168,85,247,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -12px; left: 50%; transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid #c4b5fd;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-style: italic;
+            color: #5b21b6;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.2);
+            cursor: pointer;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .title-text {
+            font-family: 'Kalam', cursive;
+            font-size: 2rem;
+            color: #ffffff;
+            margin: 20px 0 10px;
+            font-weight: 700;
+            animation: glow 2s ease-in-out infinite;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .sub-text {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        /* Page 2 - Text card */
+        .text-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 22px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 24px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+            background-image: linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.03)), linear-gradient(135deg, #c084fc, #f0abfc, #818cf8, #c084fc);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: cardGlow 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .text-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent 30%);
+            animation: shimmerRotate 4s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes cardGlow {
+            0%, 100% { box-shadow: 0 4px 24px rgba(124,58,237,0.2), 0 0 15px rgba(192,132,252,0.1); }
+            50% { box-shadow: 0 4px 30px rgba(124,58,237,0.35), 0 0 25px rgba(192,132,252,0.25); }
+        }
+        @keyframes shimmerRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Page 2 - Frame box */
+        .chat-bubble-right {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 18px 18px 4px 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            font-style: italic;
+            max-width: 85%;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+            animation: bubblePop 0.4s ease both;
+        }
+        .chat-bubble-right:nth-child(2) { animation-delay: 0.3s; }
+        .chat-bubble-right:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes bubblePop { from { opacity:0; transform: scale(0.8) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+
+        .frame-box {
+            position: relative;
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            border: 2px dashed rgba(255,255,255,0.4);
+            border-radius: 16px;
+            background: rgba(124,58,237,0.15);
+            backdrop-filter: blur(8px);
+        }
+        .frame-corner {
+            position: absolute;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: spinFlower 4s linear infinite;
+        }
+        .frame-corner.tl { top: -8px; left: -8px; }
+        .frame-corner.tr { top: -8px; right: -8px; }
+        .frame-corner.bl { bottom: -8px; left: -8px; }
+        .frame-corner.br { bottom: -8px; right: -8px; }
+        @keyframes spinFlower { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Page 2 - Message box */
+        .msg-box {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(168,85,247,0.15);
+            border: 1.5px solid rgba(233,213,255,0.6);
+            text-align: left;
+        }
+        .msg-box p:first-child { font-size: 1.3rem; margin-bottom: 10px; }
+        .msg-text { font-size: 0.95rem; color: #374151; line-height: 1.7; }
+        .btn-kesal {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff, #7c3aed);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            color: white; border: none; padding: 18px 36px;
+            font-size: 1.05rem; font-weight: 700; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(196,77,255,0.4);
+            transition: transform 0.2s; text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-kesal:active { transform: scale(0.95); }
+
+        /* Page 2 - Tap Game */
+        .tap-cat {
+            width: 200px; height: 200px; object-fit: cover;
+            border-radius: 50%; cursor: pointer;
+            border: 6px solid #7c3aed;
+            box-shadow: 0 8px 30px rgba(168,85,247,0.3);
+            transition: transform 0.1s; user-select: none;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .tap-cat:active { transform: scale(0.85); animation: shake 0.3s; }
+        .progress-bar { width: 80%; height: 12px; background: rgba(255,255,255,0.3); border-radius: 6px; overflow: visible; margin: 16px auto; backdrop-filter: blur(5px); position: relative; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f093fb, #c471f5, #7c3aed); border-radius: 6px; transition: width 0.3s; box-shadow: 0 0 10px rgba(192,132,252,0.5); }
+        .progress-cat {
+            position: absolute;
+            top: -20px;
+            left: 0%;
+            transition: left 0.3s ease;
+            font-size: 1.2rem;
+            transform: translateX(-50%);
+            animation: walkBounce 0.4s ease infinite;
+        }
+        @keyframes walkBounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-3px); } }
+        .counter { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .hint { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+        h1.game-title { font-size: 1.5rem; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+
+        /* Decorative elements */
+        .divider {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            letter-spacing: 8px;
+            margin: 12px 0;
+        }
+        .cat-glow-ring {
+            position: relative;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #c084fc, #f093fb, #7c3aed, #e879f9, #c084fc);
+            box-shadow: 0 0 20px rgba(192,132,252,0.3);
+        }
+        @keyframes spinGlow { 0%,100% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .tap-badge {
+            margin-top: 12px;
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.5px;
+        }
+
+        /* Final */
+        .final { display: none; animation: fadeIn 0.8s ease; margin-top: 20px; }
+        .final.show { display: block; }
+        .final p { font-size: 1.1rem; color: #ffffff; line-height: 1.8; text-shadow: 0 1px 5px rgba(0,0,0,0.2); }
+
+        /* Page 3 - Chase */
+        .chase-container {
+            position: relative;
+            min-height: 150px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            overflow: visible;
+        }
+        .btn-maafin {
+            background: linear-gradient(135deg, #34d399, #059669, #10b981);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            color: white; border: none; padding: 20px 44px;
+            font-size: 1.3rem; font-weight: 700; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(5,150,105,0.4);
+            transition: transform 0.2s;
+            z-index: 2;
+        }
+        .btn-maafin:active { transform: scale(0.95); }
+
+        /* Win popup overlay */
+        .win-popup-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+        .win-popup-box {
+            background: linear-gradient(135deg, #a855f7, #6d28d9);
+            border-radius: 24px;
+            padding: 32px 28px;
+            text-align: center;
+            max-width: 320px;
+            width: 85%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(168,85,247,0.4);
+            animation: popBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .win-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            animation: wiggle 0.6s ease 0.5s;
+        }
+        .win-title {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .win-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popBounce {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        /* Gift Box */
+        .gift-box-wrapper {
+            text-align: center;
+            margin-top: 8px;
+        }
+        .gift-box {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .gift-box:active { transform: scale(0.95); }
+        .gift-body {
+            font-size: 7rem;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+        .gift-lid {
+            font-size: 3.5rem;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+        }
+        .gift-box.shaking {
+            animation: giftShake 0.1s infinite;
+        }
+        .gift-box.opened .gift-lid {
+            animation: lidFly 0.5s forwards;
+        }
+        .gift-box.opened .gift-body {
+            animation: boxExplode 0.5s forwards 0.3s;
+        }
+        @keyframes giftShake {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-4px) rotate(-3deg); }
+            75% { transform: translateX(4px) rotate(3deg); }
+        }
+        @keyframes lidFly {
+            0% { transform: translateX(-50%) translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(-80px) rotate(20deg); opacity: 0; }
+        }
+        @keyframes boxExplode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .btn-marah {
+            background: linear-gradient(135deg, #f87171, #dc2626);
+            color: white; border: none; padding: 14px 30px;
+            font-size: 1rem; font-weight: 600; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(220,38,38,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .chase-hint { font-size: 0.95rem; color: rgba(255,255,255,0.9); font-style: italic; }
+
+        /* Page 4 - Catch the Treats */
+        .catch-score { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .catch-area {
+            position: relative;
+            width: 100%; height: 350px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            touch-action: none;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .catch-basket {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 40px;
+            text-align: center;
+            transition: none;
+            background: linear-gradient(180deg, #f9a825, #f57f17);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            border: 3px solid #e65100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .catch-basket::before {
+            content: '🐱';
+            position: absolute;
+            top: -22px;
+            font-size: 1.3rem;
+        }
+        .catch-item {
+            position: absolute;
+            font-size: 1.8rem;
+            top: -30px;
+            animation: catchFall linear forwards;
+        }
+        @keyframes catchFall { 0% { top: -30px; } 100% { top: 340px; } }
+
+
+        /* Page 4 - Score progress bar */
+        .score-bar { width: 80%; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; margin: 0 auto 14px; overflow: hidden; }
+        .score-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f9a825, #ff6d00, #ff1744); border-radius: 5px; transition: width 0.4s ease; box-shadow: 0 0 8px rgba(255,109,0,0.5); }
+
+        /* Page 4 - Cat speech bubble */
+        .cat-speech {
+            position: absolute;
+            bottom: 55px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            color: #4c1d95;
+            font-size: 0.8rem; font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .cat-speech.show { opacity: 1; animation: popIn 0.3s ease; }
+        @keyframes popIn { 0% { transform: translateX(-50%) scale(0.5); } 100% { transform: translateX(-50%) scale(1); } }
+
+        /* Page 4 - Sparkle trail */
+        .sparkle-trail {
+            position: absolute;
+            font-size: 1.2rem;
+            pointer-events: none;
+            animation: sparkleFade 0.8s ease forwards;
+            z-index: 5;
+            text-shadow: 0 0 6px rgba(255,255,255,0.8);
+        }
+        @keyframes sparkleFade { 0% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(0.3) translateY(-25px); } }
+
+        /* Page 4 - Wobble treats */
+        .catch-item.wobble { animation: catchFall linear forwards, treatWobble 0.5s ease infinite; }
+        @keyframes treatWobble { 0%,100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+
+        /* Page 4 - Emoji rain background */
+        .emoji-rain {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; overflow: hidden; z-index: 0;
+        }
+        .emoji-drop {
+            position: absolute;
+            top: -30px;
+            font-size: 1rem;
+            opacity: 0.3;
+            animation: emojiDrop linear infinite;
+        }
+        @keyframes emojiDrop { 0% { top: -30px; opacity: 0.3; } 100% { top: 100%; opacity: 0; } }
+
+        /* Page 4 - Confetti */
+        .confetti-piece {
+            position: absolute;
+            font-size: 1.4rem;
+            pointer-events: none;
+            z-index: 20;
+            animation: confettiBurst 1s ease forwards;
+        }
+        @keyframes confettiBurst { 0% { opacity:1; transform: scale(1) translate(0,0); } 100% { opacity:0; transform: scale(0.5) translate(var(--tx,20px), var(--ty,-80px)); } }
+
+
+        /* Page 5 - Whack a Mole */
+        .whack-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 320px;
+            margin: 0 auto 16px;
+        }
+        .whack-hole {
+            position: relative;
+            width: 90px; height: 90px;
+            margin: 0 auto;
+            background: radial-gradient(ellipse at center, #3b0764 0%, #1e0536 100%);
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
+            border: 3px solid #581c87;
+        }
+        .whack-mole {
+            position: absolute;
+            bottom: -80px;
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: bottom 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .whack-mole.up { bottom: 8px; }
+        .whack-mole.hit { 
+            bottom: 8px;
+            animation: whackHit 0.3s ease;
+        }
+        @keyframes whackHit { 
+            0% { transform: translateX(-50%) scale(1); } 
+            50% { transform: translateX(-50%) scale(0.7) rotate(10deg); } 
+            100% { transform: translateX(-50%) scale(1); } 
+        }
+        .whack-mole.olong {
+            border: 3px solid #f59e0b;
+            box-shadow: 0 0 12px rgba(245,158,11,0.6);
+        }
+        .cat-ears {
+            position: absolute;
+            top: -5px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.4rem;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .whack-mole.up ~ .cat-ears { opacity: 1; }
+        .whack-speech {
+            position: absolute;
+            top: -30px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            color: #4c1d95;
+            font-size: 0.7rem; font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.2s;
+        }
+        .whack-speech.show { opacity: 1; }
+        .whack-score { font-size: 1.3rem; color: #ffffff; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .whack-timer { font-size: 0.95rem; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+
+
+        /* Page 6 - Gacha */
+        .gacha-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px auto;
+        }
+        .gacha-box {
+            width: 95px; height: 110px;
+            perspective: 600px;
+            cursor: pointer;
+        }
+        .gacha-box .gacha-front, .gacha-box .gacha-back {
+            width: 100%; height: 100%;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-align: center;
+            backface-visibility: hidden;
+            transition: transform 0.5s ease;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .gacha-box .gacha-front {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+            color: white;
+            animation: gachaFloat 2s ease-in-out infinite;
+        }
+        .gacha-box .gacha-back {
+            background: linear-gradient(135deg, #f9a825, #ff6d00);
+            border: 3px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 20px rgba(249,168,37,0.5);
+            transform: rotateY(180deg);
+            font-size: 0.8rem;
+            color: white;
+            font-weight: 700;
+            padding: 8px;
+        }
+        .gacha-box {
+            position: relative;
+        }
+        .gacha-box.opened .gacha-front { transform: rotateY(180deg); }
+        .gacha-box.opened .gacha-back { transform: rotateY(0deg); }
+        .gacha-box.dimmed { opacity: 0.4; pointer-events: none; }
+        @keyframes gachaFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        .btn-wa {
+            display: inline-block;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+
+        @keyframes heartFall { 0% { top: -20px; opacity: 1; transform: rotate(0deg); } 100% { top: 110vh; opacity: 0.3; transform: rotate(360deg); } }
+        /* Page 4 - Final msg */
+        .final-msg {
+            background: rgba(255,255,255,0.95); border-radius: 24px; padding: 32px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            border: 2px solid rgba(233,213,255,0.6);
+            animation: fadeIn 0.8s ease;
+        }
+        .final-msg p { font-size: 1.1rem; color: #4c1d95; line-height: 1.9; }
+
+        /* Popup */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; animation: fadeIn 0.3s ease;
+        }
+        .popup-box {
+            background: transparent; max-width: 340px; width: 90%;
+            text-align: center; position: relative;
+        }
+        .popup-bounce {
+            animation: popupBounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popupBounceIn { 0% { transform: scale(0) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+        /* Cat speech bubble page 3 */
+        .cat-speech-bubble {
+            display: flex; align-items: center; gap: 10px;
+            justify-content: center; margin-top: 16px;
+            animation: speechPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cat-bubble-text {
+            background: white; color: #7c3aed; font-weight: 600;
+            padding: 8px 14px; border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(124,58,237,0.2);
+            font-size: 0.95rem;
+            position: relative;
+        }
+        .cat-bubble-text::before {
+            content: ''; position: absolute; left: -6px; top: 50%;
+            transform: translateY(-50%); border: 6px solid transparent;
+            border-right-color: white;
+        }
+        @keyframes speechPop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .popup-img {
+            width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+            margin: 0 auto; display: block; border: 6px solid #7c3aed;
+            box-shadow: 0 6px 20px rgba(168,85,247,0.3);
+            position: relative; z-index: 2;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .popup-speech {
+            background: white; border-radius: 18px; padding: 22px 20px 20px;
+            margin-top: -15px; position: relative; z-index: 1;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 2px solid #e9d5ff;
+        }
+        .popup-speech::before {
+            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-bottom: 12px solid white;
+        }
+        .popup-speech::after {
+            content: ''; position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 11px solid transparent; border-right: 11px solid transparent;
+            border-bottom: 13px solid #e9d5ff;
+            z-index: -1;
+        }
+        .popup-name {
+            font-size: 0.8rem; color: #7c3aed; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+        }
+        .popup-text {
+            font-size: 0.95rem; color: #374151; line-height: 1.7; margin-bottom: 18px;
+            font-style: italic;
+        }
+        .popup-btn {
+            background: linear-gradient(135deg, #c084fc, #7c3aed);
+            color: white; border: none; padding: 12px 28px;
+            font-size: 0.95rem; font-weight: 600; border-radius: 30px;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+            transition: transform 0.2s;
+        }
+        .popup-btn:active { transform: scale(0.95); }
+        .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+        .heart { position: absolute; animation: fall 3s ease-in forwards; }
+        @keyframes fall { 0% { opacity:1; transform: translateY(-20px) rotate(0); } 100% { opacity:0; transform: translateY(100vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <!-- Decorative images (fixed to viewport) -->
+    <img class="decor-img d1" src="/comot/decor/2.png" alt="">
+    <img class="decor-img d2" src="/comot/decor/3.png" alt="">
+    <img class="decor-img d3" src="/comot/decor/4.png" alt="">
+    <img class="decor-img d4" src="/comot/decor/5.png" alt="">
+    <img class="decor-img d5" src="/comot/decor/8.png" alt="">
+    <img class="decor-img d6" src="/comot/decor/9.png" alt="">
+    <img class="decor-img d7" src="/comot/decor/10.png" alt="">
+    <img class="decor-img d8" src="/comot/decor/11.png" alt="">
+    <img class="decor-img d9" src="/comot/decor/12.png" alt="">
+    <img class="decor-img d10" src="/comot/decor/13.png" alt="">
+    <img class="decor-img d11" src="/comot/decor/14.png" alt="">
+
+    <div class="particles" id="particles"></div>
+    <div class="hearts" id="hearts"></div>
+
+    <!-- PAGE 1 -->
+    <div class="page active page1-bg-pulse" id="page1">
+        <div class="cat-circle page1-enter">
+            <img src="/comot/cats/1.jpg" alt="Kucing">
+            <div class="bubble" ontouchstart="showMessage()" onclick="showMessage()">😊 tap aku dulu
+                <div class="sparkle-orbit"><span>✨</span><span>⭐</span><span>✨</span><span>⭐</span></div>
+            </div>
+        </div>
+        <p class="title-text" style="opacity:1"><span class="typing-text">Hai, kak Nyinyi 🐾</span></p>
+        <p class="sub-text page1-enter" style="animation-delay:1s">Ada yang mau ngomong sesuatu.</p>
+        <p class="sub-text page1-enter" style="animation-delay:1.3s">Baca dulu ya, jangan langsung di-close 🙏</p>
+        <div class="msg-box" id="msgBox" style="display:none; margin-top:20px;">
+            <p>🐱</p>
+            <p class="msg-text">Maaf ya bei, suka bikin km sedih. Biar kamu ga murung lagi, ak punya sesuatu nih buat km ♡</p>
+        </div>
+        <button class="btn-kesal" id="btnKesal" style="display:none; margin-top:20px;" onclick="goPage2()">KLIK KALO KAMU LAGI KESAL 😾</button>
+    </div>
+
+    <!-- PAGE 2: Tap Cat Game -->
+    <div class="page" id="page2" style="padding-top:10px;">
+        <div class="text-card" style="margin-bottom:6px;">
+            <h1 class="game-title" style="margin-bottom:0; font-size:1.1rem;">Persekongkolan ak dengan meng dimulai 😼</h1>
+        </div>
+        <div class="frame-box" style="padding:8px 12px; margin-bottom:6px;">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0; font-size:0.85rem;">Ak dan meng mau bantuin km buat<br>reda in emosi/marahnya km nih 🐾</p>
+        </div>
+        <p class="sub-text" style="font-size:0.8rem; opacity:1; color:#ffffff; margin-bottom:8px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Ak kasih kesukaan km nih meng lucuuu~<br>setiap tap ngebantu ngereda in marahnya km hehe ♡</p>
+        <div class="cat-glow-ring" style="margin-bottom:6px;">
+            <img class="tap-cat" id="tapCat" src="/comot/cats/3.jpg" alt="Tap kucing" onclick="tapKucing()" style="width:140px;height:140px;">
+        </div>
+        <div class="counter" id="counter" style="margin-bottom:4px;">0 / 20</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div><span class="progress-cat" id="progressCat">🐾</span></div>
+        <p class="hint" style="margin-top:4px;">breathe in, breathe out 💫</p>
+
+        <!-- Pop-up overlay -->
+        <div class="popup-overlay" id="popup" style="display:none;">
+            <div class="popup-box">
+                <img class="popup-img" id="popupImg" src="" alt="Kucing">
+                <div class="popup-speech">
+                    <p class="popup-name">🐾 Kucing Berkata:</p>
+                    <p class="popup-text" id="popupText"></p>
+                    <button class="popup-btn" onclick="closePopup()">Lanjut ➜</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="final" id="final">
+            <p>Bar nya udah keisi penuh tuh asekkk, ak dan meng seneng 🥰</p>
+            <button class="btn-maafin" style="margin-top:16px;" onclick="goPage3()">Lanjut ➜</button>
+        </div>
+    </div>
+
+    <!-- PAGE 3: Ujian Keras Kepala -->
+    <div class="page" id="page3">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:0">Gimana? Gimana? Udah mendingan ga? 😸<br>Btw ak sama meng udah nyiapin mini game buat km buat ngehibur km 😼</h1>
+        </div>
+        <p class="sub-text" style="margin-bottom:20px">Gimana, udah dimaafin belum?</p>
+        <div class="chase-container" id="chaseContainer">
+            <button class="btn-maafin" onclick="forgiven()">Udah Dong 💚</button>
+            <button class="btn-marah" id="btnMarah" onmouseover="runAway()" ontouchstart="runAway()">Masih Marah! 😤</button>
+        </div>
+        <div class="cat-speech-bubble" id="catChaseSpeech" style="display:none;">
+            <img src="/comot/cats/blep.jpg" alt="kucing" style="width:50px;height:50px;border-radius:50%;border:3px solid #7c3aed;">
+            <span class="cat-bubble-text">yaudah maafin aja~ 🥺</span>
+        </div>
+        <p class="chase-hint" id="chaseHint" style="display:none; margin-top:16px;">😂 Gak bisa ya? Udah maafin aja~</p>
+
+        <!-- Chase popup -->
+        <div class="popup-overlay" id="chasePopup" style="display:none;">
+            <div class="popup-box popup-bounce">
+                <img class="popup-img" src="/comot/cats/blep.jpg" alt="Kucing">
+                <div class="popup-speech">
+                    <p class="popup-name">🐾 Kucing Berkata:</p>
+                    <p class="popup-text" style="background:#7c3aed; color:white; padding:12px 16px; border-radius:12px;">Ga bisa ya bei? Udah maafin aja 🤪</p>
+                    <button class="btn-maafin" onclick="forgiven()">Iya deh, maafin ❤️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: Catch the Treats -->
+    <div class="page" id="page4">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:0">Ambil Mam 😸</h1>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Bantuinn meng nya ambilin mam~<br>dia laper, kebetulan makanan favorit dia sama kek km tau 🐾</p>
+        </div>
+        <p class="sub-text" style="font-size:0.9rem; opacity:1; color:#ffffff; margin-bottom:14px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Btw ak masukin beberapa makanan favorit km kayak:<br>melon, permen biru (ga ada yg emot biru huhu 😭),<br>sushiiii, leleee (diganti emot ikan abisnya ga ada 🐟) ♡</p>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+        <div class="catch-score">Skor: <span id="catchScore">0</span> / 100</div>
+        <div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
+        <div class="catch-area" id="catchArea">
+            <div class="emoji-rain" id="emojiRain"></div>
+            <div class="catch-basket" id="catchBasket"><span class="cat-speech" id="catSpeech"></span></div>
+        </div>
+        <p class="hint" id="catchHint">⬅️ Geser kanan kiri ➡️</p>
+        <div id="page4Done" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">🎉🐾🎉</div>
+                <h2 class="win-title">Yeyy selesai!</h2>
+                <p class="win-text">Meng nya udah kenyang nih makasih bei~ ♡</p>
+                <button class="btn-maafin" onclick="goPage5()">Lanjut ➜</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: Whack-a-Mole -->
+    <div class="page" id="page5">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:0">Pukul Muka Rino 😾👊</h1>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Pukulin aja pukul komuk gw bei~<br>Dapet dobel point tuh kalo komuk gw, kalo mengnya ga dobel wlee 😼<br>Biar ilang itu emosinya mukulin gw wleee akwkawkawk</p>
+        </div>
+        <p class="sub-text" style="font-size:0.9rem; opacity:1; color:#ffffff; margin-bottom:14px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Ini buat ngelampiasinn kekeselin km ke ak ya hehe~ pukul aja sepuasnya ♡</p>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+        <div class="whack-score">Skor: <span id="whackScore">0</span> / 100</div>
+        <div class="score-bar"><div class="score-fill" id="whackFill"></div></div>
+        <div class="whack-grid" id="whackGrid">
+            <div class="whack-hole"><img class="whack-mole" id="mole0"><span class="cat-ears" id="ears0">🐱</span><span class="whack-speech" id="speech0"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole1"><span class="cat-ears" id="ears1">🐱</span><span class="whack-speech" id="speech1"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole2"><span class="cat-ears" id="ears2">🐱</span><span class="whack-speech" id="speech2"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole3"><span class="cat-ears" id="ears3">🐱</span><span class="whack-speech" id="speech3"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole4"><span class="cat-ears" id="ears4">🐱</span><span class="whack-speech" id="speech4"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole5"><span class="cat-ears" id="ears5">🐱</span><span class="whack-speech" id="speech5"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole6"><span class="cat-ears" id="ears6">🐱</span><span class="whack-speech" id="speech6"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole7"><span class="cat-ears" id="ears7">🐱</span><span class="whack-speech" id="speech7"></span></div>
+            <div class="whack-hole"><img class="whack-mole" id="mole8"><span class="cat-ears" id="ears8">🐱</span><span class="whack-speech" id="speech8"></span></div>
+        </div>
+        <p class="hint">Tap kucing yang muncul! 👆</p>
+        <div id="page5Done" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">😂👊😂</div>
+                <h2 class="win-title">Puas kan mukulin gw?</h2>
+                <p class="win-text">Awas ntar bonyok beneran gw akwkawk ♡</p>
+                <button class="btn-maafin" onclick="goPage6()">Lanjut ➜</button>
+            </div>
+        </div>
+    </div>
+    <div class="page" id="page6">
+        <div class="text-card">
+            <h1 class="game-title" style="margin-bottom:8px">🎉 Anjayyy sampe final page!</h1>
+            <p class="sub-text" style="margin-bottom:0; opacity:1; color:#4a1a6b;">Makasih ya bei udah mau mainin sampe sini, jujurly seneng bat seneng udah dimainin sampe sini ♡</p>
+        </div>
+        <div class="frame-box">
+            <span class="frame-corner tl">✿</span>
+            <span class="frame-corner tr">✿</span>
+            <span class="frame-corner bl">✿</span>
+            <span class="frame-corner br">✿</span>
+            <p class="sub-text" style="margin-bottom:0">Gacha box nih bei ada surpresss buat km, asekk aseek joss 🎁</p>
+        </div>
+        <div class="divider">· ˚ ✦ ˚ ·</div>
+
+        <!-- Gift Box -->
+        <div class="gift-box-wrapper" id="giftBoxWrapper">
+            <div class="gift-box" id="giftBox" onclick="openGiftBox()">
+                <div class="gift-lid" id="giftLid">🎀</div>
+                <div class="gift-body">🎁</div>
+            </div>
+            <p class="hint" id="giftHint">Tap kado nya! 👆</p>
+        </div>
+
+        <!-- Gift Result Popup -->
+        <div id="giftResult" class="win-popup-overlay" style="display:none;">
+            <div class="win-popup-box">
+                <div class="win-emoji">🎁✨🎉</div>
+                <h2 class="win-title">Kado buat kamu~</h2>
+                <p class="win-text" id="giftText"></p>
+                <button class="btn-maafin" onclick="goPage7()">Lanjut ➜</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: Klaim Hadiah -->
+    <div class="page" id="page7">
+        <!-- Quotes scattered fixed position -->
+        <div class="chat-bubble-right" style="position:fixed; top:18%; left:5%; transform:rotate(-8deg); z-index:2; max-width:240px; font-size:1rem;">You complicate my mind in the most beautiful way possible</div>
+        <div class="chat-bubble-right" style="position:fixed; top:74%; left:3%; transform:rotate(6deg); z-index:2; max-width:240px; font-size:1rem;">Some people are poetry, some are prose. You are the entire library</div>
+        <div class="chat-bubble-right" style="position:fixed; top:18%; left:68%; transform:rotate(7deg); z-index:2; max-width:240px; font-size:1rem;">I like the universe when you're in it</div>
+        <div class="chat-bubble-right" style="position:fixed; top:74%; left:70%; transform:rotate(-5deg); z-index:2; max-width:240px; font-size:1rem;">makasih ya, makasih ya, makasih ya, makasih ya bei</div>
+
+        <!-- VIDEO 1 -->
+        <div id="videoSlot" style="position:fixed; left:15%; top:2%; width:70%; height:45%; z-index:2; border-radius:16px; overflow:hidden;">
+            <video src="/comot/video.mp4" playsinline webkit-playsinline autoplay loop muted preload="auto" style="width:100%; height:100%; object-fit:contain; border-radius:16px; display:block;"></video>
+        </div>
+
+        <!-- VIDEO 2 -->
+        <div id="videoSlot2" style="position:fixed; left:15%; top:49%; width:70%; height:45%; z-index:2; border-radius:16px; overflow:hidden;">
+            <video src="/comot/video2.mp4" playsinline webkit-playsinline autoplay loop muted preload="auto" style="width:100%; height:100%; object-fit:contain; border-radius:16px; display:block;"></video>
+        </div>
+
+        <!-- WA Button below video 2 -->
+        <a class="btn-wa" id="btnWa" href="#" target="_blank" style="position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:3;">Klaim Hadiah di WhatsApp 💬</a>
+
+        <!-- Background music -->
+        <audio id="page7Song" src="/comot/song.mp3" preload="auto" loop></audio>
+        <!-- Tap to play overlay -->
+        <div id="tapToPlay" onclick="document.getElementById('page7Song').play();document.querySelectorAll('#page7 video').forEach(v=>v.play().catch(()=>{}));this.style.display='none';" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:99; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); cursor:pointer;">
+            <div style="background:rgba(255,255,255,0.95); padding:20px 32px; border-radius:20px; text-align:center;">
+                <p style="font-size:2rem; margin-bottom:8px;">▶️</p>
+                <p style="font-size:1rem; color:#333;">Tap untuk mulai</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Random cat images tiap load
+        const catImages = [
+            '/comot/cats/1.jpg','/comot/cats/3.jpg','/comot/cats/5.jpg',
+            '/comot/cats/6.jpg','/comot/cats/7.jpg','/comot/cats/8.jpg',
+            '/comot/cats/9.jpg','/comot/cats/10.jpg','/comot/cats/11.jpg',
+            '/comot/cats/12.jpg','/comot/cats/13.jpg','/comot/cats/14.jpg',
+            '/comot/cats/15.jpg','/comot/cats/16.jpg','/comot/cats/17.jpg',
+            '/comot/cats/18.jpg','/comot/cats/19.jpg','/comot/cats/20.jpg',
+            '/comot/cats/21.jpg','/comot/cats/22.jpg'
+        ];
+        function randomCat() { return catImages[Math.floor(Math.random() * catImages.length)]; }
+        // Preload all cat images into browser cache
+        catImages.forEach(src => { const img = new Image(); img.src = src; });
+        // Set random cats on load
+        // URL param skip: ?page=7 (run immediately, script is at bottom so DOM is ready)
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const skipTo = urlParams.get('page');
+            if (skipTo) {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                const target = document.getElementById('page' + skipTo);
+                if (target) {
+                    target.classList.add('active');
+                    // Force play videos if skipping to page with videos
+                    target.querySelectorAll('video').forEach(v => v.play().catch(()=>{}));
+                    // Play song if page 7
+                    if (skipTo === '7') { var s = document.getElementById('page7Song'); if(s) s.play().then(()=>{}).catch(()=>{ document.getElementById('tapToPlay').style.display = 'flex'; }); }
+                }
+            }
+        })();
+
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.cat-circle img').src = randomCat();
+            document.getElementById('tapCat').src = randomCat();
+            
+            // JS typing effect - reliable across all devices
+            const typingEl = document.querySelector('.typing-text');
+            const fullText = typingEl.textContent;
+            typingEl.textContent = '';
+            let i = 0;
+            setTimeout(function typeChar() {
+                if (i < fullText.length) {
+                    typingEl.textContent += fullText[i];
+                    i++;
+                    setTimeout(typeChar, 100);
+                }
+            }, 1000);
+        });
+
+        let taps = 0;
+        const maxTaps = 20;
+
+        // Preload meow sound
+        const meowSound = new Audio('/comot/meow.mp3');
+        meowSound.playbackRate = 1.7;
+        meowSound.preload = 'auto';
+        meowSound.load();
+
+        let messageFired = false;
+        function showMessage() {
+            if (messageFired) return;
+            messageFired = true;
+            // Play meow IMMEDIATELY as tap sound
+            meowSound.currentTime = 0;
+            meowSound.play().catch(() => {});
+
+            // Paw rain effect
+            showPaws();
+
+            // Bubble animation
+            const bubble = document.querySelector('.bubble');
+            bubble.style.transform = 'translateX(-50%) scale(1.2)';
+            bubble.style.opacity = '0';
+            bubble.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
+                bubble.style.display = 'none';
+                document.getElementById('msgBox').style.display = 'block';
+                document.getElementById('msgBox').style.animation = 'fadeIn 0.5s ease';
+                document.getElementById('btnKesal').style.display = 'inline-block';
+                document.getElementById('btnKesal').style.animation = 'fadeIn 0.5s ease 0.3s both';
+            }, 300);
+        }
+
+        function showPaws() {
+            const c = document.getElementById('hearts');
+            const paws = ['🐾','🐾','🐾','✨','🐱','💫'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('span');
+                    p.classList.add('heart');
+                    p.textContent = paws[Math.floor(Math.random() * paws.length)];
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.fontSize = (1 + Math.random() * 0.8) + 'rem';
+                    p.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    c.appendChild(p);
+                    setTimeout(() => p.remove(), 4000);
+                }, i * 60);
+            }
+        }
+
+        function goPage2() {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        }
+
+        function goPage3() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.add('active');
+        }
+
+        function goPage5() {
+            document.getElementById('page4').classList.remove('active');
+            document.getElementById('page5').classList.add('active');
+            startWhackGame();
+        }
+
+        function goPage6() {
+            document.getElementById('page5').classList.remove('active');
+            document.getElementById('page6').classList.add('active');
+            showHearts();
+        }
+
+        function goPage7() {
+            document.getElementById('giftResult').style.display = 'none';
+            document.getElementById('page6').classList.remove('active');
+            document.getElementById('page7').classList.add('active');
+            // Force play videos
+            document.querySelectorAll('#page7 video').forEach(v => { v.muted = false; v.play().catch(()=>{}); });
+            // Play song — if blocked, show tap overlay
+            var song = document.getElementById('page7Song');
+            song.currentTime = 0;
+            song.volume = 1;
+            song.play().then(()=>{}).catch(()=>{
+                document.getElementById('tapToPlay').style.display = 'flex';
+            });
+            confettiBurst();
+        }
+
+        function tapKucing() {
+            if (taps >= maxTaps) return;
+            if (paused) return;
+            taps++;
+            document.getElementById('counter').textContent = taps + ' / ' + maxTaps;
+            document.getElementById('progressFill').style.width = (taps / maxTaps * 100) + '%';
+            document.getElementById('progressCat').style.left = (taps / maxTaps * 100) + '%';
+
+            // Vibration haptic feedback
+            if (navigator.vibrate) navigator.vibrate(30);
+
+            // Pop sound
+            playPop();
+
+            const cat = document.getElementById('tapCat');
+            cat.style.transform = 'scale(0.85) rotate(' + (Math.random() * 10 - 5) + 'deg)';
+            setTimeout(() => cat.style.transform = 'scale(1) rotate(0deg)', 150);
+
+            // Tap burst particles
+            tapBurst(cat);
+
+            // Ganti gambar kucing tiap tap
+            cat.src = randomCat();
+
+            // Pop-up messages at certain clicks
+            if (taps === 5) {
+                showPopup("Kata si olong km, dia minta maaf ya. tadi dia nyesel banget sampe ngacak ngacak pasir. 🐾", "/comot/cats/5.jpg");
+            } else if (taps === 10) {
+                showPopup("Dia nyesel sama perbuatan nya dan janji bakal ngurangin ngeselinnya. aman aja kak nyinyi kalau bohong nanti aku gigit dia! 😾", "/comot/cats/angry.jpg");
+            } else if (taps === 15) {
+                showPopup("Dikit lagi bei 5 tap lagi. Kasihan tau bang olong daritadi galau belom dimaapin, Yuk bisa yuk! 🫶🏼", "/comot/cats/6.jpg");
+            }
+
+            if (taps >= maxTaps) {
+                setTimeout(() => {
+                    // Ganti gambar kucing ke video loop
+                    const cat = document.getElementById('tapCat');
+                    const video = document.createElement('video');
+                    video.src = '/comot/cats/finish.mp4';
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.className = 'tap-cat';
+                    video.style.pointerEvents = 'none';
+                    cat.replaceWith(video);
+                    document.getElementById('final').classList.add('show');
+                    document.querySelector('.hint').style.display = 'none';
+                    document.getElementById('counter').textContent = '✅ Asekk!';
+                    showHearts();
+                }, 300);
+            }
+        }
+
+        let paused = false;
+        function showPopup(text, imgSrc) {
+            paused = true;
+            const popup = document.getElementById('popup');
+            document.getElementById('popupText').textContent = text;
+            document.getElementById('popupImg').src = imgSrc;
+            popup.style.display = 'flex';
+            popup.style.animation = 'fadeIn 0.4s ease';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            paused = false;
+        }
+
+        function showHearts() {
+            const c = document.getElementById('hearts');
+            const emojis = ['💕','💖','💗','💝','🩷','✨','🐱'];
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const h = document.createElement('span');
+                    h.classList.add('heart');
+                    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    h.style.left = Math.random() * 100 + '%';
+                    h.style.fontSize = (1 + Math.random()) + 'rem';
+                    h.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    c.appendChild(h);
+                    setTimeout(() => h.remove(), 4000);
+                }, i * 80);
+            }
+        }
+
+        // Page 3 - Chase button
+        let runCount = 0;
+        function runAway() {
+            const btn = document.getElementById('btnMarah');
+            // Kabur ke mana-mana di seluruh viewport
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const bw = btn.offsetWidth;
+            const bh = btn.offsetHeight;
+            const randX = Math.floor(Math.random() * (vw - bw));
+            const randY = Math.floor(Math.random() * (vh - bh));
+            btn.style.position = 'fixed';
+            btn.style.left = randX + 'px';
+            btn.style.top = randY + 'px';
+            btn.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg) scale(' + (0.7 + Math.random() * 0.6) + ')';
+            btn.style.zIndex = '999';
+            runCount++;
+            // Show cat speech bubble after 3 attempts
+            if (runCount === 3) {
+                const speech = document.getElementById('catChaseSpeech');
+                speech.style.display = 'flex';
+            }
+            if (runCount === 6) {
+                // Show popup after 6 attempts
+                btn.style.display = 'none';
+                showChasePopup();
+            }
+        }
+
+        function forgiven() {
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.add('active');
+            document.getElementById('chasePopup').style.display = 'none';
+            startCatchGame();
+        }
+
+        function showChasePopup() {
+            document.getElementById('chasePopup').style.display = 'flex';
+        }
+
+        // === CATCH THE TREATS GAME ===
+        let catchScore = 0;
+        let catchInterval = null;
+        let basketX = 50; // percent
+
+        function startCatchGame() {
+            const area = document.getElementById('catchArea');
+            const basket = document.getElementById('catchBasket');
+            startEmojiRain();
+            startBgm();
+            
+            // Touch/mouse controls
+            area.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = area.getBoundingClientRect();
+                basketX = ((touch.clientX - rect.left) / rect.width) * 100;
+                basketX = Math.max(8, Math.min(92, basketX));
+                basket.style.left = basketX + '%';
+            }, {passive: false});
+
+            area.addEventListener('mousemove', function(e) {
+                const rect = area.getBoundingClientRect();
+                basketX = ((e.clientX - rect.left) / rect.width) * 100;
+                basketX = Math.max(8, Math.min(92, basketX));
+                basket.style.left = basketX + '%';
+            });
+
+            // Spawn items (jarang-jarang)
+            catchInterval = setInterval(() => {
+                if (catchScore >= 100) return;
+                spawnTreat();
+            }, 1500);
+        }
+
+        function spawnTreat() {
+            const area = document.getElementById('catchArea');
+            const treats = ['🍬','🍈','🍣','🐟'];
+            const item = document.createElement('div');
+            item.classList.add('catch-item', 'wobble');
+            item.textContent = treats[Math.floor(Math.random() * treats.length)];
+            item.style.left = (5 + Math.random() * 85) + '%';
+            const speed = 2 + Math.random() * 1.5;
+            item.style.animationDuration = speed + 's';
+            area.appendChild(item);
+
+            // Check collision during fall
+            let checkInterval = setInterval(() => {
+                const itemRect = item.getBoundingClientRect();
+                const basket = document.getElementById('catchBasket');
+                const basketRect = basket.getBoundingClientRect();
+                
+                // Collision check
+                if (itemRect.bottom >= basketRect.top &&
+                    itemRect.top <= basketRect.bottom &&
+                    itemRect.right >= basketRect.left - 15 &&
+                    itemRect.left <= basketRect.right + 15) {
+                    // Caught!
+                    catchScore += 10;
+                    document.getElementById('catchScore').textContent = catchScore;
+                    document.getElementById('scoreFill').style.width = catchScore + '%';
+                    item.remove();
+                    clearInterval(checkInterval);
+                    if (navigator.vibrate) navigator.vibrate(20);
+                    playPop();
+                    showCatSpeech(true);
+                    spawnSparkle();
+
+                    // Confetti at milestones
+                    if (catchScore % 25 === 0 && catchScore < 100) confettiBurst();
+
+                    if (catchScore >= 100) {
+                        confettiBurst();
+                        clearInterval(catchInterval);
+                        stopBgm();
+                        // Stop game - remove all falling items
+                        document.querySelectorAll('.emoji-item').forEach(el => el.remove());
+                        setTimeout(() => {
+                            document.getElementById('page4Done').style.display = 'flex';
+                        }, 400);
+                    } else {
+                        updateBgmTempo();
+                    }
+                }
+            }, 50);
+
+            // Remove if missed (no penalty)
+            setTimeout(() => {
+                if (item.parentNode) {
+                    item.remove();
+                    showCatSpeech(false);
+                }
+                clearInterval(checkInterval);
+            }, 4000);
+        }
+
+        // Generate floating particles
+        (function() {
+            const container = document.getElementById('particles');
+            const colors = ['#c084fc','#f093fb','#a78bfa','#e879f9','#ffffff'];
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                const size = 4 + Math.random() * 12;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDuration = (6 + Math.random() * 10) + 's';
+                p.style.animationDelay = (Math.random() * 8) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // Tap burst effect (bigger, more particles)
+        function tapBurst(el) {
+            const rect = el.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const emojis = ['🐾','✨','💫','⭐','💥','🐱','🩷','😾'];
+            for (let i = 0; i < 14; i++) {
+                const span = document.createElement('span');
+                span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                span.style.cssText = 'position:fixed;pointer-events:none;font-size:' + (1.2 + Math.random() * 1.2) + 'rem;z-index:999;transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94);opacity:1;';
+                span.style.left = cx + 'px';
+                span.style.top = cy + 'px';
+                document.body.appendChild(span);
+                const angle = (Math.PI * 2 / 14) * i + (Math.random() * 0.3);
+                const dist = 60 + Math.random() * 70;
+                requestAnimationFrame(() => {
+                    span.style.left = (cx + Math.cos(angle) * dist) + 'px';
+                    span.style.top = (cy + Math.sin(angle) * dist) + 'px';
+                    span.style.opacity = '0';
+                    span.style.transform = 'scale(0.2) rotate(' + (Math.random() * 360) + 'deg)';
+                });
+                setTimeout(() => span.remove(), 800);
+            }
+        }
+
+        // Pop sound effect (synthesized, no file needed)
+        function playPop() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
+        }
+
+        // === CAT SPEECH BUBBLE ===
+        const catchPhrases = ['Nyam! 😋', 'Enak! 🤤', 'Lagi! 🐱', 'Yummy~ 💕', 'Asik! ✨'];
+        const missPhrases = ['Yah~ 😿', 'Huhu 🥺', 'Missed..', 'Aw~ 😾'];
+        let speechTimeout = null;
+        function showCatSpeech(caught) {
+            const el = document.getElementById('catSpeech');
+            const phrases = caught ? catchPhrases : missPhrases;
+            el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            el.classList.add('show');
+            clearTimeout(speechTimeout);
+            speechTimeout = setTimeout(() => el.classList.remove('show'), 1000);
+        }
+
+        // === SPARKLE TRAIL ===
+        function spawnSparkle() {
+            const basket = document.getElementById('catchBasket');
+            const area = document.getElementById('catchArea');
+            const sparkles = ['✨','⭐','💫','🌟'];
+            for (let i = 0; i < 3; i++) {
+                const s = document.createElement('span');
+                s.classList.add('sparkle-trail');
+                s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                s.style.left = (parseFloat(basket.style.left || 50) + (Math.random() * 10 - 5)) + '%';
+                s.style.bottom = '50px';
+                area.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            }
+        }
+
+        // === CONFETTI BURST ===
+        function confettiBurst() {
+            const area = document.getElementById('catchArea');
+            const emojis = ['🎉','✨','⭐','🎊','💜','🩷','🐾','🎈'];
+            for (let i = 0; i < 16; i++) {
+                const c = document.createElement('span');
+                c.classList.add('confetti-piece');
+                c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                c.style.left = (10 + Math.random() * 80) + '%';
+                c.style.top = (20 + Math.random() * 60) + '%';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 40 + Math.random() * 60;
+                c.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                c.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                area.appendChild(c);
+                setTimeout(() => c.remove(), 1000);
+            }
+        }
+
+        // === EMOJI RAIN BACKGROUND ===
+        function startEmojiRain() {
+            const rain = document.getElementById('emojiRain');
+            const emojis = ['🐾','💜','✨','🐱','🩷','⭐'];
+            setInterval(() => {
+                if (catchScore >= 100) return;
+                const drop = document.createElement('span');
+                drop.classList.add('emoji-drop');
+                drop.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = (3 + Math.random() * 4) + 's';
+                rain.appendChild(drop);
+                setTimeout(() => drop.remove(), 7000);
+            }, 800);
+        }
+
+        // === BGM (Web Audio - soft loop, tempo increases) ===
+        let bgmCtx = null, bgmOsc = null, bgmGain = null, bgmInterval = null;
+        let bgmTempo = 300; // ms between notes
+        const bgmNotes = [523, 587, 659, 698, 784, 698, 659, 587]; // C5 scale
+        let bgmIndex = 0;
+        function startBgm() {
+            try {
+                bgmCtx = new (window.AudioContext || window.webkitAudioContext)();
+                bgmGain = bgmCtx.createGain();
+                bgmGain.connect(bgmCtx.destination);
+                bgmGain.gain.value = 0.08;
+                playBgmNote();
+                bgmInterval = setInterval(playBgmNote, bgmTempo);
+            } catch(e) {}
+        }
+        function playBgmNote() {
+            if (!bgmCtx) return;
+            const osc = bgmCtx.createOscillator();
+            const noteGain = bgmCtx.createGain();
+            osc.connect(noteGain);
+            noteGain.connect(bgmGain);
+            osc.type = 'sine';
+            osc.frequency.value = bgmNotes[bgmIndex % bgmNotes.length];
+            noteGain.gain.setValueAtTime(0.3, bgmCtx.currentTime);
+            noteGain.gain.exponentialRampToValueAtTime(0.01, bgmCtx.currentTime + 0.2);
+            osc.start(bgmCtx.currentTime);
+            osc.stop(bgmCtx.currentTime + 0.25);
+            bgmIndex++;
+        }
+        function updateBgmTempo() {
+            // Speed up as score increases
+            const newTempo = Math.max(150, 300 - (catchScore * 1.5));
+            if (Math.abs(newTempo - bgmTempo) > 20) {
+                bgmTempo = newTempo;
+                clearInterval(bgmInterval);
+                bgmInterval = setInterval(playBgmNote, bgmTempo);
+            }
+        }
+        function stopBgm() {
+            clearInterval(bgmInterval);
+            if (bgmGain) bgmGain.gain.value = 0;
+        }
+
+        // === SPARKLE TRAIL ON BASKET MOVE ===
+        (function() {
+            const area = document.getElementById('catchArea');
+            if (!area) return;
+            let lastSparkle = 0;
+            function trailOnMove(x) {
+                const now = Date.now();
+                if (now - lastSparkle < 50) return;
+                lastSparkle = now;
+                const sparkles = ['✨','⭐','💫','✦','·'];
+                const s = document.createElement('span');
+                s.classList.add('sparkle-trail');
+                s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                const rect = area.getBoundingClientRect();
+                s.style.left = ((x - rect.left) / rect.width * 100) + '%';
+                s.style.bottom = '15px';
+                area.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            }
+            area.addEventListener('touchmove', function(e) {
+                trailOnMove(e.touches[0].clientX);
+            });
+            area.addEventListener('mousemove', function(e) {
+                trailOnMove(e.clientX);
+            });
+        })();
+
+        // === WHACK-A-MOLE GAME ===
+        let whackScore = 0;
+        let whackInterval = null;
+        let whackActive = true;
+        const angryCats = ['/comot/cats/angry.jpg'];
+        const cuteCats = catImages;
+        const olongImg = '/comot/cats/olong.jpg';
+        
+        // Preload olong
+        (function(){ const img = new Image(); img.src = olongImg; })();
+
+        function startWhackGame() {
+            whackScore = 0;
+            whackActive = true;
+            document.getElementById('whackScore').textContent = '0';
+            document.getElementById('whackFill').style.width = '0%';
+            whackInterval = setInterval(spawnMole, 1800);
+        }
+
+        function spawnMole() {
+            if (!whackActive) return;
+            
+            // Only spawn max 2 at a time
+            let activeCount = 0;
+            for (let i = 0; i < 9; i++) {
+                if (document.getElementById('mole' + i).classList.contains('up')) activeCount++;
+            }
+            if (activeCount >= 2) return;
+            
+            // Random: kadang 1, kadang 2 sekaligus
+            const spawnCount = activeCount === 0 ? (Math.random() < 0.4 ? 2 : 1) : 1;
+            
+            for (let s = 0; s < spawnCount; s++) {
+                spawnSingleMole();
+            }
+        }
+
+        function spawnSingleMole() {
+            const holeIndex = Math.floor(Math.random() * 9);
+            const mole = document.getElementById('mole' + holeIndex);
+            const ears = document.getElementById('ears' + holeIndex);
+            const speech = document.getElementById('speech' + holeIndex);
+            
+            // Don't spawn if already up
+            if (mole.classList.contains('up')) return;
+
+            // 60% chance olong, 40% angry cat
+            const isOlong = Math.random() < 0.6;
+            
+            if (isOlong) {
+                mole.src = olongImg;
+                mole.classList.add('olong');
+                ears.textContent = '😺';
+            } else {
+                mole.src = '/comot/cats/angry.jpg';
+                mole.classList.remove('olong');
+                ears.textContent = '😾';
+            }
+            
+            mole.classList.add('up');
+            ears.style.opacity = '1';
+
+            // Set tap handler
+            mole.onclick = function() {
+                if (!mole.classList.contains('up')) return;
+                mole.classList.add('hit');
+                
+                if (isOlong) {
+                    // Olong hit - double points
+                    whackScore += 10;
+                    speech.textContent = 'Aduh! Sakit tau 😭';
+                    if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+                } else {
+                    // Angry cat hit - becomes cute
+                    whackScore += 5;
+                    mole.src = cuteCats[Math.floor(Math.random() * cuteCats.length)];
+                    ears.textContent = '😻';
+                    speech.textContent = 'Meow~ 🥺';
+                    if (navigator.vibrate) navigator.vibrate(20);
+                }
+                
+                playPop();
+                speech.classList.add('show');
+                document.getElementById('whackScore').textContent = whackScore;
+                document.getElementById('whackFill').style.width = Math.min(100, whackScore) + '%';
+
+                setTimeout(() => {
+                    mole.classList.remove('up', 'hit', 'olong');
+                    ears.style.opacity = '0';
+                    speech.classList.remove('show');
+                    mole.onclick = null;
+                }, 500);
+
+                // Check win
+                if (whackScore >= 100) {
+                    whackActive = false;
+                    clearInterval(whackInterval);
+                    confettiBurst();
+                    // Stop game - hide all moles
+                    document.querySelectorAll('.whack-mole').forEach(el => {
+                        el.classList.remove('up', 'olong');
+                    });
+                    document.querySelectorAll('.cat-ears').forEach(el => {
+                        el.style.opacity = '0';
+                    });
+                    setTimeout(() => {
+                        document.getElementById('page5Done').style.display = 'flex';
+                    }, 400);
+                }
+            };
+
+            // Auto hide after time
+            setTimeout(() => {
+                if (mole.classList.contains('up') && !mole.classList.contains('hit')) {
+                    mole.classList.remove('up', 'olong');
+                    ears.style.opacity = '0';
+                    speech.classList.remove('show');
+                    mole.onclick = null;
+                }
+            }, 1000 + Math.random() * 500);
+        }
+
+        // === GIFT BOX ===
+        const vouchers = [
+            '🧘‍♀️ Voucher Pilates',
+            '🍦 Voucher Jajan'
+        ];
+        let giftOpened = false;
+
+        function openGiftBox() {
+            if (giftOpened) return;
+            giftOpened = true;
+
+            const box = document.getElementById('giftBox');
+            const hint = document.getElementById('giftHint');
+            hint.style.display = 'none';
+
+            // Phase 1: Shake for 2.5s
+            box.classList.add('shaking');
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 50, 30, 50, 30, 50, 30, 50, 30, 50]);
+
+            setTimeout(() => {
+                // Phase 2: Open (lid flies, box explodes)
+                box.classList.remove('shaking');
+                box.classList.add('opened');
+                playPop();
+                confettiBurst();
+
+                // Phase 3: Show popup after box disappears
+                setTimeout(() => {
+                    const voucher = vouchers[Math.floor(Math.random() * vouchers.length)];
+                    document.getElementById('giftText').textContent = '🎉 Kamu dapet: ' + voucher;
+                    document.getElementById('giftResult').style.display = 'flex';
+
+                    // Set WA link on page 7
+                    const waText = encodeURIComponent('iyaa ki ak maafin kok 🥰');
+                    document.getElementById('btnWa').href = 'https://wa.me/6285718100782?text=' + waText;
+                }, 800);
+            }, 2500);
+        }
+
+        // Heart confetti for gacha
+        function showHeartConfetti() {
+            const page = document.getElementById('page6');
+            const hearts = ['❤️','💕','💗','💜','🩷','💖'];
+            for (let i = 0; i < 30; i++) {
+                const h = document.createElement('span');
+                h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                h.style.cssText = 'position:fixed;top:-20px;font-size:' + (1 + Math.random() * 1.5) + 'rem;pointer-events:none;z-index:999;opacity:0.9;';
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.animation = 'heartFall ' + (2 + Math.random() * 2) + 's linear forwards';
+                h.style.animationDelay = (Math.random() * 1) + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 4000);
+            }
+        }
+
+        // === AMBIENT PURRING SOUND (Page 1) ===
+        let purrCtx = null, purrGain = null, purrOsc = null, purrNoise = null;
+        function startPurr() {
+            try {
+                purrCtx = new (window.AudioContext || window.webkitAudioContext)();
+                purrGain = purrCtx.createGain();
+                purrGain.connect(purrCtx.destination);
+                purrGain.gain.value = 0.03;
+
+                // Low rumble oscillator (purring base)
+                purrOsc = purrCtx.createOscillator();
+                purrOsc.type = 'sine';
+                purrOsc.frequency.value = 25;
+                
+                // Modulate for purr rhythm
+                const lfo = purrCtx.createOscillator();
+                const lfoGain = purrCtx.createGain();
+                lfo.frequency.value = 5;
+                lfoGain.gain.value = 15;
+                lfo.connect(lfoGain);
+                lfoGain.connect(purrOsc.frequency);
+                lfo.start();
+
+                purrOsc.connect(purrGain);
+                purrOsc.start();
+            } catch(e) {}
+        }
+        function stopPurr() {
+            if (purrOsc) { purrOsc.stop(); purrOsc = null; }
+            if (purrCtx) { purrCtx.close(); purrCtx = null; }
+        }
+
+        // Start purr on first interaction (audio policy)
+        document.addEventListener('touchstart', function initPurr() {
+            startPurr();
+            document.removeEventListener('touchstart', initPurr);
+        }, { once: true });
+        document.addEventListener('click', function initPurr() {
+            startPurr();
+            document.removeEventListener('click', initPurr);
+        }, { once: true });
+
+    </script>
+</body>
+</html>
+<!-- v1781117965 -->
