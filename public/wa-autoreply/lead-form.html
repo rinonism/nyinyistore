@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WA AutoReply - Daftar Trial</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💬</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#e8f8ee 0%,#fff 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#1a1a1a}
+.container{background:#fff;max-width:480px;width:100%;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.08);overflow:hidden}
+.hero{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);padding:32px;text-align:center;color:#fff}
+.hero-icon{font-size:48px;margin-bottom:8px}
+.hero h1{font-size:22px;margin:0 0 4px;font-weight:700}
+.hero p{font-size:14px;margin:0;opacity:0.95}
+.form{padding:32px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;color:#444;margin-bottom:6px}
+.field label .req{color:#e53935;margin-left:2px}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;font-family:inherit;transition:border-color 0.2s;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#25D366}
+.field textarea{resize:vertical;min-height:80px}
+.field .hint{font-size:12px;color:#888;margin-top:4px}
+.error-msg{background:#ffebee;color:#c62828;padding:10px 14px;border-radius:6px;font-size:13px;margin-bottom:16px;display:none}
+.success-msg{background:#e8f8ee;color:#2e7d32;padding:14px 16px;border-radius:8px;font-size:14px;margin-bottom:16px;display:none;text-align:center}
+.success-msg .checkmark{display:block;font-size:32px;margin-bottom:4px}
+.btn-submit{width:100%;background:#25D366;color:#fff;padding:14px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;font-family:inherit}
+.btn-submit:hover:not(:disabled){background:#1eb854}
+.btn-submit:disabled{background:#a0a0a0;cursor:not-allowed}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.privacy{font-size:12px;color:#888;text-align:center;margin-top:16px;line-height:1.5}
+.privacy a{color:#25D366;text-decoration:none}
+.back{display:block;text-align:center;margin-top:16px;font-size:13px;color:#888;text-decoration:none}
+.back:hover{color:#444}
+@media(max-width:480px){.hero{padding:24px 20px}.form{padding:24px 20px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="hero-icon">💬</div>
+    <h1>Mulai Trial WA AutoReply</h1>
+    <p>7 hari gratis, setup 5 menit, langsung aktif</p>
+  </div>
+  <form class="form" id="leadForm" onsubmit="return submitForm(event)">
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="success-msg" id="successMsg">
+      <span class="checkmark">✅</span>
+      <strong>Terima kasih!</strong>
+      <p style="margin:8px 0 0">Tim kami akan WhatsApp kamu dalam 1 jam untuk aktivasi.</p>
+    </div>
+
+    <div class="field">
+      <label>Nama Lengkap <span class="req">*</span></label>
+      <input type="text" name="name" required minlength="2" maxlength="100" placeholder="Contoh: Budi Santoso">
+    </div>
+
+    <div class="field">
+      <label>Nama Bisnis <span class="req">*</span></label>
+      <input type="text" name="business" required minlength="2" maxlength="100" placeholder="Contoh: Toko Kue Mama Rini">
+    </div>
+
+    <div class="field">
+      <label>Email <span class="req">*</span></label>
+      <input type="email" name="email" required placeholder="email@kamu.com">
+    </div>
+
+    <div class="field">
+      <label>Nomor WhatsApp <span class="req">*</span></label>
+      <input type="tel" name="whatsapp" required pattern="(\+62|62|0)[0-9]{9,13}" placeholder="08123456789">
+      <div class="hint">Nomor yang akan dipakai untuk bot auto-reply</div>
+    </div>
+
+    <div class="field">
+      <label>Jenis Bisnis</label>
+      <select name="industry">
+        <option value="">-- Pilih --</option>
+        <option value="toko-online">Toko Online</option>
+        <option value="fnb">Restoran / Kafe / F&amp;B</option>
+        <option value="jasa">Jasa (Laundry, Salon, Klinik, dll)</option>
+        <option value="property">Property / Real Estate</option>
+        <option value="edukasi">Bimbel / Kursus / Edukasi</option>
+        <option value="lainnya">Lainnya</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Estimasi Pesan Masuk / Hari</label>
+      <select name="volume">
+        <option value="<20">&lt; 20 pesan</option>
+        <option value="20-100">20 - 100 pesan</option>
+        <option value="100-500">100 - 500 pesan</option>
+        <option value=">500">&gt; 500 pesan</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Catatan (opsional)</label>
+      <textarea name="notes" maxlength="500" placeholder="Ada yang ingin ditanyakan atau request khusus?"></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit" id="submitBtn">🎁 Daftar Trial Gratis 7 Hari</button>
+
+    <p class="privacy">Dengan submit, kamu setuju menerima WhatsApp dari tim kami. Data aman, tidak akan dishare ke pihak ketiga. <a href="#">Privasi</a></p>
+  </form>
+</div>
+<a href="/" class="back">← Kembali ke landing page</a>
+
+<script>
+function submitForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('errorMsg');
+  const ok = document.getElementById('successMsg');
+
+  // Reset
+  err.style.display = 'none';
+  ok.style.display = 'none';
+
+  // Validate
+  const data = {
+    timestamp: new Date().toISOString(),
+    name: form.elements['name'].value.trim(),
+    business: form.elements['business'].value.trim(),
+    email: form.elements['email'].value.trim(),
+    whatsapp: form.elements['whatsapp'].value.trim(),
+    industry: form.elements['industry'].value,
+    volume: form.elements['volume'].value,
+    notes: form.elements['notes'].value.trim(),
+    source: window.location.search || 'direct',
+    userAgent: navigator.userAgent
+  };
+
+  if (data.name.length < 2) { showError('Nama minimal 2 karakter'); return false; }
+  if (data.business.length < 2) { showError('Nama bisnis minimal 2 karakter'); return false; }
+  if (!isValidEmail(data.email)) { showError('Format email tidak valid'); return false; }
+  if (!isValidWA(data.whatsapp)) { showError('Nomor WhatsApp tidak valid (contoh: 08123456789)'); return false; }
+
+  // Normalize WA ke format 62xxx
+  data.whatsapp = normalizeWA(data.whatsapp);
+
+  // Disable button + spinner
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Mengirim...';
+
+  // Save ke localStorage (best effort, may fail on file://)
+  try { saveToLocal(data); } catch(e) { console.warn('localStorage save failed:', e); }
+
+  // Generate CSV & trigger download
+  try { downloadCSV([data]); } catch(e) { console.warn('CSV download failed:', e); }
+
+  // Open WhatsApp with pre-filled message
+  const waMsg = encodeURIComponent(
+    `Halo, saya ${data.name} dari ${data.business}.\n\nSaya mau daftar trial WA AutoReply.\n\n` +
+    `Email: ${data.email}\n` +
+    `WA: ${data.whatsapp}\n` +
+    `Industri: ${data.industry || '-'}\n` +
+    `Volume: ${data.volume}\n` +
+    (data.notes ? `Catatan: ${data.notes}\n` : '')
+  );
+  const waURL = `https://wa.me/6282139758648?text=${waMsg}`;
+
+  // Show success
+  setTimeout(function() {
+    try { btn.disabled = false; } catch(e) {}
+    try { btn.innerHTML = '🎁 Daftar Trial Gratis 7 Hari'; } catch(e) {}
+    try { ok.style.display = 'block'; } catch(e) { console.error('show success failed:', e); }
+    try { form.style.display = 'none'; } catch(e) {}
+    // Auto-open WA after 1.5s
+    setTimeout(function() { try { window.open(waURL, '_blank'); } catch(e) {} }, 1500);
+  }, 800);
+
+  return false;
+}
+
+function showError(msg) {
+  const err = document.getElementById('errorMsg');
+  err.textContent = '⚠️ ' + msg;
+  err.style.display = 'block';
+  err.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function isValidEmail(e) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function isValidWA(wa) {
+  return /^(\+62|62|0)[0-9]{9,13}$/.test(wa.replace(/[\s-]/g, ''));
+}
+
+function normalizeWA(wa) {
+  wa = wa.replace(/[\s-]/g, '');
+  if (wa.startsWith('0')) return '62' + wa.slice(1);
+  if (wa.startsWith('+')) return wa.slice(1);
+  return wa;
+}
+
+function saveToLocal(data) {
+  let leads = [];
+  try {
+    const stored = localStorage.getItem('wa-autoreply-leads');
+    if (stored) leads = JSON.parse(stored);
+  } catch (e) { leads = []; }
+  leads.push(data);
+  localStorage.setItem('wa-autoreply-leads', JSON.stringify(leads));
+}
+
+function downloadCSV(leads) {
+  const headers = ['Timestamp','Name','Business','Email','WhatsApp','Industry','Volume','Notes','Source','UserAgent'];
+  const rows = leads.map(function(l) {
+    return headers.map(function(h) {
+      const v = String(l[h.toLowerCase()] || '').replace(/"/g, '""');
+      return `"${v}"`;
+    }).join(',');
+  });
+  const csv = headers.join(',') + '\n' + rows.join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'leads-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
