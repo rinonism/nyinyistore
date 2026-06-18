@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Drip Preview - WA AutoReply</title>
+<style>
+body{margin:0;padding:0;background:#1a1a2e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#e0e0e0}
+.header{background:#0f0f1f;padding:32px 40px;border-bottom:2px solid #25D366;position:sticky;top:0;z-index:100}
+.header h1{margin:0;font-size:20px;color:#fff;font-weight:700}
+.header p{margin:4px 0 0;color:#888;font-size:13px}
+.toc{background:#16162a;padding:16px 40px;border-bottom:1px solid #2d2d4e;position:sticky;top:80px;z-index:99}
+.toc a{color:#25D366;text-decoration:none;margin-right:20px;font-size:13px;font-weight:600}
+.toc a:hover{text-decoration:underline}
+.email-section{padding:40px 20px;border-bottom:1px solid #2d2d4e}
+.email-section h2{color:#fff;margin:0 0 8px;font-size:18px}
+.email-section .meta{color:#888;font-size:12px;margin-bottom:16px}
+.email-section iframe{width:100%;max-width:680px;height:800px;border:none;border-radius:8px;background:#fff;display:block;margin:0 auto;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📧 Email Drip Preview - WA AutoReply</h1>
+  <p>4-email sequence untuk calon client: Welcome → Tips → Trial End → Win-back</p>
+</div>
+<div class="toc">
+  <a href="#email1">1. Welcome</a>
+  <a href="#email2">2. Tips AI Prompt</a>
+  <a href="#email3">3. Trial End</a>
+  <a href="#email4">4. Win-back</a>
+</div>
+<div class="email-section" id="email1">
+  <h2>Email 1 - Welcome (Day 0)</h2>
+  <div class="meta">Subject: 🎉 Selamat Datang di WA AutoReply! Setup dalam 5 menit | Trigger: New signup</div>
+  <iframe src="templates/email-1-welcome.html"></iframe>
+</div>
+<div class="email-section" id="email2">
+  <h2>Email 2 - Tips AI Prompt (Day 3)</h2>
+  <div class="meta">Subject: 💡 3 Cara Bikin Bot Makin Pintar | Trigger: 3 days after signup</div>
+  <iframe src="templates/email-2-tips.html"></iframe>
+</div>
+<div class="email-section" id="email3">
+  <h2>Email 3 - Trial Hampir Habis (Day 7)</h2>
+  <div class="meta">Subject: ⏰ Trial kamu tinggal 1 hari lagi | Trigger: 7 days after signup</div>
+  <iframe src="templates/email-3-trial-end.html"></iframe>
+</div>
+<div class="email-section" id="email4">
+  <h2>Email 4 - Win-back / Last Chance (Day 14)</h2>
+  <div class="meta">Subject: 😢 Kami kangen kamu - diskon 50% | Trigger: 14 days after signup (if not converted)</div>
+  <iframe src="templates/email-4-winback.html"></iframe>
+</div>
+</body>
+</html>
