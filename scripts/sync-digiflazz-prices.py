@@ -10,7 +10,16 @@ import urllib.request
 import re
 import os
 
-# Digiflazz config
+# Digiflazz config — load from proxy .env if not set in environment
+ENV_FILE = os.path.join(os.path.dirname(__file__), "..", "..", ".agent", "nyinyistore-proxy", ".env")
+if not os.environ.get("DIGIFLAZZ_USERNAME") and os.path.exists(ENV_FILE):
+    with open(ENV_FILE) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, val = line.split("=", 1)
+                os.environ.setdefault(key, val)
+
 DIGIFLAZZ_USERNAME = os.environ.get("DIGIFLAZZ_USERNAME", "")
 DIGIFLAZZ_API_KEY = os.environ.get("DIGIFLAZZ_API_KEY", "")
 DIGIFLAZZ_URL = "https://api.digiflazz.com/v1/price-list"
