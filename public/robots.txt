@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /wa-autoreply/admin-crm.html
+Disallow: /wa-autoreply/email/templates/
+Sitemap: https://nyinyistore.com/sitemap.xml

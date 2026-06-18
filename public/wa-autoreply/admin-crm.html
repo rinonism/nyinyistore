@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - WA AutoReply CRM</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔐</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f7;color:#1a1a1a;padding:20px}
+.login-box{max-width:400px;margin:80px auto;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);padding:40px}
+.login-box h1{font-size:20px;margin-bottom:24px;text-align:center}
+.login-box input{width:100%;padding:12px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;margin-bottom:16px}
+.login-box input:focus{outline:none;border-color:#25D366}
+.login-box button{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer}
+.login-box .error{background:#ffebee;color:#c62828;padding:10px 14px;border-radius:6px;font-size:13px;margin-bottom:16px;display:none}
+.admin{display:none}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.admin-header h1{font-size:24px}
+.btn{padding:8px 16px;border-radius:6px;border:none;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:#25D366;color:#fff}
+.btn-secondary{background:#e0e0e0;color:#333}
+.btn-danger{background:#ef5350;color:#fff}
+.btn:hover{opacity:0.9}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.stat{background:#fff;padding:20px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.stat .label{font-size:12px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.stat .value{font-size:28px;font-weight:700;color:#1a1a1a}
+.stat .value.green{color:#25D366}
+.stat .value.orange{color:#ff9800}
+.stat .value.red{color:#ef5350}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#fff}
+.toolbar input{flex:1;min-width:200px}
+.leads-table{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);width:100%;border-collapse:collapse}
+.leads-table th{background:#f8f9fa;padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #e0e0e0}
+.leads-table td{padding:12px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;vertical-align:top}
+.leads-table tr:hover{background:#fafafa}
+.status{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+.status-new{background:#e3f2fd;color:#1565c0}
+.status-contacted{background:#fff3e0;color:#e65100}
+.status-trial{background:#e8f5e9;color:#2e7d32}
+.status-paid{background:#f3e5f5;color:#6a1b9a}
+.status-lost{background:#ffebee;color:#c62828}
+.actions{display:flex;gap:4px}
+.actions button{padding:4px 8px;font-size:11px;border-radius:4px;border:none;cursor:pointer;background:#f0f0f0}
+.actions button:hover{background:#e0e0e0}
+.actions .danger{background:#ffebee;color:#c62828}
+.actions .danger:hover{background:#ffcdd2}
+.empty{padding:40px;text-align:center;color:#888}
+.lead-detail{background:#f8f9fa;padding:12px;border-radius:6px;font-size:12px;margin-top:8px;display:none}
+.lead-detail.open{display:block}
+@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}.leads-table{font-size:12px}.leads-table th,.leads-table td{padding:8px}}
+</style>
+</head>
+<body>
+<div class="login-box" id="loginBox">
+  <h1>🔐 Admin Login</h1>
+  <div class="error" id="loginError">Password salah. Coba lagi.</div>
+  <input type="password" id="password" placeholder="Admin password" onkeyup="if(event.key==='Enter')login()">
+  <button onclick="login()">Login</button>
+  <p style="font-size:12px;color:#888;text-align:center;margin-top:16px">Default password: admin123 (ganti di <code>script</code>)</p>
+</div>
+
+<div class="admin" id="adminPanel">
+  <div class="admin-header">
+    <h1>📋 WA AutoReply CRM</h1>
+    <div>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="label">Total Leads</div><div class="value" id="statTotal">0</div></div>
+    <div class="stat"><div class="label">New</div><div class="value" id="statNew">0</div></div>
+    <div class="stat"><div class="label">Trial</div><div class="value green" id="statTrial">0</div></div>
+    <div class="stat"><div class="label">Paid</div><div class="value orange" id="statPaid">0</div></div>
+    <div class="stat"><div class="label">Conversion</div><div class="value" id="statConv">0%</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="🔍 Cari nama, email, bisnis..." onkeyup="renderLeads()">
+    <select id="filterStatus" onchange="renderLeads()">
+      <option value="">Semua Status</option>
+      <option value="new">New</option>
+      <option value="contacted">Contacted</option>
+      <option value="trial">Trial</option>
+      <option value="paid">Paid</option>
+      <option value="lost">Lost</option>
+    </select>
+    <button class="btn btn-primary" onclick="addLead()">+ Tambah Lead Manual</button>
+    <button class="btn btn-secondary" onclick="exportCSV()">📥 Export CSV</button>
+    <button class="btn btn-danger" onclick="clearAll()">🗑 Hapus Semua</button>
+  </div>
+
+  <table class="leads-table">
+    <thead><tr>
+      <th>Tanggal</th><th>Nama</th><th>Bisnis</th><th>Kontak</th><th>Industri</th><th>Volume</th><th>Status</th><th>Aksi</th>
+    </tr></thead>
+    <tbody id="leadsBody"></tbody>
+  </table>
+</div>
+
+<script>
+// Config
+const ADMIN_PASSWORD = 'admin123';
+const SESSION_KEY = 'wa-autoreply-admin-session';
+const LEADS_KEY = 'wa-autoreply-leads-v2';
+
+// Check session
+if (sessionStorage.getItem(SESSION_KEY) === 'authenticated') {
+  showAdmin();
+}
+
+function login() {
+  const pw = document.getElementById('password').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'authenticated');
+    showAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('password').value = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function showAdmin() {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  renderLeads();
+  updateStats();
+}
+
+function getLeads() {
+  try {
+    return JSON.parse(localStorage.getItem(LEADS_KEY) || '[]');
+  } catch (e) { return []; }
+}
+
+function saveLeads(leads) {
+  localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
+}
+
+function updateStats() {
+  const leads = getLeads();
+  document.getElementById('statTotal').textContent = leads.length;
+  document.getElementById('statNew').textContent = leads.filter(l => (l.status||'new') === 'new').length;
+  document.getElementById('statTrial').textContent = leads.filter(l => l.status === 'trial').length;
+  document.getElementById('statPaid').textContent = leads.filter(l => l.status === 'paid').length;
+  const conv = leads.length > 0 ? Math.round((leads.filter(l => l.status === 'paid').length / leads.length) * 100) : 0;
+  document.getElementById('statConv').textContent = conv + '%';
+}
+
+function renderLeads() {
+  const leads = getLeads();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+
+  const filtered = leads.filter(l => {
+    const matchSearch = !search ||
+      (l.name||'').toLowerCase().includes(search) ||
+      (l.business||'').toLowerCase().includes(search) ||
+      (l.email||'').toLowerCase().includes(search) ||
+      (l.whatsapp||'').toLowerCase().includes(search);
+    const matchStatus = !status || (l.status||'new') === status;
+    return matchSearch && matchStatus;
+  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  const tbody = document.getElementById('leadsBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">Belum ada leads. Tunggu form di <a href="https://nyinyistore.com/wa-autoreply/lead-form.html" target="_blank">landing page</a> diisi calon client.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((l, i) => {
+    const date = new Date(l.timestamp);
+    const dateStr = date.toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const status = l.status || 'new';
+    return `
+      <tr>
+        <td>${dateStr}</td>
+        <td><strong>${escapeHtml(l.name||'-')}</strong><br><span style="color:#888;font-size:11px">${l.notes ? '📝' : ''} ${escapeHtml((l.notes||'').slice(0,40))}${(l.notes||'').length>40?'...':''}</span></td>
+        <td>${escapeHtml(l.business||'-')}</td>
+        <td><a href="mailto:${escapeHtml(l.email||'')}">${escapeHtml(l.email||'-')}</a><br><a href="https://wa.me/${(l.whatsapp||'').replace(/[^0-9]/g,'')}" target="_blank">${escapeHtml(l.whatsapp||'-')}</a></td>
+        <td>${escapeHtml(l.industry||'-')}</td>
+        <td>${escapeHtml(l.volume||'-')}</td>
+        <td><span class="status status-${status}">${status.toUpperCase()}</span></td>
+        <td>
+          <div class="actions">
+            <select onchange="updateStatus(${i}, this.value)" style="padding:2px;font-size:11px;border-radius:4px;border:1px solid #ddd">
+              <option value="new" ${status==='new'?'selected':''}>New</option>
+              <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
+              <option value="trial" ${status==='trial'?'selected':''}>Trial</option>
+              <option value="paid" ${status==='paid'?'selected':''}>Paid</option>
+              <option value="lost" ${status==='lost'?'selected':''}>Lost</option>
+            </select>
+            <button class="danger" onclick="deleteLead(${i})">🗑</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(m) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+  });
+}
+
+function updateStatus(filteredIndex, newStatus) {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const leads = getLeads();
+  const filtered = leads.filter(l => {
+    const matchSearch = !search ||
+      (l.name||'').toLowerCase().includes(search) ||
+      (l.business||'').toLowerCase().includes(search) ||
+      (l.email||'').toLowerCase().includes(search) ||
+      (l.whatsapp||'').toLowerCase().includes(search);
+    const matchStatus = !status || (l.status||'new') === status;
+    return matchSearch && matchStatus;
+  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  const lead = filtered[filteredIndex];
+  if (!lead) return;
+  // Find actual index in unfiltered array
+  const realIndex = leads.indexOf(lead);
+  leads[realIndex].status = newStatus;
+  saveLeads(leads);
+  renderLeads();
+  updateStats();
+}
+
+function deleteLead(filteredIndex) {
+  if (!confirm('Hapus lead ini?')) return;
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const leads = getLeads();
+  const filtered = leads.filter(l => {
+    const matchSearch = !search ||
+      (l.name||'').toLowerCase().includes(search) ||
+      (l.business||'').toLowerCase().includes(search) ||
+      (l.email||'').toLowerCase().includes(search) ||
+      (l.whatsapp||'').toLowerCase().includes(search);
+    const matchStatus = !status || (l.status||'new') === status;
+    return matchSearch && matchStatus;
+  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  const lead = filtered[filteredIndex];
+  if (!lead) return;
+  const realIndex = leads.indexOf(lead);
+  leads.splice(realIndex, 1);
+  saveLeads(leads);
+  renderLeads();
+  updateStats();
+}
+
+function addLead() {
+  const name = prompt('Nama lead:');
+  if (!name) return;
+  const whatsapp = prompt('Nomor WhatsApp (08xxx):');
+  if (!whatsapp) return;
+  const business = prompt('Nama bisnis:', '-') || '-';
+  const email = prompt('Email:', '-') || '-';
+  const leads = getLeads();
+  leads.unshift({
+    timestamp: new Date().toISOString(),
+    name: name,
+    business: business,
+    whatsapp: whatsapp,
+    email: email,
+    industry: '-',
+    volume: '-',
+    notes: 'Manual entry',
+    status: 'new',
+    source: 'manual'
+  });
+  saveLeads(leads);
+  renderLeads();
+  updateStats();
+}
+
+function exportCSV() {
+  const leads = getLeads();
+  if (leads.length === 0) { alert('Belum ada leads.'); return; }
+  const headers = ['Timestamp','Status','Name','Business','Email','WhatsApp','Industry','Volume','Notes','Source'];
+  const rows = leads.map(l => headers.map(h => `"${String(l[h.toLowerCase()]||'').replace(/"/g,'""')}"`).join(','));
+  const csv = headers.join(',') + '\n' + rows.join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'leads-export-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function clearAll() {
+  if (!confirm('Hapus SEMUA leads? Tindakan ini tidak bisa dibatalkan.')) return;
+  if (!confirm('Yakin? Semua data akan hilang.')) return;
+  localStorage.removeItem(LEADS_KEY);
+  renderLeads();
+  updateStats();
+}
+
+// Auto-import leads from form's old localStorage key (v1) on first load
+(function migrate() {
+  try {
+    const v1 = localStorage.getItem('wa-autoreply-leads');
+    if (v1) {
+      const old = JSON.parse(v1);
+      const current = getLeads();
+      old.forEach(l => {
+        if (!l.status) l.status = 'new';
+        if (!current.find(c => c.email === l.email && c.timestamp === l.timestamp)) {
+          current.push(l);
+        }
+      });
+      saveLeads(current);
+      localStorage.removeItem('wa-autoreply-leads');
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
