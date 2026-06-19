@@ -421,13 +421,15 @@ h2.section-title{
 
 /* ============ STICKY CTA ============ */
 .sticky-cta{
-  position:fixed;bottom:20px;right:20px;z-index:90;
+  position:fixed;
+  bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+  right:20px;z-index:90;
   display:flex;align-items:center;gap:10px;
   background:linear-gradient(135deg,var(--wa-500) 0%,var(--wa-600) 100%);
   color:#fff;padding:12px 18px;border-radius:100px;
   font-weight:700;text-decoration:none;
   box-shadow:0 10px 30px rgba(37,211,102,.4),0 4px 12px rgba(15,23,42,.15);
-  transition:all .3s;transform:translateY(120%);opacity:0;
+  transition:opacity .3s,transform .3s;transform:translateY(140%);opacity:0;
   font-family:'Plus Jakarta Sans','Inter',sans-serif;
   border:2px solid rgba(255,255,255,.3);
 }
@@ -454,7 +456,7 @@ h2.section-title{
 }
 
 @media(max-width:600px){
-  .sticky-cta{bottom:14px;right:14px;padding:10px 14px;gap:8px}
+  .sticky-cta{bottom:calc(14px + env(safe-area-inset-bottom, 0px));right:14px;padding:10px 14px;gap:8px}
   .sticky-cta-icon{width:26px;height:26px}
   .sticky-cta-line1{font-size:13px}
   .sticky-cta-line2{font-size:10px}
@@ -1287,11 +1289,7 @@ if(stickyCta){
       m.style.animation = '';
     });
   }
-  // Auto cycle every 5s
-  setInterval(function(){
-    current = (current + 1) % total;
-    show(current);
-  }, 5000);
+  // Auto-cycle managed by restartTimer() (no duplicate interval)
   // Click captions to navigate
   captions.forEach(function(cap, idx){
     cap.addEventListener('click', function(){
@@ -1313,7 +1311,9 @@ if(stickyCta){
   if(stage){
     stage.addEventListener('mouseenter', function(){ clearInterval(timer); });
     stage.addEventListener('mouseleave', restartTimer);
-    // Restart on scroll into view
+    // Start initial cycle so scene auto-advances immediately
+    restartTimer();
+    // Pause/resume on scroll into view (clears timer when off-screen)
     if('IntersectionObserver' in window){
       var demoIO = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
