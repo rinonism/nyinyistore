@@ -707,6 +707,56 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   .container{padding:0 20px}
 }
 
+/* ============ FLOATING WA BUBBLE ============ */
+.wa-bubble{position:fixed;bottom:24px;right:24px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 24px rgba(37,211,102,.45),0 2px 8px rgba(0,0,0,.15);z-index:9998;transition:transform .2s,box-shadow .2s}
+.wa-bubble:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(37,211,102,.55),0 4px 12px rgba(0,0,0,.2);text-decoration:none;color:#fff}
+.wa-bubble:active{transform:scale(.96)}
+.wa-bubble-pulse{position:absolute;inset:0;border-radius:50%;background:rgba(37,211,102,.5);animation:waPulse 2s infinite;pointer-events:none}
+.wa-bubble-tooltip{position:absolute;right:72px;top:50%;transform:translateY(-50%) translateX(8px);background:#0f172a;color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.wa-bubble-tooltip::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:#0f172a}
+.wa-bubble:hover .wa-bubble-tooltip{opacity:1;transform:translateY(-50%) translateX(0)}
+@keyframes waPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+@media(max-width:560px){.wa-bubble{bottom:16px;right:16px;width:54px;height:54px}.wa-bubble-tooltip{display:none}}
+
+/* ============ TOAST NOTIFICATIONS ============ */
+.toast-container{position:fixed;top:20px;right:20px;z-index:10001;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:360px}
+.toast{background:#fff;border-radius:10px;padding:14px 18px 14px 14px;box-shadow:0 8px 24px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toastIn .3s cubic-bezier(.16,1,.3,1);min-width:280px;border-left:4px solid #25D366;position:relative}
+.toast.toast-error{border-left-color:#ef4444}
+.toast.toast-info{border-left-color:#3b82f6}
+.toast-icon{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:#25D366;color:#fff}
+.toast-error .toast-icon{background:#ef4444}
+.toast-info .toast-icon{background:#3b82f6}
+.toast-body{flex:1;font-size:13px;line-height:1.4;color:#0f172a}
+.toast-body strong{display:block;font-size:13px;margin-bottom:2px}
+.toast-close{flex-shrink:0;background:transparent;border:none;color:#9ca3af;cursor:pointer;padding:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
+.toast-close:hover{color:#374151}
+.toast.toast-out{animation:toastOut .25s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
+@media(max-width:560px){.toast-container{left:16px;right:16px;max-width:none;top:16px}.toast{min-width:0}}
+
+/* ============ EXIT-INTENT MODAL ============ */
+.exit-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+.exit-modal[hidden]{display:none}
+.exit-modal-overlay{position:absolute;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(4px);cursor:pointer}
+.exit-modal-card{position:relative;background:linear-gradient(135deg,#fff,#fef9f3);border-radius:20px;width:100%;max-width:440px;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .4s cubic-bezier(.16,1,.3,1);text-align:center}
+.exit-modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(0,0,0,.05);color:#374151;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.exit-modal-close:hover{background:rgba(0,0,0,.1)}
+.exit-modal-icon{font-size:48px;margin-bottom:8px}
+.exit-modal-title{font-size:24px;font-weight:800;color:#0f172a;margin-bottom:8px;line-height:1.2}
+.exit-modal-sub{font-size:14px;color:#64748b;margin-bottom:18px;line-height:1.5}
+.exit-modal-bonus{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:18px;text-align:left;border:1px solid #e5e7eb}
+.exit-modal-bonus-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#374151;padding:4px 0}
+.exit-modal-bonus-check{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:#25D366;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.exit-modal-cta{width:100%;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .2s;margin-bottom:8px}
+.exit-modal-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+.exit-modal-skip{background:transparent;border:none;color:#94a3b8;font-size:13px;cursor:pointer;padding:8px;font-family:inherit;text-decoration:underline}
+.exit-modal-skip:hover{color:#64748b}
+
+/* ============ LOADING SPINNER ============ */
+.lead-form-submit .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 /* ============ LEAD FORM MODAL ============ */
 .lead-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .25s ease}
 .lead-modal[hidden]{display:none}
@@ -1367,6 +1417,34 @@ body.lead-modal-open{overflow:hidden}
   <span class="sticky-cta-arrow">→</span>
 </a>
 
+<!-- ============ FLOATING WA BUBBLE ============ -->
+<a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20tanya%20WA%20AutoReply" class="wa-bubble" id="waBubble" aria-label="Chat WhatsApp langsung" data-ab-cta="wa-bubble">
+  <span class="wa-bubble-pulse"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+  <span class="wa-bubble-tooltip">Chat langsung?</span>
+</a>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ============ EXIT-INTENT MODAL ============ -->
+<div class="exit-modal" id="exitModal" hidden aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="exit-modal-overlay" data-close></div>
+  <div class="exit-modal-card" role="document">
+    <button class="exit-modal-close" data-close aria-label="Tutup">×</button>
+    <div class="exit-modal-icon">🎁</div>
+    <h3 class="exit-modal-title">Tunggu dulu...</h3>
+    <p class="exit-modal-sub">Sebelum pergi, ini bonus khusus buat kamu:</p>
+    <div class="exit-modal-bonus">
+      <div class="exit-modal-bonus-item"><span class="exit-modal-bonus-check">✓</span> Setup gratis oleh tim kami</div>
+      <div class="exit-modal-bonus-item"><span class="exit-modal-bonus-check">✓</span> 7 hari trial, tanpa kartu kredit</div>
+      <div class="exit-modal-bonus-item"><span class="exit-modal-bonus-check">✓</span> Support WA langsung ke founder</div>
+    </div>
+    <button type="button" class="exit-modal-cta" data-open-lead-modal data-close>🎁 Klaim Trial Gratis</button>
+    <button type="button" class="exit-modal-skip" data-close>Gak dulu, makasih</button>
+  </div>
+</div>
+
 <!-- ============ LEAD FORM MODAL ============ -->
 <div class="lead-modal" id="leadModal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
   <div class="lead-modal-overlay" data-close></div>
@@ -1613,7 +1691,7 @@ if(stickyCta){
     if (submitBtn.disabled) return;
     submitBtn.disabled = true;
     var originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Mengirim...';
+    submitBtn.innerHTML = '<span class="spinner"></span>Mengirim...';
 
     var fd = new FormData(form);
     var honeypot = fd.get('website');
@@ -1623,7 +1701,7 @@ if(stickyCta){
       form.hidden = true;
       success.hidden = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      submitBtn.innerHTML = originalText;
       return;
     }
 
@@ -1656,12 +1734,20 @@ if(stickyCta){
           window.ABTest.trackConversion('cta-text', 1);
         }
       } catch(e) {}
+      // Show toast and auto-close after 2.5s
+      if (window.showToast) {
+        window.showToast('success', 'Berhasil kirim!', 'Kami akan hubungi kamu via WhatsApp dalam 1×24 jam.');
+      }
+      setTimeout(function(){ closeModal(); }, 2500);
     } catch (err) {
       errorBox.textContent = err.message || 'Gagal mengirim. Coba lagi atau chat via WhatsApp.';
       errorBox.hidden = false;
+      if (window.showToast) {
+        window.showToast('error', 'Gagal kirim', err.message || 'Coba lagi atau chat via WhatsApp.');
+      }
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      submitBtn.innerHTML = originalText;
     }
   });
 
@@ -1678,6 +1764,109 @@ if(stickyCta){
   } else {
     checkHash();
   }
+})();
+
+// ============ TOAST HELPER ============
+window.showToast = function(type, title, message, duration){
+  duration = duration || 5000;
+  var container = document.getElementById('toastContainer');
+  if (!container) return;
+  var toast = document.createElement('div');
+  toast.className = 'toast toast-' + (type || 'info');
+  var icon = type === 'error' ? '!' : type === 'info' ? 'i' : '✓';
+  toast.innerHTML = '<div class="toast-icon">' + icon + '</div>' +
+    '<div class="toast-body"><strong></strong><span></span></div>' +
+    '<button class="toast-close" aria-label="Tutup">×</button>';
+  toast.querySelector('strong').textContent = title || '';
+  toast.querySelector('span').textContent = message || '';
+  container.appendChild(toast);
+  var remove = function(){
+    toast.classList.add('toast-out');
+    setTimeout(function(){ if (toast.parentNode) toast.parentNode.removeChild(toast); }, 250);
+  };
+  toast.querySelector('.toast-close').addEventListener('click', remove);
+  setTimeout(remove, duration);
+};
+
+// ============ EXIT-INTENT MODAL ============
+(function(){
+  var exitModal = document.getElementById('exitModal');
+  if (!exitModal) return;
+
+  // Session cap: only show once per session
+  var STORAGE_KEY = 'waExitShown';
+  var MIN_TIME_ON_PAGE = 5000; // Don't show in first 5s
+  var startTime = Date.now();
+  var triggered = false;
+
+  // Mobile: don't trigger (no mouse)
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  // Already shown this session?
+  try {
+    if (sessionStorage.getItem(STORAGE_KEY)) return;
+  } catch(e) {}
+
+  function openExitModal(){
+    if (triggered) return;
+    triggered = true;
+    try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch(e) {}
+    exitModal.hidden = false;
+    exitModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lead-modal-open');
+    // Track event
+    try {
+      if (window.ABTest && window.ABTest.track) {
+        window.ABTest.track('exit_intent_shown', null, null, {});
+      }
+    } catch(e) {}
+  }
+
+  function closeExitModal(){
+    exitModal.hidden = true;
+    exitModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lead-modal-open');
+  }
+
+  // Click handlers: close + open lead modal CTA
+  exitModal.addEventListener('click', function(e){
+    if (e.target.closest('[data-close]')) {
+      closeExitModal();
+    } else if (e.target.closest('[data-open-lead-modal]')) {
+      closeExitModal();
+      // Open lead modal after a tick (so exit modal animation finishes)
+      setTimeout(function(){
+        var leadModal = document.getElementById('leadModal');
+        if (leadModal) {
+          leadModal.hidden = false;
+          leadModal.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('lead-modal-open');
+          var firstInput = leadModal.querySelector('input:not([type="hidden"]):not([tabindex="-1"])');
+          if (firstInput) setTimeout(function(){ firstInput.focus(); }, 100);
+        }
+      }, 100);
+    }
+  });
+
+  // Detect mouse leaving viewport at top (exit intent)
+  var lastY = 0;
+  document.addEventListener('mousemove', function(e){
+    if (triggered) return;
+    if (Date.now() - startTime < MIN_TIME_ON_PAGE) return;
+    // Mouse moving toward top of viewport with high velocity
+    if (e.clientY <= 0 && lastY > 50) {
+      openExitModal();
+    }
+    lastY = e.clientY;
+  });
+
+  // Also trigger on visibility change (mobile tab switch / desktop focus loss)
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden' && !triggered && Date.now() - startTime > 30000) {
+      // Don't actually open, just flag — user is leaving
+      triggered = true;
+    }
+  });
 })();
 
 // Scroll reveal
