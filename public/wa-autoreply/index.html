@@ -1309,12 +1309,15 @@ if(stickyCta){
     }, 5000);
   }
   if(stage){
-    stage.addEventListener('mouseenter', function(){ clearInterval(timer); });
-    stage.addEventListener('mouseleave', restartTimer);
+    var isTouch = window.matchMedia('(hover: none)').matches;
+    if(!isTouch){
+      stage.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      stage.addEventListener('mouseleave', restartTimer);
+    }
     // Start initial cycle so scene auto-advances immediately
     restartTimer();
-    // Pause/resume on scroll into view (clears timer when off-screen)
-    if('IntersectionObserver' in window){
+    // Pause/resume on scroll into view (DESKTOP only — mobile always cycles)
+    if('IntersectionObserver' in window && !isTouch){
       var demoIO = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
           if(e.isIntersecting){
