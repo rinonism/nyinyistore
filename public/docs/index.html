@@ -2,382 +2,1033 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>WA AutoReply — Dokumentasi | Auto-Reply WhatsApp AI untuk UMKM</title>
 <meta name="description" content="WA AutoReply - Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Balas pesan pelanggan otomatis 24/7. Trial 7 hari gratis.">
 <meta property="og:title" content="WA AutoReply - Auto-Reply WhatsApp AI untuk UMKM">
 <meta property="og:description" content="Balas pesan WhatsApp pelanggan otomatis 24/7 dengan AI. Cocok untuk toko online, restoran, salon, laundry. Trial 7 hari gratis.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WA AutoReply - Auto-Reply WhatsApp AI untuk UMKM">
-<meta name="twitter:description" content="Balas pesan WhatsApp pelanggan otomatis 24/7. Trial 7 hari gratis.">
+<meta name="theme-color" content="#4f46e5">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;min-height:100vh;background:#fff;color:#1a1a1a}
-a{color:#25D366;text-decoration:none}
-a:hover{text-decoration:underline}
-/* Sidebar */
-.sidebar{width:260px;min-height:100vh;background:#1a1a2e;color:#e0e0e0;padding:0;position:fixed;top:0;left:0;overflow-y:auto;z-index:100}
-.sidebar-header{padding:24px 20px;border-bottom:1px solid #2d2d4e}
-.sidebar-header .logo{display:flex;align-items:center;gap:10px;color:#fff;font-size:18px;font-weight:700}
-.sidebar-header .logo span{background:#25D366;color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
-.sidebar-header .version{font-size:11px;color:#888;margin-top:4px}
-nav{padding:16px 0}
-.nav-section{padding:8px 20px 4px;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.8px}
-nav a{display:block;padding:8px 20px;color:#c0c0d0;font-size:14px;transition:all 0.2s;border-left:3px solid transparent}
-nav a:hover,nav a.active{background:#2d2d4e;color:#fff;border-left-color:#25D366;text-decoration:none}
-/* Search */
-.search-box{padding:16px 20px;border-bottom:1px solid #2d2d4e}
-.search-box input{width:100%;padding:8px 12px;border:1px solid #2d2d4e;border-radius:6px;background:#16162a;color:#e0e0e0;font-size:13px}
-.search-box input::placeholder{color:#888}
-.search-box input:focus{outline:none;border-color:#25D366}
-/* Burger menu */
-.burger{display:none;position:fixed;top:20px;left:20px;z-index:200;background:#1a1a2e;border:none;color:#fff;width:40px;height:40px;border-radius:8px;cursor:pointer;font-size:20px}
-/* Content */
-.content{margin-left:260px;flex:1;padding:48px 64px;max-width:900px}
-.content h1{font-size:32px;font-weight:700;margin-bottom:8px;color:#1a1a1a}
-.content h2{font-size:22px;font-weight:600;margin:40px 0 12px;color:#1a1a1a;padding-bottom:8px;border-bottom:2px solid #f0f0f0}
-.content h3{font-size:16px;font-weight:600;margin:24px 0 8px;color:#333}
-.content p{line-height:1.7;color:#444;margin-bottom:12px}
-.content ul,ol{padding-left:20px;margin-bottom:12px}
-.content li{line-height:1.7;color:#444;margin-bottom:4px}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600}
-.badge-green{background:#e8f8ee;color:#1a7a3a}
-.badge-blue{background:#e8f0fe;color:#1a4ab5}
-.badge-orange{background:#fff3e0;color:#b56a1a}
-.hero{background:linear-gradient(135deg,#e8f8ee 0%,#f0fff4 100%);border:1px solid #25D36630;border-radius:12px;padding:32px;margin-bottom:40px}
-.hero h1{font-size:28px;margin-bottom:8px}
-.hero p{color:#555;font-size:16px;margin:0}
-.step-list{counter-reset:step-counter;list-style:none;padding:0}
-.step-list li{counter-increment:step-counter;display:flex;gap:16px;margin-bottom:24px;padding:20px;background:#f8f9fa;border-radius:10px;border-left:4px solid #25D366}
-.step-list li::before{content:counter(step-counter);background:#25D366;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
-.step-content h4{font-weight:600;margin-bottom:4px;color:#1a1a1a}
-.step-content p{margin:0;color:#555;font-size:14px}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
-.card{background:#f8f9fa;border-radius:10px;padding:20px;border:1px solid #eee}
-.card .icon{font-size:28px;margin-bottom:8px}
-.card h4{font-weight:600;font-size:15px;margin-bottom:6px}
-.card p{font-size:13px;color:#666;margin:0}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin:20px 0}
-.plan{border:2px solid #eee;border-radius:12px;padding:24px;text-align:center}
-.plan.popular{border-color:#25D366;position:relative}
-.plan.popular::before{content:"Populer";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#25D366;color:#fff;padding:2px 12px;border-radius:20px;font-size:12px;font-weight:600}
-.plan h3{font-size:18px;margin-bottom:4px}
-.plan .price{font-size:28px;font-weight:700;color:#25D366;margin:12px 0}
-.plan .price span{font-size:14px;color:#888;font-weight:400}
-.plan ul{list-style:none;padding:0;text-align:left;margin:16px 0}
-.plan ul li{font-size:13px;color:#555;padding:4px 0;padding-left:20px;position:relative}
-.plan ul li::before{content:"✓";position:absolute;left:0;color:#25D366;font-weight:700}
-.faq-item{border-bottom:1px solid #f0f0f0;padding:16px 0}
-.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:6px;cursor:pointer}
-.faq-a{color:#555;line-height:1.6;font-size:14px}
-.callout{background:#e8f8ee;border-left:4px solid #25D366;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
-.callout.warning{background:#fff3e0;border-left-color:#ff9800}
-.callout p{margin:0;font-size:14px;color:#333}
-code{background:#f1f1f1;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px}
-pre{background:#1a1a2e;color:#e0e0e0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0}
-pre code{background:none;padding:0;color:inherit;font-size:13px}
-section{display:none}
+/* ============ RESET & TOKENS ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  line-height:1.65;color:#0f172a;background:#fff;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  min-height:100vh;min-height:100dvh;
+  overflow-x:hidden;
+}
+a{color:#4f46e5;text-decoration:none;transition:color .2s}
+a:hover{color:#4338ca;text-decoration:underline}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+code{font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:.9em;background:#f1f5f9;padding:2px 6px;border-radius:5px;color:#475569;font-weight:500}
+pre{background:#0f172a;color:#e2e8f0;padding:18px 20px;border-radius:12px;overflow-x:auto;margin:20px 0;font-size:13.5px;line-height:1.6;-webkit-overflow-scrolling:touch}
+pre code{background:none;padding:0;color:inherit;font-size:inherit;font-weight:400}
+pre::-webkit-scrollbar{height:6px}
+pre::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+
+:root{
+  --indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--indigo-900:#312e81;
+  --wa-500:#25D366;--wa-600:#128C7E;--wa-700:#075E54;
+  --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;--slate-400:#94a3b8;--slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;--slate-950:#020617;
+  --green-50:#f0fdf4;--green-500:#22c55e;--green-600:#16a34a;
+  --amber-50:#fffbeb;--amber-500:#f59e0b;--amber-700:#b45309;
+  --red-50:#fef2f2;--red-500:#ef4444;--red-700:#b91c1c;
+  --radius-sm:6px;--radius:10px;--radius-lg:14px;--radius-xl:20px;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.04);
+  --shadow:0 4px 12px rgba(15,23,42,.06);
+  --shadow-md:0 12px 28px rgba(15,23,42,.08);
+  --shadow-lg:0 24px 60px rgba(15,23,42,.15);
+  --sidebar-w:280px;
+  --header-h:56px;
+}
+
+/* ============ LAYOUT ============ */
+.layout{display:flex;min-height:100vh;min-height:100dvh}
+
+/* ============ MOBILE HEADER (always visible on mobile) ============ */
+.mobile-header{
+  position:fixed;top:0;left:0;right:0;height:var(--header-h);
+  background:rgba(255,255,255,.95);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--slate-200);
+  display:none;align-items:center;justify-content:space-between;
+  padding:0 16px 0 max(16px, env(safe-area-inset-left));
+  padding-right:max(16px, env(safe-area-inset-right));
+  z-index:60;
+}
+.mobile-header .logo{display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;color:var(--slate-900)}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--wa-500),var(--wa-600));color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;box-shadow:0 4px 10px rgba(37,211,102,.3);flex-shrink:0}
+.burger{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--slate-100);color:var(--slate-700);
+  transition:all .2s;flex-shrink:0;
+}
+.burger:hover{background:var(--slate-200)}
+.burger:active{transform:scale(.95)}
+.burger svg{width:22px;height:22px}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  width:var(--sidebar-w);min-height:100vh;min-height:100dvh;
+  background:linear-gradient(180deg,var(--slate-900) 0%,var(--slate-950) 100%);
+  color:#e2e8f0;padding:0;position:fixed;top:0;left:0;
+  overflow-y:auto;overflow-x:hidden;z-index:100;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  -webkit-overflow-scrolling:touch;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--slate-700);border-radius:3px}
+.sidebar-header{
+  padding:24px 20px 20px;border-bottom:1px solid var(--slate-800);
+  position:sticky;top:0;background:linear-gradient(180deg,var(--slate-900) 0%,var(--slate-900) 85%,transparent 100%);
+  z-index:2;
+}
+.sidebar-header .logo{display:flex;align-items:center;gap:10px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.01em}
+.sidebar-header .version{font-size:11px;color:var(--slate-400);margin-top:6px;font-weight:500}
+.search-box{padding:16px 20px}
+.search-input{
+  width:100%;padding:10px 12px 10px 38px;
+  border:1px solid var(--slate-700);border-radius:8px;
+  background:rgba(255,255,255,.05);color:#e2e8f0;
+  font-size:14px;font-family:inherit;transition:all .2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:12px center;
+}
+.search-input::placeholder{color:var(--slate-400)}
+.search-input:focus{outline:none;border-color:var(--wa-500);background:rgba(255,255,255,.08)}
+nav.sidebar-nav{padding:8px 12px 24px}
+.nav-section{padding:14px 12px 6px;font-size:10.5px;font-weight:700;color:var(--slate-500);text-transform:uppercase;letter-spacing:.1em}
+nav.sidebar-nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;color:#cbd5e1;font-size:14px;font-weight:500;
+  transition:all .15s;border-radius:8px;
+  margin-bottom:2px;text-decoration:none;
+  min-height:40px;
+}
+nav.sidebar-nav a:hover{background:rgba(255,255,255,.05);color:#fff;text-decoration:none}
+nav.sidebar-nav a.active{background:linear-gradient(90deg,rgba(79,70,229,.25),rgba(37,211,102,.15));color:#fff;font-weight:600;box-shadow:inset 2px 0 0 var(--wa-500)}
+nav.sidebar-nav a .dot{width:6px;height:6px;border-radius:50%;background:var(--slate-600);transition:all .2s;flex-shrink:0}
+nav.sidebar-nav a.active .dot{background:var(--wa-500);box-shadow:0 0 8px var(--wa-500)}
+nav.sidebar-nav a:hover .dot{background:var(--slate-400)}
+
+/* Backdrop for mobile */
+.backdrop{
+  position:fixed;inset:0;background:rgba(15,23,42,.5);
+  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;
+  z-index:90;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+}
+.backdrop.show{opacity:1;visibility:visible}
+
+/* ============ CONTENT ============ */
+.content{
+  margin-left:var(--sidebar-w);flex:1;
+  padding:48px clamp(24px,5vw,64px);
+  max-width:920px;
+  min-height:100vh;min-height:100dvh;
+}
+.content-inner{max-width:760px;margin:0 auto}
+.content h1{
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  font-size:clamp(28px,4.5vw,38px);font-weight:800;line-height:1.15;
+  letter-spacing:-.02em;color:var(--slate-900);margin-bottom:12px;
+}
+.content h2{
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  font-size:clamp(22px,3vw,26px);font-weight:700;line-height:1.25;
+  letter-spacing:-.015em;color:var(--slate-900);
+  margin:48px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--slate-200);
+}
+.content h2:first-of-type{margin-top:32px}
+.content h3{font-family:'Plus Jakarta Sans','Inter',sans-serif;font-size:clamp(17px,2.2vw,19px);font-weight:700;color:var(--slate-800);margin:28px 0 10px;letter-spacing:-.01em}
+.content p{line-height:1.7;color:var(--slate-600);margin-bottom:14px;font-size:15.5px}
+.content strong{color:var(--slate-900);font-weight:600}
+.content ul,.content ol{padding-left:24px;margin-bottom:16px}
+.content li{line-height:1.7;color:var(--slate-600);margin-bottom:6px;font-size:15.5px}
+.content li::marker{color:var(--indigo-500);font-weight:700}
+
+/* ============ HERO ============ */
+.hero{
+  background:linear-gradient(135deg,#eef2ff 0%,#dcfce7 100%);
+  border:1px solid rgba(99,102,241,.15);
+  border-radius:var(--radius-xl);
+  padding:clamp(24px,4vw,36px);
+  margin-bottom:40px;
+  position:relative;overflow:hidden;
+}
+.hero::before{content:"";position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.4) 0%,transparent 70%);pointer-events:none}
+.hero h1{margin-bottom:10px;position:relative}
+.hero p{color:var(--slate-700);font-size:16px;margin:0;position:relative}
+.hero-cta{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-top:20px;position:relative;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 18px;border-radius:10px;font-weight:600;font-size:14.5px;
+  transition:all .2s;cursor:pointer;border:none;
+  text-decoration:none;line-height:1.2;
+  min-height:42px;
+}
+.btn-primary{background:linear-gradient(135deg,var(--wa-500) 0%,var(--wa-600) 100%);color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(37,211,102,.4);text-decoration:none;color:#fff}
+.btn-secondary{background:#fff;color:var(--indigo-700);border:1.5px solid var(--indigo-200)}
+.btn-secondary:hover{background:var(--indigo-50);border-color:var(--indigo-300);text-decoration:none}
+.badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+.badge-green{background:var(--green-50);color:var(--green-600)}
+.badge-blue{background:var(--indigo-50);color:var(--indigo-700)}
+.badge-orange{background:var(--amber-50);color:var(--amber-700)}
+
+/* ============ STEPS ============ */
+.step-list{counter-reset:step-counter;list-style:none;padding:0;margin:20px 0}
+.step-list li{
+  counter-increment:step-counter;display:flex;gap:14px;align-items:flex-start;
+  margin-bottom:14px;padding:18px;background:#fff;
+  border:1px solid var(--slate-200);border-radius:var(--radius);
+  border-left:3px solid var(--wa-500);
+  transition:all .2s;
+}
+.step-list li:hover{box-shadow:var(--shadow);border-color:var(--slate-300)}
+.step-list li::before{
+  content:counter(step-counter);background:linear-gradient(135deg,var(--wa-500),var(--wa-600));
+  color:#fff;width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
+  flex-shrink:0;margin-top:1px;box-shadow:0 4px 10px rgba(37,211,102,.3);
+}
+.step-content{flex:1;min-width:0}
+.step-content h4{font-weight:700;margin-bottom:4px;color:var(--slate-900);font-size:15.5px}
+.step-content p{margin:0;color:var(--slate-600);font-size:14.5px}
+
+/* ============ CARDS ============ */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:20px 0}
+.card{
+  background:#fff;padding:20px 18px;border-radius:var(--radius);
+  border:1px solid var(--slate-200);transition:all .25s;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--slate-300)}
+.card .icon{
+  font-size:24px;width:42px;height:42px;border-radius:10px;
+  background:linear-gradient(135deg,var(--indigo-50),var(--indigo-100));
+  display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+}
+.card h4{font-weight:700;font-size:15px;margin-bottom:4px;color:var(--slate-900);letter-spacing:-.005em}
+.card p{font-size:13.5px;color:var(--slate-600);margin:0;line-height:1.55}
+
+/* ============ PRICING ============ */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+.plan{
+  background:#fff;border:1.5px solid var(--slate-200);border-radius:var(--radius-lg);
+  padding:22px 20px;text-align:center;position:relative;transition:all .25s;
+}
+.plan:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.plan.popular{border-color:transparent;background:linear-gradient(180deg,var(--slate-900) 0%,#1e1b4b 100%);color:#fff;box-shadow:var(--shadow-md)}
+.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--wa-500),var(--wa-600));color:#fff;padding:3px 12px;border-radius:100px;font-size:10.5px;font-weight:700;white-space:nowrap;letter-spacing:.04em;box-shadow:0 6px 16px rgba(37,211,102,.35)}
+.plan h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;margin-bottom:4px;font-weight:700;letter-spacing:-.01em}
+.plan .price{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:var(--wa-600);margin:10px 0 4px;letter-spacing:-.02em}
+.plan.popular .price{color:var(--wa-500)}
+.plan .price small{font-size:13px;color:var(--slate-500);font-weight:500}
+.plan.popular .price small{color:rgba(255,255,255,.6)}
+.plan ul{list-style:none;padding:0;text-align:left;margin:14px 0}
+.plan ul li{font-size:13px;color:var(--slate-600);padding:5px 0 5px 22px;position:relative;margin-bottom:0}
+.plan.popular ul li{color:rgba(255,255,255,.85)}
+.plan ul li::before{content:"";position:absolute;left:0;top:8px;width:14px;height:14px;background:var(--wa-500);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+
+/* ============ CALLOUT ============ */
+.callout{
+  background:var(--indigo-50);border-left:3px solid var(--indigo-600);
+  padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;
+  margin:20px 0;
+}
+.callout.warning{background:var(--amber-50);border-left-color:var(--amber-500)}
+.callout.danger{background:var(--red-50);border-left-color:var(--red-500)}
+.callout.success{background:var(--green-50);border-left-color:var(--wa-500)}
+.callout p{margin:0;font-size:14.5px;color:var(--slate-700)}
+.callout p strong{color:var(--slate-900)}
+
+/* ============ FAQ ============ */
+.faq-item{
+  border:1px solid var(--slate-200);border-radius:var(--radius);
+  margin-bottom:10px;background:#fff;overflow:hidden;
+  transition:border-color .2s;
+}
+.faq-item:hover{border-color:var(--slate-300)}
+.faq-item.open{border-color:var(--indigo-300);box-shadow:0 0 0 3px rgba(99,102,241,.06)}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:16px 18px;font-weight:600;color:var(--slate-900);font-size:15px;
+  cursor:pointer;user-select:none;
+}
+.faq-toggle{
+  flex-shrink:0;width:24px;height:24px;border-radius:50%;
+  background:var(--slate-100);color:var(--slate-500);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;font-size:14px;line-height:1;font-weight:300;
+}
+.faq-item.open .faq-toggle{background:var(--indigo-600);color:#fff;transform:rotate(45deg)}
+.faq-a{
+  color:var(--slate-600);line-height:1.65;font-size:14.5px;
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;
+  padding:0 18px;
+}
+.faq-item.open .faq-a{max-height:400px;padding:0 18px 16px}
+
+/* ============ TABLES ============ */
+.table-wrap{overflow-x:auto;margin:20px 0;border-radius:var(--radius);border:1px solid var(--slate-200);-webkit-overflow-scrolling:touch}
+.table-wrap::-webkit-scrollbar{height:6px}
+.table-wrap::-webkit-scrollbar-thumb{background:var(--slate-300);border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
+th{background:var(--slate-50);text-align:left;padding:12px 16px;font-weight:700;color:var(--slate-800);border-bottom:1px solid var(--slate-200);white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--slate-100);color:var(--slate-700)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--slate-50)}
+
+/* ============ BETA BANNER ============ */
+.beta-banner{
+  background:linear-gradient(90deg,var(--amber-500),#f97316);color:#fff;
+  padding:10px 16px;text-align:center;font-size:13px;font-weight:600;
+  position:sticky;top:var(--header-h);z-index:50;
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+}
+.beta-banner a{color:#fff;text-decoration:underline;font-weight:700}
+.beta-banner a:hover{color:#fef3c7}
+
+/* ============ BOTTOM NAV (mobile) ============ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-top:1px solid var(--slate-200);
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  display:none;justify-content:space-around;z-index:50;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 4px;color:var(--slate-500);font-size:10.5px;font-weight:600;
+  text-decoration:none;transition:color .2s;
+}
+.bottom-nav a:hover, .bottom-nav a.active{color:var(--indigo-600);text-decoration:none}
+.bottom-nav a svg{width:22px;height:22px}
+
+/* ============ SECTIONS (SPA navigation) ============ */
+section{display:none;animation:fadeIn .3s ease}
 section.active{display:block}
-@media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s;width:280px}.sidebar.open{transform:translateX(0)}.content{margin-left:0;padding:24px 20px}.pricing-grid{grid-template-columns:1fr}.burger{display:block}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ FOOTER ============ */
+.docs-footer{
+  margin-top:64px;padding-top:24px;border-top:1px solid var(--slate-200);
+  color:var(--slate-500);font-size:13px;text-align:center;
+}
+.docs-footer a{color:var(--indigo-600);font-weight:600}
+
+/* ============ DESKTOP (≥900px) ============ */
+@media(min-width:900px){
+  .mobile-header,.bottom-nav{display:none!important}
+  .backdrop{display:none!important}
+  .sidebar{transform:translateX(0)!important}
+}
+
+/* ============ MOBILE (<900px) ============ */
+@media(max-width:899px){
+  .mobile-header{display:flex}
+  .sidebar{
+    transform:translateX(-100%);
+    box-shadow:var(--shadow-lg);
+    width:min(85vw, 320px);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .content{
+    margin-left:0;
+    padding:calc(var(--header-h) + 24px) 20px calc(80px + env(safe-area-inset-bottom)) 20px;
+  }
+  .bottom-nav{display:flex}
+  .hero{border-radius:var(--radius-lg);padding:22px 20px}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{justify-content:center}
+  .card-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .pricing-grid{grid-template-columns:1fr;gap:12px}
+  .content h1{font-size:26px}
+  .content h2{margin-top:36px;font-size:20px}
+  .step-list li{padding:14px;gap:12px}
+  pre{font-size:12.5px;padding:14px 16px;border-radius:10px}
+  pre code{white-space:pre;word-wrap:normal}
+}
+
+@media(max-width:480px){
+  .card-grid{grid-template-columns:1fr}
+  .content{padding-left:16px;padding-right:16px}
+  .beta-banner{font-size:12px;padding:8px 12px}
+  .hero{padding:20px 18px}
+  .step-list li{flex-direction:column;gap:8px}
+  .step-list li::before{margin:0}
+  .step-list li::before{position:relative;top:auto;left:auto;margin-bottom:4px}
+}
+
+/* ============ PRINT ============ */
+@media print{
+  .sidebar,.mobile-header,.bottom-nav,.backdrop,.beta-banner,.hero-cta,.docs-footer{display:none!important}
+  .content{margin:0;padding:20px;max-width:100%}
+  a{color:inherit;text-decoration:underline}
+}
+
+/* ============ ACCESSIBILITY ============ */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+:focus-visible{outline:2px solid var(--indigo-500);outline-offset:2px;border-radius:4px}
 </style>
 </head>
 <body>
-<button class="burger" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-<div style="background:linear-gradient(90deg,#ff9800,#ff6b00);color:#fff;padding:10px 20px;text-align:center;font-size:13px;font-weight:600;position:sticky;top:0;z-index:50;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-  🚀 WA AutoReply sedang BETA - daftar via <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20trial" style="color:#fff;text-decoration:underline;font-weight:700;">WhatsApp +62 821-3975-8648</a> untuk akses awal
+
+<div class="layout">
+
+  <!-- ============ MOBILE HEADER ============ -->
+  <div class="mobile-header">
+    <a href="#" class="logo" onclick="show('intro', this)">
+      <span class="logo-mark">WA</span>
+      <span>AutoReply</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Buka menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </div>
+
+  <!-- ============ BACKDROP ============ -->
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="logo" onclick="show('intro', this)">
+        <span class="logo-mark">WA</span>
+        <span>AutoReply</span>
+      </a>
+      <div class="version">Dokumentasi v2.0</div>
+    </div>
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari di docs..." onkeyup="searchDocs()" aria-label="Cari dokumentasi">
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <div class="nav-section">Mulai</div>
+      <a href="#intro" data-target="intro" class="active" onclick="show('intro', this)"><span class="dot"></span>Pengenalan</a>
+      <a href="#quickstart" data-target="quickstart" onclick="show('quickstart', this)"><span class="dot"></span>Quick Start</a>
+      <a href="#onboarding" data-target="onboarding" onclick="show('onboarding', this)"><span class="dot"></span>Onboarding</a>
+      <div class="nav-section">Fitur</div>
+      <a href="#autoreply" data-target="autoreply" onclick="show('autoreply', this)"><span class="dot"></span>Auto-Reply AI</a>
+      <a href="#broadcast" data-target="broadcast" onclick="show('broadcast', this)"><span class="dot"></span>Broadcast</a>
+      <a href="#analytics" data-target="analytics" onclick="show('analytics', this)"><span class="dot"></span>Analytics</a>
+      <div class="nav-section">Langganan</div>
+      <a href="#pricing" data-target="pricing" onclick="show('pricing', this)"><span class="dot"></span>Harga &amp; Paket</a>
+      <div class="nav-section">Bantuan</div>
+      <a href="#faq" data-target="faq" onclick="show('faq', this)"><span class="dot"></span>FAQ</a>
+      <a href="#contact" data-target="contact" onclick="show('contact', this)"><span class="dot"></span>Kontak</a>
+    </nav>
+  </aside>
+
+  <!-- ============ CONTENT ============ -->
+  <main class="content">
+    <div class="beta-banner">
+      🚀 WA AutoReply sedang BETA — daftar via <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20trial">WhatsApp +62 821-3975-8648</a> untuk akses awal
+    </div>
+
+    <div class="content-inner">
+
+      <section id="intro" class="active">
+        <div class="hero">
+          <h1>WA AutoReply — Dokumentasi</h1>
+          <p>Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Balas pesan pelanggan otomatis 24/7.</p>
+          <div class="hero-cta">
+            <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20trial%20WA%20AutoReply" class="btn btn-primary">🚀 Mulai Trial 7 Hari</a>
+            <a href="https://nyinyistore.com/wa-autoreply/" class="btn btn-secondary">Lihat Penawaran &amp; Harga</a>
+          </div>
+        </div>
+        <h2>Apa itu WA AutoReply?</h2>
+        <p>WA AutoReply adalah layanan SaaS yang menghubungkan WhatsApp bisnis kamu dengan AI untuk membalas pesan pelanggan secara otomatis, kapanpun dan dimanapun.</p>
+        <p>Cocok untuk toko online, restoran, laundry, salon, klinik, dan bisnis UMKM lainnya yang menerima banyak pertanyaan berulang dari pelanggan.</p>
+        <h2>Kenapa WA AutoReply?</h2>
+        <div class="card-grid">
+          <div class="card"><div class="icon">🤖</div><h4>AI Pintar</h4><p>Powered by Groq LLaMA — balas natural, bisa ditraining sesuai bisnis kamu</p></div>
+          <div class="card"><div class="icon">⚡</div><h4>Setup Cepat</h4><p>Scan QR sekali, langsung aktif. Tidak perlu install apapun di HP</p></div>
+          <div class="card"><div class="icon">📊</div><h4>Analytics</h4><p>Pantau pesan masuk, kontak aktif, dan performa bot real-time</p></div>
+          <div class="card"><div class="icon">📢</div><h4>Broadcast</h4><p>Kirim promo ke semua kontak sekaligus dari dashboard</p></div>
+          <div class="card"><div class="icon">🔒</div><h4>Aman</h4><p>Sesi WA tersimpan aman di server, tidak bocor ke pihak ketiga</p></div>
+          <div class="card"><div class="icon">💰</div><h4>Hemat</h4><p>Trial 7 hari gratis. Mulai Rp299K/bulan — lebih murah dari gaji CS</p></div>
+        </div>
+      </section>
+
+      <section id="quickstart">
+        <h1>Quick Start</h1>
+        <p>Dari daftar sampai bot aktif dalam kurang dari 10 menit.</p>
+        <h2>Langkah-langkah</h2>
+        <ol class="step-list">
+          <li>
+            <div class="step-content">
+              <h4>Daftar Akun</h4>
+              <p>Chat <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20WA%20AutoReply" target="_blank" rel="noopener">+62 821-3975-8648</a> untuk aktivasi. Tim kami akan bantu setup akun kamu. Trial 7 hari langsung aktif.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h4>Login ke Dashboard</h4>
+              <p>Masuk dengan email dan password yang sudah dibuat.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h4>Scan QR WhatsApp</h4>
+              <p>Klik <strong>Connect WA</strong> di sidebar. Buka WA di HP → titik tiga → <strong>Perangkat Tertaut</strong> → <strong>Tautkan Perangkat</strong> → scan QR.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h4>Setup AI Prompt</h4>
+              <p>Pergi ke <strong>Settings → AI Prompt</strong>. Tulis instruksi untuk bot, misal: <em>"Kamu adalah CS Toko Baju Murah. Jawab pertanyaan produk, harga, pengiriman dengan ramah."</em></p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h4>Test Bot</h4>
+              <p>Minta teman kirim pesan ke nomor WA kamu. Bot akan membalas otomatis sesuai prompt.</p>
+            </div>
+          </li>
+        </ol>
+        <div class="callout success">
+          <p>💡 <strong>Tips:</strong> Semakin detail AI Prompt kamu, semakin pintar bot menjawab. Sertakan info produk, harga, jam buka, dan FAQ umum bisnis kamu.</p>
+        </div>
+        <h2>Testimoni Pengguna</h2>
+        <div class="card-grid">
+          <div class="card"><div class="icon">⭐</div><h4>Ibu Sari</h4><p>"Orderan naik 40% setelah pakai bot. Pelanggan gak perlu nunggu lagi."</p></div>
+          <div class="card"><div class="icon">⭐</div><h4>Mas Budi</h4><p>"Setup 5 menit, langsung aktif. Gak perlu bangun tengah malam lagi."</p></div>
+          <div class="card"><div class="icon">⭐</div><h4>Mbak Dewi</h4><p>"Broadcast promo gampang banget. Pelanggan lebih puas."</p></div>
+        </div>
+      </section>
+
+      <section id="onboarding">
+        <h1>Onboarding</h1>
+        <p>Panduan lengkap untuk setup pertama kali, dari download sampai bot siap dipakai.</p>
+        <h2>Yang Perlu Disiapkan</h2>
+        <div class="callout">
+          <p>✅ Nomor WhatsApp aktif (bukan nomor utama, disarankan nomor khusus bisnis)<br>
+          ✅ Smartphone dengan WhatsApp terinstall<br>
+          ✅ Koneksi internet stabil di HP<br>
+          ✅ Email untuk akun dashboard</p>
+        </div>
+        <h2>Step 1: Aktivasi Akun</h2>
+        <p>Chat WhatsApp tim kami di <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20trial">+62 821-3975-8648</a>. Sampaikan:</p>
+        <ul>
+          <li>Nama bisnis kamu</li>
+          <li>Email yang akan dipakai untuk login dashboard</li>
+          <li>Jenis bisnis (toko online, restoran, jasa, dll)</li>
+        </ul>
+        <p>Tim kami akan langsung membuatkan akun trial 7 hari untuk kamu.</p>
+        <h2>Step 2: Login Dashboard</h2>
+        <p>Setelah akun dibuat, kamu akan menerima email berisi:</p>
+        <ul>
+          <li>Link dashboard</li>
+          <li>Email login</li>
+          <li>Password sementara (wajib diganti setelah login pertama)</li>
+        </ul>
+        <h2>Step 3: Scan QR WhatsApp</h2>
+        <p>Di dashboard, klik menu <strong>Connect WA</strong> di sidebar kiri. Akan muncul QR code.</p>
+        <p>Di HP kamu:</p>
+        <ol>
+          <li>Buka aplikasi WhatsApp</li>
+          <li>Tap ikon titik tiga (⋮) di pojok kanan atas</li>
+          <li>Pilih <strong>Perangkat Tertaut</strong></li>
+          <li>Tap <strong>Tautkan Perangkat</strong></li>
+          <li>Scan QR code yang muncul di dashboard</li>
+        </ol>
+        <div class="callout warning">
+          <p>⚠️ <strong>Penting:</strong> Pastikan kamu disconnect WA Web di browser lain dulu. Satu nomor hanya bisa tertaut di satu perangkat web sekaligus.</p>
+        </div>
+        <h2>Step 4: Tulis AI Prompt</h2>
+        <p>Buka menu <strong>Settings → AI Prompt</strong>. Tulis instruksi untuk bot. Contoh:</p>
+        <pre><code>Peran: Kamu adalah customer service Toko Baju Murah.
+
+Gaya bahasa: Ramah, gunakan "kak", emoji secukupnya, tidak formal berlebihan.
+
+Info bisnis:
+- Produk: Baju pria &amp; wanita, harga Rp50rb - Rp200rb
+- Jam buka: 09.00 - 21.00 WIB
+- Ongkir: Free ongkir ke seluruh Indonesia min belanja Rp100rb
+- Pembayaran: BCA, GoPay, OVO, QRIS
+
+Tugas:
+1. Jawab pertanyaan tentang produk, harga, stok
+2. Bantu proses order (nama, alamat, varian)
+3. Keluhan komplain: minta maaf, tawarkan solusi, escalate ke owner
+
+Jawab dalam bahasa Indonesia.</code></pre>
+        <div class="callout success">
+          <p>💡 <strong>Tips prompt:</strong> Semakin lengkap info yang kamu kasih, semakin akurat jawaban bot. Tambahkan contoh percakapan kalau perlu.</p>
+        </div>
+        <h2>Step 5: Test &amp; Go Live</h2>
+        <p>Minta teman atau anggota tim untuk mengirim pesan ke nomor WhatsApp kamu. Amati:</p>
+        <ul>
+          <li>Apakah bot membalas dengan benar</li>
+          <li>Apakah gaya bahasa sudah sesuai</li>
+          <li>Apakah info produk &amp; harga sudah tepat</li>
+        </ul>
+        <p>Kalau ada yang kurang pas, edit AI Prompt di dashboard. Perubahan langsung aktif tanpa restart.</p>
+        <h2>Step 6: Pantau Analytics</h2>
+        <p>Buka menu <strong>Analytics</strong> di dashboard. Kamu bisa lihat:</p>
+        <ul>
+          <li>Jumlah pesan masuk per hari</li>
+          <li>Jumlah kontak unik yang chat</li>
+          <li>Jam-jam sibuk pelanggan</li>
+          <li>Pertanyaan yang paling sering ditanya</li>
+        </ul>
+        <p>Gunakan data ini untuk optimasi AI Prompt dan strategi bisnis kamu.</p>
+      </section>
+
+      <section id="autoreply">
+        <h1>Auto-Reply AI</h1>
+        <p>Otak dari WA AutoReply. Bot akan membalas pesan masuk otomatis menggunakan AI yang kamu customize.</p>
+        <h2>Cara Kerja</h2>
+        <ol>
+          <li>Pelanggan mengirim pesan ke nomor WhatsApp kamu</li>
+          <li>Bot menerima pesan &amp; menganalisis konteks</li>
+          <li>Bot membalas dengan jawaban dari AI Prompt yang sudah kamu setup</li>
+          <li>Semua percakapan tersimpan di dashboard untuk dilihat owner</li>
+        </ol>
+        <h2>AI Prompt</h2>
+        <p>AI Prompt adalah instruksi yang ngasih tau bot gimana cara jawab pelanggan. Ini settingan paling penting.</p>
+        <h3>Komponen AI Prompt yang Baik</h3>
+        <div class="card-grid">
+          <div class="card"><div class="icon">🎭</div><h4>Peran</h4><p>Siapa bot-nya? CS, sales, atau asisten? Ini nentuin tone &amp; cara jawabnya.</p></div>
+          <div class="card"><div class="icon">💬</div><h4>Gaya Bahasa</h4><p>Formal, santai, pakai "kak"/"mas", emoji berapa, dll.</p></div>
+          <div class="card"><div class="icon">📦</div><h4>Info Bisnis</h4><p>Produk, harga, jam buka, ongkir, cara bayar, alamat.</p></div>
+          <div class="card"><div class="icon">🎯</div><h4>Tugas</h4><p>List hal yang harus bot bisa handle: order, komplain, FAQ.</p></div>
+          <div class="card"><div class="icon">🚫</div><h4>Batasan</h4><p>Hal yang gak boleh bot jawab atau lakukan. Misal: "Jangan kasih diskon lebih dari 20%".</p></div>
+          <div class="card"><div class="icon">📝</div><h4>Contoh</h4><p>Contoh percakapan biar bot lebih ngerti style yang kamu mau.</p></div>
+        </div>
+        <h2>Custom AI Prompt per-Client</h2>
+        <p>Kamu bisa punya banyak client dengan AI Prompt yang beda-beda. Tiap client punya:</p>
+        <ul>
+          <li>Nama bisnis &amp; deskripsi</li>
+          <li>List produk + harga</li>
+          <li>Jam operasional</li>
+          <li>Metode pembayaran</li>
+          <li>Tone of voice (formal/casual)</li>
+          <li>FAQ khusus bisnis</li>
+        </ul>
+        <div class="callout success">
+          <p>💡 <strong>Best practice:</strong> Mulai dari template sederhana, tambahkan info seiring waktu. Update prompt setiap ada produk baru atau perubahan harga.</p>
+        </div>
+        <h2>Waktu Respons</h2>
+        <p>Bot membalas dalam waktu <strong>1-3 detik</strong> setelah pesan masuk. Lebih cepat dari CS manusia pada umumnya. Kalau ada delay (misal Groq lagi sibuk), bot akan tetep jawab tapi mungkin sedikit lebih lambat.</p>
+        <h2>Batasan &amp; Fair Use</h2>
+        <div class="callout warning">
+          <p>⚠️ <strong>Rate limit:</strong> Maksimal 1 balasan per kontak per 30 detik untuk mencegah spam detection dari WhatsApp. Pesan berikutnya dari kontak yang sama akan langsung di-balas setelah jeda.</p>
+        </div>
+        <h2>Keyword Trigger (Optional)</h2>
+        <p>Selain AI auto-reply, kamu bisa set keyword khusus untuk jawaban template. Misal:</p>
+        <ul>
+          <li><code>HARGA</code> → bot kirim list harga</li>
+          <li><code>ALAMAT</code> → bot kirim alamat toko</li>
+          <li><code>JAM BUKA</code> → bot kirim jam operasional</li>
+        </ul>
+        <p>Setting di menu <strong>Keywords</strong> di dashboard. Keyword diprioritaskan sebelum AI, jadi customer dapat jawaban pasti untuk pertanyaan yang sering ditanya.</p>
+      </section>
+
+      <section id="broadcast">
+        <h1>Broadcast</h1>
+        <p>Kirim pesan massal ke banyak kontak sekaligus. Cocok untuk promo, pengumuman, atau newsletter.</p>
+        <h2>Cara Pakai</h2>
+        <ol class="step-list">
+          <li><div class="step-content"><h4>Buka Menu Broadcast</h4><p>Klik <strong>Broadcast</strong> di sidebar dashboard.</p></div></li>
+          <li><div class="step-content"><h4>Pilih Kontak</h4><p>Filter berdasarkan tag, group, atau pilih manual dari list kontak kamu.</p></div></li>
+          <li><div class="step-content"><h4>Tulis Pesan</h4><p>Bisa text, image, atau keduanya. Pakai variabel <code>{nama}</code> untuk personalisasi.</p></div></li>
+          <li><div class="step-content"><h4>Kirim</h4><p>Klik <strong>Kirim</strong>. Pesan akan dikirim bertahap (anti-spam detection).</p></div></li>
+        </ol>
+        <h2>Personalisasi dengan Variabel</h2>
+        <p>Pakai variabel biar setiap pesan kerasa personal:</p>
+        <pre><code>Halo {nama}! 🌟
+
+Promo spesial khusus untuk kamu:
+Diskon 25% semua menu makan siang
+Berlaku sampai hari Jumat ya
+
+Lihat menu: nyinyistore.com/menu
+Pesan langsung balas pesan ini ya kak 😊</code></pre>
+        <h2>Rate Limiting &amp; Anti-Ban</h2>
+        <p>Broadcast dikirim bertahap dengan jeda random supaya gak kena flag spam WhatsApp:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Paket</th><th>Max Kontak/Broadcast</th><th>Jeda Antar Pesan</th></tr></thead>
+            <tbody>
+              <tr><td>Trial</td><td>50</td><td>30-60 detik</td></tr>
+              <tr><td>Basic</td><td>500</td><td>15-45 detik</td></tr>
+              <tr><td>Pro</td><td>2000</td><td>10-30 detik</td></tr>
+              <tr><td>Business</td><td>Unlimited</td><td>5-20 detik</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warning">
+          <p>⚠️ <strong>Tips aman broadcast:</strong> Kirim ke kontak yang pernah chat kamu (bukan nomor asing). Hindari kirim ke &gt;1000 kontak sekaligus untuk pertama kali. Kalau ada nomor yang report, immediately remove dari list.</p>
+        </div>
+        <h2>Tracking Hasil</h2>
+        <p>Setelah broadcast selesai, kamu bisa lihat:</p>
+        <ul>
+          <li>Berapa pesan berhasil terkirim</li>
+          <li>Berapa yang di-read (centang dua biru)</li>
+          <li>Berapa yang reply (balas pesan)</li>
+        </ul>
+      </section>
+
+      <section id="analytics">
+        <h1>Analytics</h1>
+        <p>Pantau performa bot dan bisnis kamu lewat dashboard analytics.</p>
+        <h2>Metrics yang Tersedia</h2>
+        <h3>📊 Overview</h3>
+        <ul>
+          <li><strong>Total pesan masuk</strong> — jumlah pesan dari pelanggan dalam periode tertentu</li>
+          <li><strong>Total balasan bot</strong> — berapa yang dibalas otomatis</li>
+          <li><strong>Kontak unik</strong> — berapa orang berbeda yang chat</li>
+          <li><strong>Response rate</strong> — persentase pesan yang dijawab (target: 100%)</li>
+          <li><strong>Avg response time</strong> — rata-rata waktu balas (target: &lt;3 detik)</li>
+        </ul>
+        <h3>📈 Trends</h3>
+        <ul>
+          <li>Pesan per hari (7/30/90 hari)</li>
+          <li>Pesan per jam (lihat jam sibuk)</li>
+          <li>Pesan per kontak top 10</li>
+        </ul>
+        <h3>🏷️ Top Keywords</h3>
+        <p>Lihat kata kunci yang paling sering ditanya customer. Berguna untuk:</p>
+        <ul>
+          <li>Tambahin ke AI Prompt kalau belum ada</li>
+          <li>Bikin template broadcast yang sesuai</li>
+          <li>Optimasi produk &amp; pricing</li>
+        </ul>
+        <h2>Cara Baca Data</h2>
+        <div class="callout success">
+          <p>📊 <strong>Response rate turun?</strong> Cek AI Prompt kamu — mungkin ada pertanyaan yang belum di-cover.<br><br>
+          <strong>Avg response time naik?</strong> Biasanya karena Groq API lagi sibuk. Normalnya tetep di bawah 5 detik.<br><br>
+          <strong>Jam sibuk kosong?</strong> Customer kamu aktif di luar jam kerja — perfect untuk bot 24/7!</p>
+        </div>
+        <h2>Export Data</h2>
+        <p>Semua data bisa di-export ke CSV untuk dianalisis lebih lanjut atau dilaporkan ke investor/partner. Klik ikon <strong>Export</strong> di pojok kanan atas dashboard analytics.</p>
+      </section>
+
+      <section id="pricing">
+        <h1>Harga &amp; Paket</h1>
+        <p>Pilih paket yang sesuai skala bisnis kamu. Semua paket sudah termasuk AI auto-reply, dashboard, dan support.</p>
+        <h2>Paket Berlangganan</h2>
+        <div class="pricing-grid">
+          <div class="plan">
+            <h3>Trial</h3>
+            <div class="price">Gratis<small> / 7 hari</small></div>
+            <ul>
+              <li>1 nomor WhatsApp</li>
+              <li>Auto-reply AI aktif</li>
+              <li>Analytics dasar</li>
+              <li>Broadcast 50 kontak</li>
+              <li>Support via WA</li>
+            </ul>
+          </div>
+          <div class="plan popular">
+            <div class="plan-badge">⭐ POPULER</div>
+            <h3>Basic</h3>
+            <div class="price">Rp 299rb<small> / bulan</small></div>
+            <ul>
+              <li>1 nomor WhatsApp</li>
+              <li>Auto-reply AI unlimited</li>
+              <li>Broadcast 500/bulan</li>
+              <li>Analytics lengkap</li>
+              <li>Custom AI Prompt</li>
+              <li>Support prioritas</li>
+            </ul>
+          </div>
+          <div class="plan">
+            <h3>Pro</h3>
+            <div class="price">Rp 765rb<small> / bulan</small></div>
+            <ul>
+              <li>3 nomor WhatsApp</li>
+              <li>Semua fitur Basic</li>
+              <li>Broadcast 2000/bulan</li>
+              <li>Multi-client dashboard</li>
+              <li>Laporan mingguan</li>
+              <li>Setup oleh tim</li>
+              <li>Support 24 jam</li>
+            </ul>
+          </div>
+          <div class="plan">
+            <h3>Business</h3>
+            <div class="price">Rp 1.35jt<small> / bulan</small></div>
+            <ul>
+              <li>10 nomor WhatsApp</li>
+              <li>Semua fitur Pro</li>
+              <li>Broadcast unlimited</li>
+              <li>Dedicated server</li>
+              <li>Custom integrasi</li>
+              <li>Account manager</li>
+              <li>SLA 99.9% uptime</li>
+            </ul>
+          </div>
+        </div>
+        <h2>Metode Pembayaran</h2>
+        <ul>
+          <li>Transfer bank (BCA, BRI, Mandiri, BNI)</li>
+          <li>E-wallet (GoPay, OVO, DANA, ShopeePay)</li>
+          <li>QRIS (scan dari aplikasi bank/e-wallet apapun)</li>
+        </ul>
+        <h2>Pertanyaan Umum Harga</h2>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah ada biaya setup? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Tidak ada. Setup gratis untuk semua paket. Tim kami akan bantu kamu onboarding dari awal sampai bot aktif.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bisa upgrade/downgrade paket? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Bisa kapan aja. Upgrade langsung aktif, downgrade berlaku di akhir periode billing.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apa beda Trial dengan paket berbayar? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Trial punya semua fitur Basic tapi dibatasi 7 hari. Paket berbayar unlimited waktu + ada opsi multi-nomor untuk Pro &amp; Business.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa minimum durasi langganan? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">1 bulan. Bisa berhenti kapan aja tanpa penalti.</div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <h1>FAQ — Pertanyaan yang Sering Ditanya</h1>
+        <p>Belum yakin? Cek dulu jawaban dari pertanyaan yang sering ditanyakan calon pengguna lain.</p>
+        <h2>Umum</h2>
+        <div class="faq-item open">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah nomor WhatsApp saya aman? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Ya. Kami menggunakan protokol resmi WhatsApp Web (Baileys) — sama seperti WA Web di browser. Sesi disimpan terenkripsi di server kami. Kami tidak menyimpan konten pesan kamu.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah bisa kena banned WhatsApp? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Risiko sangat kecil jika digunakan normal. Bot hanya membalas pesan masuk (bukan spam), sesuai kebijakan WhatsApp. Hindari broadcast massal ke ratusan nomor asing.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kalau HP mati, bot tetap jalan? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Ya! Bot berjalan di server kami, bukan di HP kamu. Selama server aktif (99.9% uptime), bot tetap membalas pesan meski HP mati, tidak ada sinyal, atau di luar negeri.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bisa pakai nomor WA yang sudah ada? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Bisa. Kamu cukup scan QR dari nomor WA yang sudah ada. Perhatian: satu nomor hanya bisa tertaut di satu perangkat web sekaligus. Disconnect WA Web lain dulu sebelum scan.</div>
+        </div>
+        <h2>Teknis</h2>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">AI-nya pake apa? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Kami pakai Groq LLaMA 3 — salah satu LLM tercepat di dunia, gratis untuk penggunaan wajar. Bisa handle ribuan chat per hari.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bot bisa bahasa Inggris? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Bisa, default Indonesia tapi kalau customer chat bahasa Inggris, bot akan switch otomatis (kalau AI Prompt support). Bisa juga full English kalau bisnis kamu target internasional.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bisa kirim gambar / dokumen? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Bisa. Bot bisa kirim gambar, PDF, atau file lain yang kamu upload di dashboard. Setting di menu <strong>Media</strong>.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bagaimana dengan group chat? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Saat ini bot hanya aktif di chat personal (1-on-1). Group chat belum di-support untuk menghindari spam di grup.</div>
+        </div>
+        <h2>Berlangganan</h2>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa lama trial gratis? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Trial gratis 7 hari dengan semua fitur paket Basic. Tidak perlu kartu kredit. Kalau cocok, lanjut bayar. Kalau tidak, akun otomatis nonaktif tanpa biaya.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bagaimana cara bayar? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Transfer bank (BCA, BRI, Mandiri), e-wallet (GoPay, OVO, DANA), atau QRIS. Konfirmasi via WhatsApp setelah bayar, akun langsung diaktifkan.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bisa refund kalau gak puas? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Trial gratis 7 hari, jadi kamu bisa coba dulu tanpa risiko. Kalau udah bayar dan gak puas dalam 7 hari pertama, hubungi kami untuk refund penuh (no questions asked).</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah ada kontrak / minimum durasi? <span class="faq-toggle">+</span></div>
+          <div class="faq-a">Tidak. Bayar bulanan, berhenti kapan aja. Tidak ada kontrak tahunan atau minimum durasi.</div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h1>Kontak &amp; Support</h1>
+        <p>Kami siap bantu kamu. Pilih channel yang paling nyaman:</p>
+        <div class="card-grid">
+          <div class="card">
+            <div class="icon">💬</div>
+            <h4>WhatsApp (Recommended)</h4>
+            <p>Respons paling cepat. Tim support standby di jam operasional.</p>
+            <p style="margin-top:10px"><a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20butuh%20bantuan%20WA%20AutoReply" class="btn btn-primary" style="width:100%">Chat Sekarang</a></p>
+          </div>
+          <div class="card">
+            <div class="icon">✉️</div>
+            <h4>Email</h4>
+            <p>Untuk pertanyaan non-urgent atau dokumentasi.</p>
+            <p style="margin-top:10px"><strong>support@wa-autoreply.com</strong></p>
+          </div>
+          <div class="card">
+            <div class="icon">📚</div>
+            <h4>Dokumentasi</h4>
+            <p>Baca dulu sebelum chat. Banyak pertanyaan yang udah dijawab di sini.</p>
+            <p style="margin-top:10px"><a href="#intro" onclick="show('intro', document.querySelector('[data-target=intro]'))" class="btn btn-secondary" style="width:100%">Baca Docs</a></p>
+          </div>
+          <div class="card">
+            <div class="icon">📱</div>
+            <h4>Demo Gratis</h4>
+            <p>Request demo langsung — kami bantu setup dari awal sampai bot aktif.</p>
+            <p style="margin-top:10px"><a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20request%20demo%20WA%20AutoReply" class="btn btn-primary" style="width:100%">Request Demo</a></p>
+          </div>
+        </div>
+        <h2>Jam Operasional Support</h2>
+        <p>Senin - Sabtu: 09.00 - 21.00 WIB<br>Minggu: 10.00 - 17.00 WIB</p>
+        <div class="callout success">
+          <p>✨ <strong>Untuk client paket Business:</strong> support 24 jam termasuk hari libur via dedicated account manager.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="docs-footer">
+      <p>Butuh bantuan lebih? <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20butuh%20bantuan%20WA%20AutoReply">Chat WhatsApp kami</a> atau <a href="https://nyinyistore.com/wa-autoreply/">lihat penawaran</a>.</p>
+      <p style="margin-top:8px;font-size:12px;color:var(--slate-400)">© 2026 WA AutoReply. Made with 💚 in Indonesia.</p>
+    </div>
+  </main>
+
 </div>
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="logo"><span>WA</span> AutoReply</div>
-    <div class="version">Dokumentasi v2.0</div>
-  </div>
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Cari di docs..." onkeyup="searchDocs()">
-  </div>
-  <nav>
-    <div class="nav-section">Mulai</div>
-    <a href="#" onclick="show('intro')" class="active">Pengenalan</a>
-    <a href="#" onclick="show('quickstart')">Quick Start</a>
-    <a href="#" onclick="show('onboarding')">Onboarding</a>
-    <div class="nav-section">Fitur</div>
-    <a href="#" onclick="show('autoreply')">Auto-Reply AI</a>
-    <a href="#" onclick="show('broadcast')">Broadcast</a>
-    <a href="#" onclick="show('analytics')">Analytics</a>
-    <div class="nav-section">Langganan</div>
-    <a href="#" onclick="show('pricing')">Harga &amp; Paket</a>
-    <div class="nav-section">Bantuan</div>
-    <a href="#" onclick="show('faq')">FAQ</a>
-    <a href="#" onclick="show('contact')">Kontak</a>
-  </nav>
-</aside>
-<main class="content">
-  <section id="intro" class="active">
-    <div class="hero">
-      <h1>WA AutoReply - Dokumentasi</h1>
-      <p>Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Balas pesan pelanggan otomatis 24/7.</p>
-      <p style="margin-top:16px;"><a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20trial%20WA%20AutoReply" target="_blank" style="background:#25D366;color:#fff;padding:12px 24px;border-radius:8px;display:inline-block;text-decoration:none;font-weight:600;font-size:15px;">🚀 Mulai Trial Gratis 7 Hari</a> <a href="https://nyinyistore.com/wa-autoreply/" target="_blank" style="margin-left:12px;background:#fff;color:#25D366;border:2px solid #25D366;padding:10px 22px;border-radius:8px;display:inline-block;text-decoration:none;font-weight:600;font-size:15px;">Lihat Penawaran &amp; Harga</a> <span style="display:inline-block;margin-left:8px;background:#ff9800;color:#fff;padding:6px 12px;border-radius:4px;font-size:11px;font-weight:600;vertical-align:middle;">BETA - Chat untuk daftar</span></p>
-    </div>
-    <h2>Apa itu WA AutoReply?</h2>
-    <p>WA AutoReply adalah layanan SaaS yang menghubungkan WhatsApp bisnis kamu dengan AI untuk membalas pesan pelanggan secara otomatis, kapanpun dan dimanapun.</p>
-    <p>Cocok untuk toko online, restoran, laundry, salon, klinik, dan bisnis UMKM lainnya yang menerima banyak pertanyaan berulang dari pelanggan.</p>
-    <h2>Kenapa WA AutoReply?</h2>
-    <div class="card-grid">
-      <div class="card"><div class="icon">🤖</div><h4>AI Pintar</h4><p>Powered by Groq LLaMA - balas natural, bisa ditraining sesuai bisnis kamu</p></div>
-      <div class="card"><div class="icon">⚡</div><h4>Setup Cepat</h4><p>Scan QR sekali, langsung aktif. Tidak perlu install apapun di HP</p></div>
-      <div class="card"><div class="icon">📊</div><h4>Analytics</h4><p>Pantau pesan masuk, kontak aktif, dan performa bot real-time</p></div>
-      <div class="card"><div class="icon">📢</div><h4>Broadcast</h4><p>Kirim promo ke semua kontak sekaligus dari dashboard</p></div>
-      <div class="card"><div class="icon">🔒</div><h4>Aman</h4><p>Sesi WA tersimpan aman di server, tidak bocor ke pihak ketiga</p></div>
-      <div class="card"><div class="icon">💰</div><h4>Hemat</h4><p>Trial 7 hari gratis. Mulai Rp299K/bulan - lebih murah dari gaji CS</p></div>
-    </div>
-  </section>
 
-  <section id="quickstart">
-    <h1>Quick Start</h1>
-    <p>Dari daftar sampai bot aktif dalam kurang dari 10 menit.</p>
-    <h2>Langkah-langkah</h2>
-    <ol class="step-list">
-      <li><div class="step-content"><h4>Daftar Akun</h4><p>Chat <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20WA%20AutoReply" target="_blank">+62 821-3975-8648</a> untuk aktivasi. Tim kami akan bantu setup akun kamu. Trial 7 hari langsung aktif.</p></div></li>
-      <li><div class="step-content"><h4>Login ke Dashboard</h4><p>Masuk dengan email dan password yang sudah dibuat.</p></div></li>
-      <li><div class="step-content"><h4>Scan QR WhatsApp</h4><p>Klik Connect WA di sidebar. Buka WA di HP - titik tiga - Perangkat Tertaut - Tautkan Perangkat - scan QR.</p></div></li>
-      <li><div class="step-content"><h4>Setup AI Prompt</h4><p>Pergi ke Settings - AI Prompt. Tulis instruksi untuk bot, misal: "Kamu adalah CS Toko Baju Murah. Jawab pertanyaan produk, harga, pengiriman dengan ramah."</p></div></li>
-      <li><div class="step-content"><h4>Test Bot</h4><p>Minta teman kirim pesan ke nomor WA kamu. Bot akan membalas otomatis sesuai prompt.</p></div></li>
-    </ol>
-    <div class="callout"><p>Tips: Semakin detail AI Prompt kamu, semakin pintar bot menjawab. Sertakan info produk, harga, jam buka, dan FAQ umum bisnis kamu.</p></div>
-    
-    <h2>Testimoni Pengguna</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:24px 0;">
-      <div style="background:#f8f9fa;border-left:4px solid #25D366;padding:20px;border-radius:8px;">
-        <p style="font-style:italic;color:#555;margin-bottom:12px;">"Bot WA AutoReply ngejawab pertanyaan customer sampai jam 2 pagi. Orderan naik 40% dalam sebulan pertama!"</p>
-        <p style="font-weight:600;color:#1a1a1a;font-size:14px;">— Ibu Sari, Toko Kue Online</p>
-      </div>
-      <div style="background:#f8f9fa;border-left:4px solid #25D366;padding:20px;border-radius:8px;">
-        <p style="font-style:italic;color:#555;margin-bottom:12px;">"Setup cuma 5 menit, langsung aktif. Sekarang gak perlu bangun tengah malam buat bales chat."</p>
-        <p style="font-weight:600;color:#1a1a1a;font-size:14px;">— Mas Budi, Jasa Laundry</p>
-      </div>
-      <div style="background:#f8f9fa;border-left:4px solid #25D366;padding:20px;border-radius:8px;">
-        <p style="font-style:italic;color:#555;margin-bottom:12px;">"Pelanggan lebih puas karena dapat respons instan. Broadcast-nya juga gampang buat kirim promo."</p>
-        <p style="font-weight:600;color:#1a1a1a;font-size:14px;">— Mbak Dewi, Salon & Spa</p>
-      </div>
-    </div>
-  </section>
-  <section id="onboarding">
-    <h1>Onboarding Guide</h1>
-    <p>Panduan lengkap setup pertama kali untuk client baru.</p>
-    <h2>1. Buat Akun</h2>
-    <p>Chat WhatsApp ke <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20daftar%20WA%20AutoReply" target="_blank"><strong>+62 821-3975-8648</strong></a> untuk aktivasi akun. Tim kami akan bantu setup dan berikan link dashboard. Trial 7 hari langsung aktif.</p>
-    <h2>2. Wizard Onboarding</h2>
-    <p>Saat pertama login, wizard 5-step akan muncul otomatis:</p>
-    <ul>
-      <li><strong>Step 1:</strong> Nama bisnis dan profil</li>
-      <li><strong>Step 2:</strong> Hubungkan WhatsApp (scan QR)</li>
-      <li><strong>Step 3:</strong> Setup AI Prompt bisnis kamu</li>
-      <li><strong>Step 4:</strong> Test balasan bot</li>
-      <li><strong>Step 5:</strong> Selesai - bot aktif!</li>
-    </ul>
-    <h2>3. Konfigurasi AI Prompt</h2>
-    <p>AI Prompt adalah instruksi untuk bot kamu. Contoh prompt yang bagus:</p>
-    <pre><code>Kamu adalah asisten CS untuk Toko Kue Mama Rini.
-Jam buka: Senin-Sabtu 08.00-20.00 WIB.
-Menu: Kue ulang tahun (mulai Rp150rb), kue kering (Rp80rb/toples), brownies (Rp65rb).
-Pengiriman: Gojek/Grab, ongkir sesuai jarak.
-Kalau ada pertanyaan di luar menu, jawab dengan sopan bahwa kamu akan tanyakan ke pemilik toko.</code></pre>
-    <div class="callout"><p>Setelah wizard selesai, bot langsung aktif. Tidak perlu restart atau konfigurasi tambahan.</p></div>
-  </section>
+<!-- ============ BOTTOM NAV (MOBILE) ============ -->
+<nav class="bottom-nav" aria-label="Navigasi bawah">
+  <a href="#intro" data-target="intro" onclick="show('intro', this); return false;" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="#features" data-target="autoreply" onclick="show('autoreply', this); return false;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+    <span>Fitur</span>
+  </a>
+  <a href="#pricing" data-target="pricing" onclick="show('pricing', this); return false;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    <span>Harga</span>
+  </a>
+  <a href="#faq" data-target="faq" onclick="show('faq', this); return false;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span>FAQ</span>
+  </a>
+  <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20tanya%20WA%20AutoReply" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <span>Chat</span>
+  </a>
+</nav>
 
-  <section id="autoreply">
-    <h1>Auto-Reply AI</h1>
-    <p>Fitur utama WA AutoReply - bot membalas pesan masuk secara otomatis menggunakan AI.</p>
-    <h2>Cara Kerja</h2>
-    <ul>
-      <li>Pesan masuk ke nomor WA kamu</li>
-      <li>Bot membaca pesan dan mengirim ke AI (Groq LLaMA)</li>
-      <li>AI menghasilkan balasan berdasarkan AI Prompt yang kamu buat</li>
-      <li>Balasan dikirim otomatis ke pengirim</li>
-    </ul>
-    <h2>Mengatur AI Prompt</h2>
-    <p>Dashboard → Settings → AI Prompt. Tulis instruksi dalam Bahasa Indonesia atau Inggris. Bot akan mengikuti instruksi ini untuk setiap pesan yang masuk.</p>
-    <h2>Tips AI Prompt Efektif</h2>
-    <ul>
-      <li>Sebutkan nama bisnis dan jenis usaha di awal</li>
-      <li>Cantumkan jam operasional</li>
-      <li>List produk/layanan beserta harga</li>
-      <li>Tulis cara order dan pembayaran</li>
-      <li>Tentukan tone: formal, santai, atau campuran</li>
-    </ul>
-    <div class="callout warning"><p>Bot tidak bisa mengirim gambar atau file. Untuk kirim katalog/brosur, gunakan fitur Broadcast atau kirim manual.</p></div>
-  </section>
-
-  <section id="broadcast">
-    <h1>Broadcast</h1>
-    <p>Kirim pesan ke banyak kontak sekaligus - cocok untuk promo, pengumuman, atau follow-up.</p>
-    <h2>Cara Broadcast</h2>
-    <ol class="step-list">
-      <li><div class="step-content"><h4>Buka Menu Broadcast</h4><p>Dashboard → Broadcast di sidebar kiri.</p></div></li>
-      <li><div class="step-content"><h4>Tulis Pesan</h4><p>Ketik pesan promo atau pengumuman. Maksimal 1000 karakter.</p></div></li>
-      <li><div class="step-content"><h4>Pilih Penerima</h4><p>Pilih kontak dari daftar, atau kirim ke semua kontak sekaligus.</p></div></li>
-      <li><div class="step-content"><h4>Kirim</h4><p>Klik Kirim Broadcast. Pesan akan dikirim satu per satu secara otomatis.</p></div></li>
-    </ol>
-    <div class="callout warning"><p>Hindari broadcast terlalu sering (maks 1x/hari) agar nomor WA tidak kena limit oleh WhatsApp.</p></div>
-  </section>
-
-  <section id="analytics">
-    <h1>Analytics</h1>
-    <p>Pantau performa bot dan aktivitas WhatsApp kamu dari dashboard.</p>
-    <h2>Metrik yang Tersedia</h2>
-    <div class="card-grid">
-      <div class="card"><div class="icon">💬</div><h4>Total Pesan</h4><p>Jumlah pesan masuk dan keluar hari ini vs total</p></div>
-      <div class="card"><div class="icon">👥</div><h4>Kontak Aktif</h4><p>Jumlah kontak unik yang sudah chat dengan bot</p></div>
-      <div class="card"><div class="icon">📈</div><h4>Trend Harian</h4><p>Grafik pesan per hari selama 30 hari terakhir</p></div>
-      <div class="card"><div class="icon">⏰</div><h4>Per Jam</h4><p>Jam-jam paling ramai pesan masuk</p></div>
-    </div>
-    <h2>Cara Akses</h2>
-    <p>Dashboard → Tab Analytics. Data diupdate real-time setiap ada pesan masuk atau keluar.</p>
-  </section>
-  <section id="pricing">
-    <h1>Harga &amp; Paket</h1>
-    <p>Mulai gratis 7 hari, lanjut dengan paket yang sesuai kebutuhan bisnis kamu.</p>
-    <div class="pricing-grid">
-      <div class="plan">
-        <h3>Trial</h3>
-        <div class="price">Gratis <span>/ 7 hari</span></div>
-        <ul>
-          <li>1 nomor WhatsApp</li>
-          <li>Auto-reply AI aktif</li>
-          <li>Analytics dasar</li>
-          <li>Broadcast terbatas</li>
-          <li>Support via WA</li>
-        </ul>
-      </div>
-      <div class="plan popular">
-        <h3>Basic</h3>
-        <div class="price">Rp299K <span>/ bulan</span></div>
-        <ul>
-          <li>1 nomor WhatsApp</li>
-          <li>Auto-reply AI unlimited</li>
-          <li>Broadcast unlimited</li>
-          <li>Analytics lengkap</li>
-          <li>Custom AI Prompt</li>
-          <li>Support prioritas</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>Pro</h3>
-        <div class="price">Rp765K <span>/ bulan</span></div>
-        <ul>
-          <li>3 nomor WhatsApp</li>
-          <li>Semua fitur Basic</li>
-          <li>Multi-client dashboard</li>
-          <li>Laporan mingguan</li>
-          <li>Setup by team</li>
-          <li>Support 24 jam</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>Business</h3>
-        <div class="price">Rp1.35jt <span>/ bulan</span></div>
-        <ul>
-          <li>10 nomor WhatsApp</li>
-          <li>Semua fitur Pro</li>
-          <li>Dedicated server</li>
-          <li>Custom integrasi</li>
-          <li>Account manager</li>
-          <li>SLA 99.9% uptime</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout"><p>Semua paket mulai dengan trial 7 hari gratis. Pembayaran bisa via transfer bank, GoPay, OVO, atau QRIS.</p></div>
-  </section>
-
-  <section id="faq">
-    <h1>FAQ</h1>
-    <p>Pertanyaan yang sering ditanya calon pengguna WA AutoReply.</p>
-    <div class="faq-item">
-      <div class="faq-q">Apakah nomor WA saya aman?</div>
-      <div class="faq-a">Ya. Kami menggunakan protokol resmi WhatsApp Web (Baileys) — sama seperti WhatsApp Web di browser. Sesi disimpan terenkripsi di server kami. Kami tidak pernah menyimpan konten pesan kamu ke database kami.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Apakah bisa kena banned WhatsApp?</div>
-      <div class="faq-a">Risiko sangat kecil jika digunakan normal. Hindari broadcast massal ke ratusan nomor asing sekaligus. Bot hanya membalas pesan masuk, bukan mengirim spam — ini aman sesuai kebijakan WhatsApp.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Kalau HP mati, bot tetap jalan?</div>
-      <div class="faq-a">Ya! Bot berjalan di server kami, bukan di HP kamu. Selama server aktif (99.9% uptime), bot tetap membalas pesan meski HP kamu mati atau tidak ada sinyal.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Bisa pakai nomor WA yang sudah ada?</div>
-      <div class="faq-a">Bisa. Kamu cukup scan QR dari nomor WA yang sudah ada. Perhatikan: satu nomor hanya bisa tertaut di satu perangkat web sekaligus. Jika sudah terhubung ke WA Web di browser lain, perlu disconnect dulu.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Bagaimana cara perpanjang langganan?</div>
-      <div class="faq-a">Dashboard → Pricing → pilih paket → lakukan pembayaran. Setelah konfirmasi pembayaran, akun otomatis diperpanjang. Atau hubungi admin via WA untuk pembayaran manual.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Apakah ada refund?</div>
-      <div class="faq-a">Tidak ada refund untuk langganan yang sudah berjalan. Gunakan masa trial 7 hari untuk memastikan layanan sesuai kebutuhan sebelum berlangganan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Bot bisa jawab dalam bahasa apa?</div>
-      <div class="faq-a">Bot bisa menjawab dalam bahasa apapun tergantung AI Prompt yang kamu buat. Default: Bahasa Indonesia. Kamu bisa tambahkan instruksi "Jawab dalam Bahasa Inggris jika pesan masuk dalam Bahasa Inggris."</div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <h1>Kontak &amp; Support</h1>
-    <p>Butuh bantuan? Tim kami siap membantu kamu.</p>
-    <div class="card-grid">
-      <div class="card">
-        <div class="icon">💬</div>
-        <h4>WhatsApp Support</h4>
-        <p>Chat langsung dengan tim support kami. Respons dalam 1 jam di jam kerja.</p>
-        <p style="margin-top:8px;"><a href="https://wa.me/6282139758648" target="_blank" style="background:#25D366;color:#fff;padding:8px 16px;border-radius:6px;display:inline-block;text-decoration:none;font-weight:600;">Chat via WA</a></p>
-      </div>
-      <div class="card">
-        <div class="icon">📧</div>
-        <h4>Email</h4>
-        <p>Untuk pertanyaan teknis atau billing. Respons dalam 24 jam.</p>
-        <p style="margin-top:8px;"><strong>support@wa-autoreply.com</strong></p>
-      </div>
-      <div class="card">
-        <div class="icon">📱</div>
-        <h4>Demo Gratis</h4>
-        <p>Request demo langsung — kami bantu setup dari awal sampai bot aktif.</p>
-        <p style="margin-top:8px;"><a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20request%20demo%20WA%20AutoReply" target="_blank" style="background:#25D366;color:#fff;padding:8px 16px;border-radius:6px;display:inline-block;text-decoration:none;font-weight:600;">Request Demo</a></p>
-      </div>
-    </div>
-    <h2>Jam Operasional Support</h2>
-    <p>Senin - Sabtu: 09.00 - 21.00 WIB</p>
-    <p>Minggu: 10.00 - 17.00 WIB</p>
-    <div class="callout"><p>Untuk client paket Business: support 24 jam termasuk hari libur via dedicated account manager.</p></div>
-  </section>
-
-</main>
 <script>
-function show(id) {
-  document.querySelectorAll('section').forEach(function(s){ s.classList.remove('active'); });
-  document.querySelectorAll('nav a').forEach(function(a){ a.classList.remove('active'); });
-  var el = document.getElementById(id);
-  if (el) el.classList.add('active');
-  event.target.classList.add('active');
-  window.scrollTo(0,0);
-  // Close sidebar on mobile after click
-  if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('open');
+(function(){
+  var sidebar = document.getElementById('sidebar');
+  var burger = document.getElementById('burger');
+  var backdrop = document.getElementById('backdrop');
+  var bottomNav = document.querySelector('.bottom-nav');
+  var isMobile = function(){ return window.innerWidth < 900; };
+
+  // Toggle sidebar
+  function openSidebar(){
+    sidebar.classList.add('open');
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
   }
-}
-function searchDocs() {
-  var query = document.getElementById('searchInput').value.toLowerCase();
-  var links = document.querySelectorAll('nav a');
-  links.forEach(function(link) {
-    var text = link.textContent.toLowerCase();
-    if (text.indexOf(query) > -1 || query === '') {
-      link.style.display = 'block';
-    } else {
-      link.style.display = 'none';
-    }
+  function closeSidebar(){
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(){
+    if(sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
   });
-}
+  backdrop.addEventListener('click', closeSidebar);
+
+  // ESC to close
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+  });
+
+  // Auto-close on resize to desktop
+  window.addEventListener('resize', function(){
+    if(!isMobile()) closeSidebar();
+  });
+
+  // Section SPA nav
+  window.show = function(id, el){
+    if(event) event.preventDefault();
+    document.querySelectorAll('main section').forEach(function(s){ s.classList.remove('active'); });
+    document.querySelectorAll('#sidebarNav a, .bottom-nav a[data-target]').forEach(function(a){ a.classList.remove('active'); });
+    var section = document.getElementById(id);
+    if(section) section.classList.add('active');
+    if(el){
+      el.classList.add('active');
+    } else {
+      var match = document.querySelector('[data-target="' + id + '"]');
+      if(match) match.classList.add('active');
+    }
+    if(isMobile()){
+      closeSidebar();
+      // Scroll to top of content, not page
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    } else {
+      window.scrollTo({top: 0, behavior: 'instant'});
+    }
+    // Update hash without scroll
+    if(history.replaceState) history.replaceState(null, '', '#' + id);
+  };
+
+  // Hash on load
+  if(location.hash){
+    var id = location.hash.slice(1);
+    var el = document.querySelector('[data-target="' + id + '"]');
+    if(el) show(id, el);
+  }
+
+  // Search
+  var searchInput = document.getElementById('searchInput');
+  window.searchDocs = function(){
+    var query = searchInput.value.toLowerCase().trim();
+    var links = document.querySelectorAll('#sidebarNav a');
+    var sections = document.querySelectorAll('.nav-section');
+    if(!query){
+      links.forEach(function(l){ l.style.display = ''; });
+      sections.forEach(function(s){ s.style.display = ''; });
+      return;
+    }
+    links.forEach(function(link){
+      var text = link.textContent.toLowerCase();
+      link.style.display = text.indexOf(query) > -1 ? '' : 'none';
+    });
+    // Hide empty section labels
+    sections.forEach(function(section){
+      var next = section.nextElementSibling;
+      var hasVisible = false;
+      while(next && !next.classList.contains('nav-section')){
+        if(next.style.display !== 'none'){ hasVisible = true; break; }
+        next = next.nextElementSibling;
+      }
+      section.style.display = hasVisible ? '' : 'none';
+    });
+  };
+
+  // Touch swipe to close sidebar
+  var touchStartX = 0;
+  sidebar.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+  }, {passive:true});
+  sidebar.addEventListener('touchmove', function(e){
+    if(!sidebar.classList.contains('open')) return;
+    var dx = e.touches[0].clientX - touchStartX;
+    if(dx < -50) closeSidebar();
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
