@@ -292,9 +292,191 @@ h2.section-title{
 .step h3{font-family:'Plus Jakarta Sans','Inter',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;color:var(--slate-900)}
 .step p{color:var(--slate-600);font-size:14.5px;line-height:1.55;max-width:260px;margin:0 auto}
 
+/* ============ DEMO 30 DETIK ============ */
+.demo-section{
+  background:linear-gradient(180deg,#fff 0%,var(--indigo-50) 50%,#fff 100%);
+  position:relative;overflow:hidden;
+}
+.demo-section::before{content:"";position:absolute;top:10%;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,.1) 0%,transparent 70%);pointer-events:none}
+.demo-section::after{content:"";position:absolute;bottom:10%;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(37,211,102,.1) 0%,transparent 70%);pointer-events:none}
+.demo-stage{
+  display:grid;grid-template-columns:340px 1fr;gap:60px;align-items:center;
+  max-width:920px;margin:0 auto;position:relative;z-index:1;
+}
+.demo-phone{
+  background:#fff;border-radius:36px;
+  box-shadow:0 30px 60px -20px rgba(15,23,42,.25),0 10px 30px rgba(99,102,241,.15);
+  border:8px solid #1e293b;overflow:hidden;
+  width:340px;max-width:100%;margin:0 auto;
+  position:relative;
+}
+.demo-phone-notch{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:120px;height:24px;background:#1e293b;border-radius:0 0 16px 16px;z-index:2;
+}
+.demo-phone-head{
+  background:linear-gradient(135deg,var(--wa-600),var(--wa-700));
+  color:#fff;padding:30px 16px 14px;display:flex;align-items:center;gap:10px;
+  margin-top:0;
+}
+.demo-phone-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,#fde68a,#fbbf24);
+  color:var(--wa-700);display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;flex-shrink:0;
+}
+.demo-phone-name{font-weight:700;font-size:14px}
+.demo-phone-status{font-size:11px;opacity:.85}
+.demo-phone-body{
+  background:#f0f2f5;background-image:radial-gradient(circle at 20% 30%,rgba(0,0,0,.025) 1px,transparent 1px),radial-gradient(circle at 80% 70%,rgba(0,0,0,.025) 1px,transparent 1px);
+  background-size:20px 20px;height:380px;padding:16px 12px;position:relative;overflow:hidden;
+}
+.demo-scene{
+  position:absolute;inset:16px 12px;display:flex;flex-direction:column;gap:6px;
+  opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s;pointer-events:none;
+}
+.demo-scene.active{opacity:1;transform:translateY(0);pointer-events:auto}
+.demo-msg{
+  max-width:80%;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.4;
+  opacity:0;animation:msgIn .4s ease forwards;
+}
+.demo-msg.in{background:#fff;color:var(--slate-800);align-self:flex-start;border-bottom-left-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.demo-msg.out{background:linear-gradient(135deg,#dcf8c6,#c8f0a8);color:var(--slate-800);align-self:flex-end;border-bottom-right-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.demo-scene.active .demo-msg:nth-child(1){animation-delay:.2s}
+.demo-scene.active .demo-msg:nth-child(2){animation-delay:.7s}
+.demo-scene.active .demo-msg:nth-child(3){animation-delay:1.2s}
+.demo-scene.active .demo-msg:nth-child(4){animation-delay:1.7s}
+.demo-scene.active .demo-msg:nth-child(5){animation-delay:2.2s}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.demo-typing{align-self:flex-start;background:#fff;padding:10px 14px;border-radius:10px;border-bottom-left-radius:3px;display:flex;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.05);opacity:0;animation:msgIn .4s ease forwards;animation-delay:1.5s}
+.demo-typing span{width:7px;height:7px;border-radius:50%;background:var(--slate-400);animation:dotBounce 1.2s infinite}
+.demo-typing span:nth-child(2){animation-delay:.15s}
+.demo-typing span:nth-child(3){animation-delay:.3s}
+@keyframes dotBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.demo-phone-input{
+  background:#fff;border-top:1px solid var(--slate-200);
+  padding:10px 14px;display:flex;align-items:center;height:46px;
+}
+.demo-phone-input-placeholder{color:var(--slate-400);font-size:13px}
+
+.demo-captions{display:flex;flex-direction:column;gap:14px}
+.demo-caption{
+  background:#fff;padding:18px 20px;border-radius:14px;
+  border:1.5px solid var(--slate-200);
+  display:flex;gap:14px;align-items:flex-start;
+  transition:all .4s;opacity:.55;transform:scale(.98);
+}
+.demo-caption.active{opacity:1;transform:scale(1);border-color:var(--wa-500);box-shadow:0 8px 24px rgba(37,211,102,.12)}
+.demo-caption-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--slate-200);color:var(--slate-500);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;flex-shrink:0;
+  transition:all .4s;font-family:'Plus Jakarta Sans',sans-serif;
+}
+.demo-caption.active .demo-caption-num{background:linear-gradient(135deg,var(--wa-500),var(--wa-600));color:#fff;box-shadow:0 6px 16px rgba(37,211,102,.4)}
+.demo-caption-text h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:var(--slate-900);margin-bottom:4px;letter-spacing:-.01em}
+.demo-caption-text p{color:var(--slate-600);font-size:13.5px;line-height:1.5;margin:0}
+.demo-cta{text-align:center;margin-top:50px;position:relative;z-index:1}
+.demo-cta p{color:var(--slate-600);font-size:16px;margin-bottom:14px}
+
+@media(max-width:880px){
+  .demo-stage{grid-template-columns:1fr;gap:32px;max-width:480px}
+  .demo-phone{width:300px}
+  .demo-phone-body{height:340px}
+}
+@media(max-width:480px){
+  .demo-phone{width:280px;border-radius:28px;border-width:6px}
+  .demo-phone-body{height:300px}
+  .demo-msg{font-size:12px;padding:7px 10px}
+}
+
+/* ============ COMPARISON ============ */
+.compare-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg);border:1px solid var(--slate-200);background:#fff;box-shadow:var(--shadow-sm)}
+.compare-table-wrap::-webkit-scrollbar{height:6px}
+.compare-table-wrap::-webkit-scrollbar-thumb{background:var(--slate-300);border-radius:3px}
+.compare-table{width:100%;border-collapse:collapse;min-width:680px;font-size:14.5px}
+.compare-table th,.compare-table td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--slate-100);vertical-align:middle}
+.compare-table th{background:var(--slate-50);font-weight:700;color:var(--slate-700);font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+.compare-table thead th.compare-feat{background:var(--slate-50)}
+.compare-table thead th.compare-us{background:linear-gradient(135deg,var(--indigo-600) 0%,#6366f1 100%);color:#fff;text-align:center;position:relative}
+.compare-table thead th.compare-us .compare-brand{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;text-transform:none;letter-spacing:-.01em;margin-bottom:6px}
+.compare-table thead th.compare-us .compare-logo{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.2);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.compare-table thead th.compare-us .compare-tag{font-size:10.5px;background:linear-gradient(135deg,var(--wa-500),var(--wa-600));color:#fff;padding:2px 10px;border-radius:100px;display:inline-block;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.compare-feat{font-weight:600;color:var(--slate-800);width:32%;font-size:14.5px}
+.compare-table tbody td:not(.compare-feat){text-align:center;color:var(--slate-600);font-size:13.5px}
+.compare-us{background:rgba(99,102,241,.04)!important;font-weight:600!important}
+.compare-table tbody tr:hover td{background:var(--slate-50)}
+.compare-table tbody tr:hover td.compare-us{background:rgba(99,102,241,.08)!important}
+.compare-yes{color:var(--wa-600);font-weight:600;display:inline-block;background:var(--green-50);padding:3px 10px;border-radius:100px;font-size:12.5px}
+.compare-partial{color:var(--amber-700);font-weight:500;background:var(--amber-50);padding:3px 10px;border-radius:100px;font-size:12.5px;display:inline-block}
+.compare-no{color:var(--slate-400);font-weight:500}
+.compare-foot{text-align:center;margin-top:18px;color:var(--slate-500);font-size:13.5px}
+.compare-foot a{color:var(--indigo-600);font-weight:600}
+
+@media(max-width:768px){
+  .compare-table th,.compare-table td{padding:12px 10px;font-size:13px}
+  .compare-feat{font-size:13px}
+}
+
+/* ============ STICKY CTA ============ */
+.sticky-cta{
+  position:fixed;bottom:20px;right:20px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--wa-500) 0%,var(--wa-600) 100%);
+  color:#fff;padding:12px 18px;border-radius:100px;
+  font-weight:700;text-decoration:none;
+  box-shadow:0 10px 30px rgba(37,211,102,.4),0 4px 12px rgba(15,23,42,.15);
+  transition:all .3s;transform:translateY(120%);opacity:0;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  border:2px solid rgba(255,255,255,.3);
+}
+.sticky-cta.show{transform:translateY(0);opacity:1}
+.sticky-cta:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 16px 40px rgba(37,211,102,.5),0 6px 16px rgba(15,23,42,.2);text-decoration:none;color:#fff}
+.sticky-cta:active{transform:translateY(-1px) scale(.99)}
+.sticky-cta-icon{display:flex;align-items:center;justify-content:center;width:30px;height:30px;flex-shrink:0;background:rgba(255,255,255,.2);border-radius:50%;position:relative;z-index:1}
+.sticky-cta-text{display:flex;flex-direction:column;line-height:1.15}
+.sticky-cta-line1{font-size:14.5px;font-weight:800;letter-spacing:-.005em}
+.sticky-cta-line2{font-size:11px;font-weight:500;opacity:.9}
+.sticky-cta-arrow{font-size:18px;font-weight:700;transition:transform .2s}
+.sticky-cta:hover .sticky-cta-arrow{transform:translateX(3px)}
+.sticky-cta-pulse{
+  position:absolute;top:8px;left:24px;
+  width:10px;height:10px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 0 rgba(255,255,255,.7);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}
+  70%{box-shadow:0 0 0 10px rgba(255,255,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+}
+
+@media(max-width:600px){
+  .sticky-cta{bottom:14px;right:14px;padding:10px 14px;gap:8px}
+  .sticky-cta-icon{width:26px;height:26px}
+  .sticky-cta-line1{font-size:13px}
+  .sticky-cta-line2{font-size:10px}
+  .sticky-cta-arrow{font-size:16px}
+}
+
 /* ============ TESTIMONIALS ============ */
 .testimonials{background:linear-gradient(180deg,var(--slate-50) 0%,#fff 100%)}
 .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.test-empty{
+  text-align:center;padding:60px 30px;
+  background:linear-gradient(135deg,var(--indigo-50) 0%,var(--green-50) 100%);
+  border-radius:var(--radius-xl);border:1.5px dashed var(--indigo-200);
+  max-width:560px;margin:0 auto;
+}
+.test-empty-icon{
+  font-size:48px;width:80px;height:80px;border-radius:50%;
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;box-shadow:var(--shadow-md);
+}
+.test-empty h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--slate-900);letter-spacing:-.01em}
+.test-empty p{color:var(--slate-600);margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;font-size:15px}
 .test-card{
   background:#fff;padding:28px;border-radius:var(--radius-lg);
   border:1px solid var(--slate-200);position:relative;transition:all .3s;
@@ -676,48 +858,172 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   </div>
 </section>
 
+<!-- ============ DEMO 30 DETIK ============ -->
+<section class="section demo-section" id="demo">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Live Demo</div>
+      <h2 class="section-title">Lihat dalam 30 detik</h2>
+      <p class="section-sub">Tanpa daftar, tanpa login. Langsung lihat gimana bot kamu bakal kerja di WhatsApp.</p>
+    </div>
+    <div class="demo-stage reveal">
+      <div class="demo-phone">
+        <div class="demo-phone-notch"></div>
+        <div class="demo-phone-head">
+          <div class="demo-phone-avatar">B</div>
+          <div>
+            <div class="demo-phone-name">Bot Toko</div>
+            <div class="demo-phone-status">online</div>
+          </div>
+        </div>
+        <div class="demo-phone-body" id="demoPhoneBody">
+          <!-- Scene 1: Tanya harga -->
+          <div class="demo-scene active" data-scene="1">
+            <div class="demo-msg in">Halo kak, ada promo apa hari ini?</div>
+            <div class="demo-msg out">Hai kak! Ada diskon 25% semua menu sampai jam 5 sore. Mau order kak?</div>
+          </div>
+          <!-- Scene 2: Cek ongkir -->
+          <div class="demo-scene" data-scene="2">
+            <div class="demo-msg in">Ongkir ke Jakarta berapa?</div>
+            <div class="demo-typing"><span></span><span></span><span></span></div>
+            <div class="demo-msg out">Untuk Jakarta ongkir Rp12rb, free ongkir min belanja Rp100rb kak 🙏</div>
+          </div>
+          <!-- Scene 3: Order -->
+          <div class="demo-scene" data-scene="3">
+            <div class="demo-msg in">Oke aku order 2 box ya</div>
+            <div class="demo-msg out">Siap kak! Total Rp 137rb. Transfer BCA 123 a.n Toko, langsung diproses ya 😊</div>
+            <div class="demo-msg in">Ok udah transfer</div>
+            <div class="demo-msg out">Makasih kak! Orderan kamu sedang diproses dan dikirim hari ini 🚀</div>
+          </div>
+        </div>
+        <div class="demo-phone-input">
+          <span class="demo-phone-input-placeholder">Ketik pesan...</span>
+        </div>
+      </div>
+      <div class="demo-captions">
+        <div class="demo-caption active" data-step="1">
+          <div class="demo-caption-num">1</div>
+          <div class="demo-caption-text">
+            <h4>Customer Tanya</h4>
+            <p>Bot langsung tangkap pertanyaan customer dan proses dalam hitungan detik.</p>
+          </div>
+        </div>
+        <div class="demo-caption" data-step="2">
+          <div class="demo-caption-num">2</div>
+          <div class="demo-caption-text">
+            <h4>AI Berpikir</h4>
+            <p>AI Groq LLaMA analisis pertanyaan, cari info yang relevan, susun jawaban natural.</p>
+          </div>
+        </div>
+        <div class="demo-caption" data-step="3">
+          <div class="demo-caption-num">3</div>
+          <div class="demo-caption-text">
+            <h4>Bot Balas</h4>
+            <p>Customer dapat jawaban lengkap, kamu tinggal pantau dashboard + proses order.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-cta reveal">
+      <p>Mau bot kamu sendiri yang kayak gini?</p>
+      <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20setup%20WA%20AutoReply" class="btn btn-primary">Setup Sekarang →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section class="section section-alt" id="compare">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Perbandingan</div>
+      <h2 class="section-title">Kenapa WA AutoReply, bukan yang lain?</h2>
+      <p class="section-sub">Bandingkan dengan WhatsApp Business bawaan atau tim CS manual. Pilih yang paling cocok untuk bisnis Anda.</p>
+    </div>
+    <div class="compare-table-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="compare-feat">Fitur</th>
+            <th class="compare-us">
+              <div class="compare-brand">
+                <span class="compare-logo">WA</span>
+                <span>WA AutoReply</span>
+              </div>
+              <div class="compare-tag">Rekomendasi</div>
+            </th>
+            <th>WhatsApp Business</th>
+            <th>CS Manual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="compare-feat">Balas pesan otomatis 24/7</td>
+            <td class="compare-us"><span class="compare-yes">✓ AI Pintar</span></td>
+            <td><span class="compare-partial">Hanya quick reply terbatas</span></td>
+            <td><span class="compare-no">✗ Hanya jam kerja</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Jawab pertanyaan natural</td>
+            <td class="compare-us"><span class="compare-yes">✓ AI Groq LLaMA</span></td>
+            <td><span class="compare-no">✗ Template kaku</span></td>
+            <td><span class="compare-partial">Tergantung mood CS</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Custom personality per bisnis</td>
+            <td class="compare-us"><span class="compare-yes">✓ Custom prompt</span></td>
+            <td><span class="compare-no">✗ Tidak bisa</span></td>
+            <td><span class="compare-partial">Training lama</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Broadcast promo</td>
+            <td class="compare-us"><span class="compare-yes">✓ Unlimited*</span></td>
+            <td><span class="compare-partial">Broadcast list, 256 max</span></td>
+            <td><span class="compare-yes">✓ Tapi makan waktu</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Analytics chat</td>
+            <td class="compare-us"><span class="compare-yes">✓ Lengkap</span></td>
+            <td><span class="compare-partial">Statistik dasar</span></td>
+            <td><span class="compare-no">✗ Manual rekap</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Multi-nomor & multi-cabang</td>
+            <td class="compare-us"><span class="compare-yes">✓ Sampai 10 nomor*</span></td>
+            <td><span class="compare-no">✗ 1 device</span></td>
+            <td><span class="compare-partial">Tambah CS baru</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">Biaya bulanan</td>
+            <td class="compare-us"><span class="compare-yes">Mulai Rp 299rb</span></td>
+            <td><span class="compare-yes">Gratis</span></td>
+            <td><span class="compare-no">Rp 2-4 juta / CS</span></td>
+          </tr>
+          <tr>
+            <td class="compare-feat">ROI per bulan</td>
+            <td class="compare-us"><span class="compare-yes">Balik modal minggu ke-2</span></td>
+            <td><span class="compare-partial">Hemat waktu terbatas</span></td>
+            <td><span class="compare-no">Cost center</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="compare-foot">*Tergantung paket. Lihat detail di <a href="#pricing">harga</a> →</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TESTIMONIALS ============ -->
 <section class="section testimonials">
   <div class="container">
     <div class="section-head reveal">
       <div class="section-tag">Testimoni</div>
-      <h2 class="section-title">Kata mereka yang udah ngerasain</h2>
-      <p class="section-sub">Cerita dari pengguna WA AutoReply yang sudah merasakan manfaatnya.</p>
+      <h2 class="section-title">Segera hadir cerita dari pengguna kami</h2>
+      <p class="section-sub">Saat ini kami masih dalam tahap BETA dan belum mempublikasikan testimoni. Daftarkan diri Anda untuk jadi pengguna pertama dan bangun cerita sukses bersama kami.</p>
     </div>
-    <div class="test-grid">
-      <div class="test-card reveal">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-text">"Bot WA AutoReply ngejawab pertanyaan customer sampai jam 2 pagi. Orderan naik 40% dalam sebulan pertama! Gak perlu lagi bales chat satu-satu."</p>
-        <div class="test-author">
-          <div class="test-avatar test-avatar-1">S</div>
-          <div>
-            <div class="test-name">Ibu Sari</div>
-            <div class="test-role">Pemilik Toko Kue Online, Jakarta</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card reveal">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-text">"Setup cuma 5 menit, langsung aktif. Sekarang gak perlu bangun tengah malam buat bales chat customer laundry. Hemat waktu banget!"</p>
-        <div class="test-author">
-          <div class="test-avatar test-avatar-2">B</div>
-          <div>
-            <div class="test-name">Mas Budi</div>
-            <div class="test-role">Pemilik Jasa Laundry, Bandung</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card reveal">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-text">"Pelanggan lebih puas karena dapat respons instan 24 jam. Broadcast promo juga gampang banget, tinggal klik kirim langsung sampai."</p>
-        <div class="test-author">
-          <div class="test-avatar test-avatar-3">D</div>
-          <div>
-            <div class="test-name">Mbak Dewi</div>
-            <div class="test-role">Pemilik Salon &amp; Spa, Surabaya</div>
-          </div>
-        </div>
-      </div>
+    <div class="test-empty reveal">
+      <div class="test-empty-icon">💬</div>
+      <h3>Belum ada testimoni publik</h3>
+      <p>Kami belum mempublikasikan cerita dari pengguna manapun. Menjadi yang pertama setelah launch resmi.</p>
+      <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20jadi%20pengguna%20awal%20WA%20AutoReply" class="btn btn-primary">Jadi Pengguna Awal →</a>
     </div>
   </div>
 </section>
@@ -910,6 +1216,19 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   </div>
 </footer>
 
+<!-- ============ STICKY CTA ============ -->
+<a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="sticky-cta" id="stickyCta" aria-label="Mulai trial WA AutoReply">
+  <span class="sticky-cta-pulse"></span>
+  <span class="sticky-cta-icon">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+  </span>
+  <span class="sticky-cta-text">
+    <span class="sticky-cta-line1">Mulai Trial</span>
+    <span class="sticky-cta-line2">Gratis 7 hari</span>
+  </span>
+  <span class="sticky-cta-arrow">→</span>
+</a>
+
 <script>
 // FAQ toggle
 document.querySelectorAll('.faq-q').forEach(function(q){
@@ -936,6 +1255,79 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
 document.querySelector('.burger').addEventListener('click', function(){
   document.getElementById('navInner').classList.toggle('nav-mobile-open');
 });
+// Sticky CTA
+var stickyCta = document.getElementById('stickyCta');
+if(stickyCta){
+  var showCta = function(){
+    if(window.scrollY > window.innerHeight * 0.5){
+      stickyCta.classList.add('show');
+    } else {
+      stickyCta.classList.remove('show');
+    }
+  };
+  window.addEventListener('scroll', showCta, {passive:true});
+  showCta();
+}
+// Demo 30 detik - cycle scenes
+(function(){
+  var scenes = document.querySelectorAll('.demo-scene');
+  var captions = document.querySelectorAll('.demo-caption');
+  if(scenes.length < 2) return;
+  var current = 0;
+  var total = scenes.length;
+  function show(idx){
+    scenes.forEach(function(s,i){ s.classList.toggle('active', i === idx); });
+    captions.forEach(function(c,i){ c.classList.toggle('active', i === idx); });
+    // Force restart animations by removing/re-adding msgs
+    var activeScene = scenes[idx];
+    var msgs = activeScene.querySelectorAll('.demo-msg, .demo-typing');
+    msgs.forEach(function(m){
+      m.style.animation = 'none';
+      void m.offsetWidth;
+      m.style.animation = '';
+    });
+  }
+  // Auto cycle every 5s
+  setInterval(function(){
+    current = (current + 1) % total;
+    show(current);
+  }, 5000);
+  // Click captions to navigate
+  captions.forEach(function(cap, idx){
+    cap.addEventListener('click', function(){
+      current = idx;
+      show(current);
+    });
+    cap.style.cursor = 'pointer';
+  });
+  // Pause on hover
+  var stage = document.querySelector('.demo-stage');
+  var timer;
+  function restartTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){
+      current = (current + 1) % total;
+      show(current);
+    }, 5000);
+  }
+  if(stage){
+    stage.addEventListener('mouseenter', function(){ clearInterval(timer); });
+    stage.addEventListener('mouseleave', restartTimer);
+    // Restart on scroll into view
+    if('IntersectionObserver' in window){
+      var demoIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            restartTimer();
+          } else {
+            clearInterval(timer);
+          }
+        });
+      }, {threshold: 0.3});
+      demoIO.observe(stage);
+    }
+  }
+})();
 // Scroll reveal
 var reveals = document.querySelectorAll('.reveal');
 if('IntersectionObserver' in window){
