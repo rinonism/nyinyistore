@@ -36,7 +36,7 @@ export const games: Game[] = [
       { amount: "42 Diamonds", price: 13500, label: "42 💎", sku: "ml42" },
       { amount: "Weekly Elite Bundle", price: 15700, label: "Weekly Elite Bundle", sku: "mlelite" },
       { amount: "Weekly Diamond Pass", price: 29300, label: "Weekly Diamond Pass", sku: "mlweek" },
-      { amount: "Weekly Diamond Pass 2x", price: 58200, label: "Weekly Diamond Pass 2x", sku: "mlweek2" },
+      { amount: "Weekly Diamond Pass 2x", price: 58500, label: "Weekly Diamond Pass 2x", sku: "mlweek2" },
       { amount: "Weekly Diamond Pass 3x", price: 87900, label: "Weekly Diamond Pass 3x", sku: "mlweek3" },
       { amount: "Weekly Diamond Pass 4x", price: 116400, label: "Weekly Diamond Pass 4x", sku: "mlweek4" },
       { amount: "Weekly Diamond Pass 5x", price: 146500, label: "Weekly Diamond Pass 5x", sku: "mlweek5" },
