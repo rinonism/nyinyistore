@@ -1373,51 +1373,73 @@ if(stickyCta){
 (function(){
   var scenes = document.querySelectorAll('.demo-scene');
   var captions = document.querySelectorAll('.demo-caption');
-  if(scenes.length < 2) return;
+  if (scenes.length < 2) return;
   var current = 0;
   var total = scenes.length;
-  function show(idx){
-    scenes.forEach(function(s,i){ s.classList.toggle('active', i === idx); });
-    captions.forEach(function(c,i){ c.classList.toggle('active', i === idx); });
-    // Force restart animations by removing/re-adding msgs
-    var activeScene = scenes[idx];
+  var timer = null;
+  var paused = false;
+  var CYCLE_MS = 4000;
+
+  function show(idx) {
+    current = ((idx % total) + total) % total;
+    scenes.forEach(function(s, i) {
+      s.classList.toggle('active', i === current);
+    });
+    captions.forEach(function(c, i) {
+      c.classList.toggle('active', i === current);
+    });
+    // Restart CSS animations on the active scene's messages
+    var activeScene = scenes[current];
+    if (!activeScene) return;
     var msgs = activeScene.querySelectorAll('.demo-msg, .demo-typing');
-    msgs.forEach(function(m){
+    msgs.forEach(function(m) {
       m.style.animation = 'none';
       void m.offsetWidth;
       m.style.animation = '';
     });
   }
-  // Auto-cycle managed by restartTimer() (no duplicate interval)
-  // Click captions to navigate
-  captions.forEach(function(cap, idx){
-    cap.addEventListener('click', function(){
-      current = idx;
-      show(current);
-    });
-    cap.style.cursor = 'pointer';
-  });
-  // Pause on hover
-  var stage = document.querySelector('.demo-stage');
-  var timer;
-  function restartTimer(){
-    clearInterval(timer);
-    timer = setInterval(function(){
-      current = (current + 1) % total;
-      show(current);
-    }, 5000);
+
+  function start() {
+    stop();
+    timer = setInterval(function() {
+      show(current + 1);
+    }, CYCLE_MS);
   }
-  if(stage){
+
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  function pause() {
+    paused = true;
+    stop();
+  }
+
+  function resume() {
+    paused = false;
+    start();
+  }
+
+  // Click captions to navigate (and restart timer so it doesn't immediately advance)
+  captions.forEach(function(cap, idx) {
+    cap.style.cursor = 'pointer';
+    cap.addEventListener('click', function() {
+      show(idx);
+      if (!paused) start();
+    });
+  });
+
+  var stage = document.querySelector('.demo-stage');
+  if (stage) {
     var isTouch = window.matchMedia('(hover: none)').matches;
-    if(!isTouch){
-      stage.addEventListener('mouseenter', function(){ clearInterval(timer); });
-      stage.addEventListener('mouseleave', restartTimer);
+    if (!isTouch) {
+      stage.addEventListener('mouseenter', pause);
+      stage.addEventListener('mouseleave', resume);
     }
-    // Start initial cycle so scene auto-advances immediately.
-    // No IO pause — previous version had race: IO fires immediately on observe
-    // with current visibility state, clearing the timer before user scrolls to demo.
-    // Demo animation is lightweight (CSS keyframes) so always-on cycle is fine.
-    restartTimer();
+    // Start auto-cycle on page load. Always-on (no IO pause) so demo is
+    // guaranteed to advance regardless of scroll position. Animation is
+    // lightweight CSS keyframes — CPU cost is negligible.
+    start();
   }
 })();
 // Scroll reveal
