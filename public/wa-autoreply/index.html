@@ -463,6 +463,41 @@ h2.section-title{
   .sticky-cta-arrow{font-size:16px}
 }
 
+/* ============ TRUST ============ */
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:48px}
+.trust-card{
+  background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);
+  padding:28px 24px;text-align:left;transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.trust-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px -8px rgba(79,70,229,.15);
+  border-color:var(--indigo-200);
+}
+.trust-icon{
+  width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+}
+.trust-icon-shield{background:linear-gradient(135deg,#dbeafe,#bfdbfe);color:#1d4ed8}
+.trust-icon-server{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#047857}
+.trust-icon-refund{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#b45309}
+.trust-icon-uptime{background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#6d28d9}
+.trust-card h3{font-family:'Plus Jakarta Sans','Inter',sans-serif;font-size:17px;font-weight:700;color:var(--slate-900);margin:0 0 8px;letter-spacing:-.01em}
+.trust-card p{font-size:14px;color:var(--slate-600);line-height:1.55;margin:0}
+.trust-bar{
+  display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:center;
+  padding:20px 32px;background:#fff;
+  border:1px solid var(--slate-200);border-radius:var(--radius-lg);
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+.trust-bar-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:14.5px;font-weight:600;color:var(--slate-700);
+}
+.trust-bar-item svg{color:var(--wa-500);flex-shrink:0}
+@media(max-width:900px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.trust-grid{grid-template-columns:1fr;gap:16px}.trust-bar{gap:16px 24px;padding:16px 20px}}
+
 /* ============ TESTIMONIALS ============ */
 .testimonials{background:linear-gradient(180deg,var(--slate-50) 0%,#fff 100%)}
 .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -709,11 +744,11 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
         <span>Beta launch — slot terbatas</span>
         <span class="hero-badge-new">NEW</span>
       </div>
-      <h1 class="hero-title">Balas chat WA <span class="grad">otomatis 24/7</span>, pelanggan gak perlu nunggu.</h1>
-      <p class="hero-sub">Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Hemat waktu, tingkatkan konversi, jangan biarkan pelanggan kabur cuma karena kamu offline.</p>
+      <h1 class="hero-title" data-ab="hero-headline-h1" data-ab-html>Balas chat WA <span class="grad">otomatis 24/7</span>, pelanggan gak perlu nunggu.</h1>
+      <p class="hero-sub" data-ab="hero-headline-sub">Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Hemat waktu, tingkatkan konversi, jangan biarkan pelanggan kabur cuma karena kamu offline.</p>
       <div class="hero-cta">
-        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%207%20hari%20gratis%20WA%20AutoReply" class="btn btn-wa btn-lg">🎁 Trial 7 Hari Gratis</a>
-        <a href="#how" class="btn btn-ghost btn-lg">Lihat Cara Kerja →</a>
+        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%207%20hari%20gratis%20WA%20AutoReply" class="btn btn-wa btn-lg" data-ab-cta="hero-trial" data-ab="cta-text-primary">🎁 Trial 7 Hari Gratis</a>
+        <a href="#how" class="btn btn-ghost btn-lg" data-ab-cta="hero-how">Lihat Cara Kerja →</a>
       </div>
       <div class="hero-trust">
         <span class="hero-trust-item">
@@ -1013,6 +1048,67 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   </div>
 </section>
 
+<!-- ============ TRUST ============ -->
+<section class="section section-alt trust-section" id="trust">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Kepercayaan</div>
+      <h2 class="section-title">Mengapa UMKM mempercayai kami</h2>
+      <p class="section-sub">Standar keamanan dan privasi setara enterprise, harga UMKM.</p>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-card reveal">
+        <div class="trust-icon trust-icon-shield">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Enkripsi End-to-End</h3>
+        <p>Semua data chat dienkripsi dengan standar industri (AES-256). Percakapan pelanggan kamu tetap pribadi, tidak pernah dibaca manusia.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon trust-icon-server">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        </div>
+        <h3>Server di Indonesia</h3>
+        <p>Data kamu disimpan di server lokal. Sesuai regulasi Indonesia, bukan server luar negeri. Latency rendah, support mudah.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon trust-icon-refund">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        </div>
+        <h3>Garansi 7 Hari</h3>
+        <p>Tidak puas dalam 7 hari pertama? Kami refund 100%, tanpa pertanyaan. Kamu bisa coba tanpa risiko.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon trust-icon-uptime">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>99.9% Uptime SLA</h3>
+        <p>Server dijaga 24/7 dengan monitoring real-time. Downtime kurang dari 1 menit per minggu, atau refund 1 bulan.</p>
+      </div>
+    </div>
+
+    <div class="trust-bar reveal">
+      <div class="trust-bar-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Setup 5 menit</span>
+      </div>
+      <div class="trust-bar-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Tanpa kartu kredit</span>
+      </div>
+      <div class="trust-bar-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Cancel kapan saja</span>
+      </div>
+      <div class="trust-bar-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Support WhatsApp</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TESTIMONIALS ============ -->
 <section class="section testimonials">
   <div class="container">
@@ -1230,6 +1326,9 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   </span>
   <span class="sticky-cta-arrow">→</span>
 </a>
+
+<!-- A/B Testing -->
+<script src="/wa-autoreply/ab-test.js" defer></script>
 
 <script>
 // FAQ toggle
