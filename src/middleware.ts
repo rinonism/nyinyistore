@@ -14,26 +14,64 @@ const PROTECTED_PATHS = [
   '/api/order/create',
 ];
 
+// Paths that require admin basic auth (CRITICAL — was publicly accessible)
+const ADMIN_PATHS = [
+  '/wa-autoreply/admin-crm',
+  '/wa-autoreply/admin-crm.html',
+];
+
+function checkBasicAuth(request: NextRequest): boolean {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected || expected.length < 8) {
+    // Fail-closed: if env not set or weak, deny all access
+    return false;
+  }
+  const authHeader = request.headers.get('authorization') || '';
+  if (!authHeader.startsWith('Basic ')) return false;
+  const encoded = authHeader.slice(6).trim();
+  let decoded = '';
+  try {
+    decoded = atob(encoded);
+  } catch {
+    return false;
+  }
+  const idx = decoded.indexOf(':');
+  if (idx < 0) return false;
+  const pw = decoded.slice(idx + 1);
+  // Constant-time-ish compare (avoid timing attacks on short strings)
+  if (pw.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < pw.length; i++) {
+    diff |= pw.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const ua = (request.headers.get('user-agent') || '').toLowerCase();
 
+  // Admin basic auth gate
+  if (ADMIN_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) {
+    if (!checkBasicAuth(request)) {
+      return new NextResponse('Authentication required', {
+        status: 401,
+        headers: {
+          'WWW-Authenticate': 'Basic realm="WA AutoReply Admin", charset="UTF-8"',
+          'X-Content-Type-Options': 'nosniff',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+        },
+      });
+    }
+  }
+
   // Block bot UAs on protected endpoints
   if (PROTECTED_PATHS.some(p => pathname.startsWith(p))) {
-    // No UA = block
     if (!ua || ua.length < 10) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
-
-    // Known bot/tool UAs = block
     if (BLOCKED_UAS.some(blocked => ua.includes(blocked))) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
   }
 
@@ -50,6 +88,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/:path*',
+    '/wa-autoreply/admin-crm/:path*',
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

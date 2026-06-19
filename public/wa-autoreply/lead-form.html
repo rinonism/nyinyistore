@@ -96,8 +96,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
 
     <div class="field">
-      <label>Catatan (opsional)</label>
-      <textarea name="notes" maxlength="500" placeholder="Ada yang ingin ditanyakan atau request khusus?"></textarea>
+      <label>Catatan Tambahan</label>
+      <textarea name="notes" maxlength="500" placeholder="Contoh: orderan 50-100 per hari, butuh auto-reply untuk pertanyaan harga"></textarea>
+    </div>
+
+    <!-- Honeypot anti-spam (hidden from humans) -->
+    <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+      <label>Website (jangan diisi)</label>
+      <input type="text" name="website" tabindex="-1" autocomplete="off">
     </div>
 
     <button type="submit" class="btn-submit" id="submitBtn">🎁 Daftar Trial Gratis 7 Hari</button>
@@ -119,9 +125,8 @@ function submitForm(e) {
   err.style.display = 'none';
   ok.style.display = 'none';
 
-  // Validate
+  // Collect fields including honeypot
   const data = {
-    timestamp: new Date().toISOString(),
     name: form.elements['name'].value.trim(),
     business: form.elements['business'].value.trim(),
     email: form.elements['email'].value.trim(),
@@ -129,10 +134,10 @@ function submitForm(e) {
     industry: form.elements['industry'].value,
     volume: form.elements['volume'].value,
     notes: form.elements['notes'].value.trim(),
-    source: window.location.search || 'direct',
-    userAgent: navigator.userAgent
+    website: form.elements['website'] ? form.elements['website'].value : '' // honeypot
   };
 
+  // Client-side validation
   if (data.name.length < 2) { showError('Nama minimal 2 karakter'); return false; }
   if (data.business.length < 2) { showError('Nama bisnis minimal 2 karakter'); return false; }
   if (!isValidEmail(data.email)) { showError('Format email tidak valid'); return false; }
@@ -143,34 +148,62 @@ function submitForm(e) {
 
   // Disable button + spinner
   btn.disabled = true;
+  const originalText = btn.innerHTML;
   btn.innerHTML = '<span class="spinner"></span>Mengirim...';
 
-  // Save ke localStorage (best effort, may fail on file://)
-  try { saveToLocal(data); } catch(e) { console.warn('localStorage save failed:', e); }
+  // Submit to API
+  fetch('/api/wautoreply/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(function(res){
+    return res.json().then(function(body){ return { ok: res.ok, status: res.status, body: body }; });
+  })
+  .then(function(result){
+    if (result.ok) {
+      // Success — save to localStorage as backup + show success
+      try { saveToLocal(Object.assign({}, data, { timestamp: new Date().toISOString() })); } catch(e) {}
+      ok.style.display = 'block';
+      form.style.display = 'none';
 
-  // Generate CSV & trigger download
-  try { downloadCSV([data]); } catch(e) { console.warn('CSV download failed:', e); }
+      // Build WA pre-filled message
+      const waMsg = encodeURIComponent(
+        `Halo, saya ${data.name} dari ${data.business}.\n\nSaya baru daftar trial WA AutoReply.\n\n` +
+        `Email: ${data.email}\n` +
+        `WA: ${data.whatsapp}\n` +
+        `Industri: ${data.industry || '-'}\n` +
+        `Volume: ${data.volume || '-'}\n` +
+        (data.notes ? `Catatan: ${data.notes}\n` : '')
+      );
+      const waURL = `https://wa.me/6282139758648?text=${waMsg}`;
 
-  // Open WhatsApp with pre-filled message
-  const waMsg = encodeURIComponent(
-    `Halo, saya ${data.name} dari ${data.business}.\n\nSaya mau daftar trial WA AutoReply.\n\n` +
-    `Email: ${data.email}\n` +
-    `WA: ${data.whatsapp}\n` +
-    `Industri: ${data.industry || '-'}\n` +
-    `Volume: ${data.volume}\n` +
-    (data.notes ? `Catatan: ${data.notes}\n` : '')
-  );
-  const waURL = `https://wa.me/6282139758648?text=${waMsg}`;
-
-  // Show success
-  setTimeout(function() {
-    try { btn.disabled = false; } catch(e) {}
-    try { btn.innerHTML = '🎁 Daftar Trial Gratis 7 Hari'; } catch(e) {}
-    try { ok.style.display = 'block'; } catch(e) { console.error('show success failed:', e); }
-    try { form.style.display = 'none'; } catch(e) {}
-    // Auto-open WA after 1.5s
-    setTimeout(function() { try { window.open(waURL, '_blank'); } catch(e) {} }, 1500);
-  }, 800);
+      // Auto-open WA after 1.5s
+      setTimeout(function(){ window.open(waURL, '_blank'); }, 1500);
+    } else {
+      // Error from API
+      const msg = result.body.error || 'Gagal mengirim. Coba lagi.';
+      showError(msg);
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  })
+  .catch(function(err){
+    console.error('Submit error:', err);
+    // Fallback: save to localStorage + open WA (graceful degradation)
+    try { saveToLocal(Object.assign({}, data, { timestamp: new Date().toISOString() })); } catch(e) {}
+    ok.style.display = 'block';
+    form.style.display = 'none';
+    const waMsg = encodeURIComponent(
+      `Halo, saya ${data.name} dari ${data.business}.\n\nSaya mau daftar trial WA AutoReply (offline submission).\n\n` +
+      `Email: ${data.email}\n` +
+      `WA: ${data.whatsapp}\n` +
+      `Industri: ${data.industry || '-'}\n` +
+      `Volume: ${data.volume || '-'}\n` +
+      (data.notes ? `Catatan: ${data.notes}\n` : '')
+    );
+    setTimeout(function(){ window.open(`https://wa.me/6282139758648?text=${waMsg}`, '_blank'); }, 1500);
+  });
 
   return false;
 }

@@ -54,15 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </style>
 </head>
 <body>
-<div class="login-box" id="loginBox">
-  <h1>🔐 Admin Login</h1>
-  <div class="error" id="loginError">Password salah. Coba lagi.</div>
-  <input type="password" id="password" placeholder="Admin password" onkeyup="if(event.key==='Enter')login()">
-  <button onclick="login()">Login</button>
-  <p style="font-size:12px;color:#888;text-align:center;margin-top:16px">Default password: admin123 (ganti di <code>script</code>)</p>
-</div>
-
-<div class="admin" id="adminPanel">
+<div class="admin" id="adminPanel" style="display:none">
   <div class="admin-header">
     <h1>📋 WA AutoReply CRM</h1>
     <div>
@@ -102,73 +94,67 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-// Config
-const ADMIN_PASSWORD = 'admin123';
-const SESSION_KEY = 'wa-autoreply-admin-session';
-const LEADS_KEY = 'wa-autoreply-leads-v2';
+// Admin CRM v2 — auth via Vercel middleware (HTTP Basic Auth on this page)
+// Browser handles the login prompt automatically. No hardcoded password in JS.
+// Data source: /api/wautoreply/leads (Supabase backend).
 
-// Check session
-if (sessionStorage.getItem(SESSION_KEY) === 'authenticated') {
-  showAdmin();
-}
+const LEADS_API = '/api/wautoreply/leads';
+const SEARCH_DEBOUNCE_MS = 250;
 
-function login() {
-  const pw = document.getElementById('password').value;
-  if (pw === ADMIN_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, 'authenticated');
-    showAdmin();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-    document.getElementById('password').value = '';
+let leads = [];
+let search = '';
+let statusFilter = '';
+let searchTimer = null;
+
+// Init
+(async function init() {
+  // Auth check on page load (browser auto-resends Basic Auth header after first prompt)
+  try {
+    const res = await fetch(LEADS_API, { credentials: 'include', cache: 'no-store' });
+    if (res.status === 401) {
+      // Force re-prompt
+      window.location.reload();
+      return;
+    }
+    if (!res.ok) throw new Error('Failed to load');
+    const body = await res.json();
+    leads = body.leads || [];
+  } catch (err) {
+    console.error('Init error:', err);
+    alert('Gagal load data. Cek koneksi atau login ulang.');
+    return;
   }
-}
 
-function logout() {
-  sessionStorage.removeItem(SESSION_KEY);
-  location.reload();
-}
-
-function showAdmin() {
   document.getElementById('loginBox').style.display = 'none';
   document.getElementById('adminPanel').style.display = 'block';
   renderLeads();
   updateStats();
-}
+})();
 
-function getLeads() {
-  try {
-    return JSON.parse(localStorage.getItem(LEADS_KEY) || '[]');
-  } catch (e) { return []; }
-}
+// Search input with debounce
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function() {
+    search = e.target.value.toLowerCase();
+    renderLeads();
+  }, SEARCH_DEBOUNCE_MS);
+});
 
-function saveLeads(leads) {
-  localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
-}
-
-function updateStats() {
-  const leads = getLeads();
-  document.getElementById('statTotal').textContent = leads.length;
-  document.getElementById('statNew').textContent = leads.filter(l => (l.status||'new') === 'new').length;
-  document.getElementById('statTrial').textContent = leads.filter(l => l.status === 'trial').length;
-  document.getElementById('statPaid').textContent = leads.filter(l => l.status === 'paid').length;
-  const conv = leads.length > 0 ? Math.round((leads.filter(l => l.status === 'paid').length / leads.length) * 100) : 0;
-  document.getElementById('statConv').textContent = conv + '%';
-}
+document.getElementById('filterStatus').addEventListener('change', function(e) {
+  statusFilter = e.target.value;
+  renderLeads();
+});
 
 function renderLeads() {
-  const leads = getLeads();
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-
   const filtered = leads.filter(l => {
     const matchSearch = !search ||
       (l.name||'').toLowerCase().includes(search) ||
       (l.business||'').toLowerCase().includes(search) ||
       (l.email||'').toLowerCase().includes(search) ||
       (l.whatsapp||'').toLowerCase().includes(search);
-    const matchStatus = !status || (l.status||'new') === status;
+    const matchStatus = !statusFilter || (l.status||'new') === statusFilter;
     return matchSearch && matchStatus;
-  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+  });
 
   const tbody = document.getElementById('leadsBody');
   if (filtered.length === 0) {
@@ -177,9 +163,9 @@ function renderLeads() {
   }
 
   tbody.innerHTML = filtered.map((l, i) => {
-    const date = new Date(l.timestamp);
+    const date = new Date(l.created_at);
     const dateStr = date.toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    const status = l.status || 'new';
+    const st = l.status || 'new';
     return `
       <tr>
         <td>${dateStr}</td>
@@ -188,17 +174,17 @@ function renderLeads() {
         <td><a href="mailto:${escapeHtml(l.email||'')}">${escapeHtml(l.email||'-')}</a><br><a href="https://wa.me/${(l.whatsapp||'').replace(/[^0-9]/g,'')}" target="_blank">${escapeHtml(l.whatsapp||'-')}</a></td>
         <td>${escapeHtml(l.industry||'-')}</td>
         <td>${escapeHtml(l.volume||'-')}</td>
-        <td><span class="status status-${status}">${status.toUpperCase()}</span></td>
+        <td><span class="status status-${st}">${st.toUpperCase()}</span></td>
         <td>
           <div class="actions">
-            <select onchange="updateStatus(${i}, this.value)" style="padding:2px;font-size:11px;border-radius:4px;border:1px solid #ddd">
-              <option value="new" ${status==='new'?'selected':''}>New</option>
-              <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
-              <option value="trial" ${status==='trial'?'selected':''}>Trial</option>
-              <option value="paid" ${status==='paid'?'selected':''}>Paid</option>
-              <option value="lost" ${status==='lost'?'selected':''}>Lost</option>
+            <select onchange="updateStatus('${l.id}', this.value)" style="padding:2px;font-size:11px;border-radius:4px;border:1px solid #ddd">
+              <option value="new" ${st==='new'?'selected':''}>New</option>
+              <option value="contacted" ${st==='contacted'?'selected':''}>Contacted</option>
+              <option value="trial" ${st==='trial'?'selected':''}>Trial</option>
+              <option value="paid" ${st==='paid'?'selected':''}>Paid</option>
+              <option value="lost" ${st==='lost'?'selected':''}>Lost</option>
             </select>
-            <button class="danger" onclick="deleteLead(${i})">🗑</button>
+            <button class="danger" onclick="deleteLead('${l.id}')">🗑</button>
           </div>
         </td>
       </tr>
@@ -207,89 +193,72 @@ function renderLeads() {
 }
 
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, function(m) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(m) {
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
   });
 }
 
-function updateStatus(filteredIndex, newStatus) {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  const leads = getLeads();
-  const filtered = leads.filter(l => {
-    const matchSearch = !search ||
-      (l.name||'').toLowerCase().includes(search) ||
-      (l.business||'').toLowerCase().includes(search) ||
-      (l.email||'').toLowerCase().includes(search) ||
-      (l.whatsapp||'').toLowerCase().includes(search);
-    const matchStatus = !status || (l.status||'new') === status;
-    return matchSearch && matchStatus;
-  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-  const lead = filtered[filteredIndex];
-  if (!lead) return;
-  // Find actual index in unfiltered array
-  const realIndex = leads.indexOf(lead);
-  leads[realIndex].status = newStatus;
-  saveLeads(leads);
-  renderLeads();
-  updateStats();
+async function updateStatus(id, newStatus) {
+  try {
+    const res = await fetch(LEADS_API, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status: newStatus })
+    });
+    if (res.status === 401) { window.location.reload(); return; }
+    if (!res.ok) throw new Error('Update failed');
+    const body = await res.json();
+    // Update local cache
+    const idx = leads.findIndex(l => l.id === id);
+    if (idx >= 0) leads[idx] = Object.assign({}, leads[idx], body.lead);
+    renderLeads();
+    updateStats();
+  } catch (err) {
+    alert('Gagal update status. Coba lagi.');
+    console.error(err);
+  }
 }
 
-function deleteLead(filteredIndex) {
+async function deleteLead(id) {
   if (!confirm('Hapus lead ini?')) return;
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  const leads = getLeads();
-  const filtered = leads.filter(l => {
-    const matchSearch = !search ||
-      (l.name||'').toLowerCase().includes(search) ||
-      (l.business||'').toLowerCase().includes(search) ||
-      (l.email||'').toLowerCase().includes(search) ||
-      (l.whatsapp||'').toLowerCase().includes(search);
-    const matchStatus = !status || (l.status||'new') === status;
-    return matchSearch && matchStatus;
-  }).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-  const lead = filtered[filteredIndex];
-  if (!lead) return;
-  const realIndex = leads.indexOf(lead);
-  leads.splice(realIndex, 1);
-  saveLeads(leads);
-  renderLeads();
-  updateStats();
+  try {
+    const res = await fetch(LEADS_API + '?id=' + encodeURIComponent(id), {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (res.status === 401) { window.location.reload(); return; }
+    if (!res.ok) throw new Error('Delete failed');
+    leads = leads.filter(l => l.id !== id);
+    renderLeads();
+    updateStats();
+  } catch (err) {
+    alert('Gagal hapus lead. Coba lagi.');
+    console.error(err);
+  }
 }
 
-function addLead() {
+async function addLead() {
   const name = prompt('Nama lead:');
   if (!name) return;
   const whatsapp = prompt('Nomor WhatsApp (08xxx):');
   if (!whatsapp) return;
   const business = prompt('Nama bisnis:', '-') || '-';
   const email = prompt('Email:', '-') || '-';
-  const leads = getLeads();
-  leads.unshift({
-    timestamp: new Date().toISOString(),
-    name: name,
-    business: business,
-    whatsapp: whatsapp,
-    email: email,
-    industry: '-',
-    volume: '-',
-    notes: 'Manual entry',
-    status: 'new',
-    source: 'manual'
-  });
-  saveLeads(leads);
-  renderLeads();
-  updateStats();
+  // For now, manual entry still uses direct insert via API
+  // (Could be a separate POST endpoint; for simplicity, log to console + show instruction)
+  alert('Manual add via UI belum support backend. Kirim data via WhatsApp admin untuk input manual.');
 }
 
 function exportCSV() {
-  const leads = getLeads();
   if (leads.length === 0) { alert('Belum ada leads.'); return; }
-  const headers = ['Timestamp','Status','Name','Business','Email','WhatsApp','Industry','Volume','Notes','Source'];
-  const rows = leads.map(l => headers.map(h => `"${String(l[h.toLowerCase()]||'').replace(/"/g,'""')}"`).join(','));
+  const headers = ['Created','Status','Name','Business','Email','WhatsApp','Industry','Volume','Notes','Source'];
+  const fieldMap = {
+    'Created':'created_at','Status':'status','Name':'name','Business':'business',
+    'Email':'email','WhatsApp':'whatsapp','Industry':'industry','Volume':'volume',
+    'Notes':'notes','Source':'source'
+  };
+  const rows = leads.map(l => headers.map(h => `"${String(l[fieldMap[h]]||'').replace(/"/g,'""')}"`).join(','));
   const csv = headers.join(',') + '\n' + rows.join('\n');
   const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
   const url = URL.createObjectURL(blob);
@@ -302,32 +271,34 @@ function exportCSV() {
   URL.revokeObjectURL(url);
 }
 
-function clearAll() {
+async function clearAll() {
   if (!confirm('Hapus SEMUA leads? Tindakan ini tidak bisa dibatalkan.')) return;
-  if (!confirm('Yakin? Semua data akan hilang.')) return;
-  localStorage.removeItem(LEADS_KEY);
-  renderLeads();
-  updateStats();
+  if (!confirm('Yakin? Semua data di server akan hilang.')) return;
+  try {
+    const res = await fetch(LEADS_API + '?confirm=yes-delete-all', {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (res.status === 401) { window.location.reload(); return; }
+    if (!res.ok) throw new Error('Clear failed');
+    leads = [];
+    renderLeads();
+    updateStats();
+    alert('Semua leads sudah dihapus.');
+  } catch (err) {
+    alert('Gagal hapus semua. Coba lagi.');
+    console.error(err);
+  }
 }
 
-// Auto-import leads from form's old localStorage key (v1) on first load
-(function migrate() {
-  try {
-    const v1 = localStorage.getItem('wa-autoreply-leads');
-    if (v1) {
-      const old = JSON.parse(v1);
-      const current = getLeads();
-      old.forEach(l => {
-        if (!l.status) l.status = 'new';
-        if (!current.find(c => c.email === l.email && c.timestamp === l.timestamp)) {
-          current.push(l);
-        }
-      });
-      saveLeads(current);
-      localStorage.removeItem('wa-autoreply-leads');
-    }
-  } catch (e) {}
-})();
+function updateStats() {
+  document.getElementById('statTotal').textContent = leads.length;
+  document.getElementById('statNew').textContent = leads.filter(l => (l.status||'new') === 'new').length;
+  document.getElementById('statTrial').textContent = leads.filter(l => l.status === 'trial').length;
+  document.getElementById('statPaid').textContent = leads.filter(l => l.status === 'paid').length;
+  const conv = leads.length > 0 ? Math.round((leads.filter(l => l.status === 'paid').length / leads.length) * 100) : 0;
+  document.getElementById('statConv').textContent = conv + '%';
+}
 </script>
 </body>
 </html>
