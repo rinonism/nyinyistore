@@ -706,6 +706,46 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   .plan.popular{order:0}
   .container{padding:0 20px}
 }
+
+/* ============ LEAD FORM MODAL ============ */
+.lead-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .25s ease}
+.lead-modal[hidden]{display:none}
+.lead-modal-overlay{position:absolute;inset:0;background:rgba(15,23,42,.65);backdrop-filter:blur(4px);cursor:pointer}
+.lead-modal-card{position:relative;background:#fff;border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:slideUp .35s cubic-bezier(.16,1,.3,1)}
+.lead-modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:none;background:#f3f4f6;color:#374151;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lead-modal-close:hover{background:#e5e7eb}
+.lead-modal-head{margin-bottom:24px}
+.lead-modal-title{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:6px;line-height:1.3}
+.lead-modal-sub{font-size:14px;color:#64748b;line-height:1.5}
+.lead-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.lead-form-field{display:flex;flex-direction:column;gap:5px;grid-column:span 2}
+.lead-form-field-half{grid-column:span 1}
+.lead-form-field span{font-size:13px;font-weight:600;color:#374151}
+.lead-form-field input,.lead-form-field select{padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s}
+.lead-form-field input:focus,.lead-form-field select:focus{outline:none;border-color:#25D366;box-shadow:0 0 0 3px rgba(37,211,102,.15)}
+.lead-form-field input::placeholder{color:#9ca3af}
+.lead-form-honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+.lead-form-error{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px}
+.lead-form-submit{width:100%;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .2s}
+.lead-form-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+.lead-form-submit:disabled{opacity:.6;cursor:not-allowed}
+.lead-form-foot{font-size:11px;color:#94a3b8;text-align:center;margin-top:10px;line-height:1.4}
+.lead-modal-success{text-align:center;padding:20px 0}
+.lead-modal-success-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-weight:700;animation:scaleIn .4s cubic-bezier(.16,1,.3,1)}
+.lead-modal-success h3{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:8px}
+.lead-modal-success p{font-size:14px;color:#64748b;line-height:1.5;margin-bottom:20px}
+.lead-modal-success-btn{padding:12px 32px;background:#f3f4f6;color:#374151;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.lead-modal-success-btn:hover{background:#e5e7eb}
+body.lead-modal-open{overflow:hidden}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+@media(max-width:560px){
+  .lead-form-grid{grid-template-columns:1fr}
+  .lead-form-field-half{grid-column:span 2}
+  .lead-modal-card{padding:24px 20px;border-radius:16px}
+  .lead-modal-title{font-size:20px}
+}
 </style>
 </head>
 <body>
@@ -727,7 +767,7 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
         </div>
         <div class="nav-cta">
           <a href="https://nyinyistore.com/docs/" class="btn btn-ghost">Docs</a>
-          <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-primary">Mulai Trial →</a>
+          <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-primary" data-lead-modal data-ab-cta="nav-trial">Mulai Trial →</a>
         </div>
         <button class="burger" aria-label="Menu">☰</button>
       </div>
@@ -747,7 +787,7 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
       <h1 class="hero-title" data-ab="hero-headline-h1" data-ab-html>Balas chat WA <span class="grad">otomatis 24/7</span>, pelanggan gak perlu nunggu.</h1>
       <p class="hero-sub" data-ab="hero-headline-sub">Platform AI auto-reply WhatsApp untuk UMKM Indonesia. Hemat waktu, tingkatkan konversi, jangan biarkan pelanggan kabur cuma karena kamu offline.</p>
       <div class="hero-cta">
-        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%207%20hari%20gratis%20WA%20AutoReply" class="btn btn-wa btn-lg" data-ab-cta="hero-trial" data-ab="cta-text-primary">🎁 Trial 7 Hari Gratis</a>
+        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%207%20hari%20gratis%20WA%20AutoReply" class="btn btn-wa btn-lg" data-lead-modal data-ab-cta="hero-trial" data-ab="cta-text-primary">🎁 Trial 7 Hari Gratis</a>
         <a href="#how" class="btn btn-ghost btn-lg" data-ab-cta="hero-how">Lihat Cara Kerja →</a>
       </div>
       <div class="hero-trust">
@@ -1149,7 +1189,7 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
           <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Broadcast terbatas</li>
           <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Support via WA</li>
         </ul>
-        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-ghost">Mulai Trial</a>
+        <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-ghost" data-lead-modal data-ab-cta="pricing-trial">Mulai Trial</a>
       </div>
       <div class="plan popular reveal">
         <div class="plan-badge">⭐ PALING POPULER</div>
@@ -1250,7 +1290,7 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
     <h2>Siap bikin bisnis UMKM lebih produktif?</h2>
     <p>Mulai trial gratis 7 hari sekarang. Tidak perlu kartu kredit, setup 5 menit, langsung aktif.</p>
     <div class="cta-row">
-      <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-wa btn-lg">🎁 Mulai Trial Gratis 7 Hari</a>
+      <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="btn btn-wa btn-lg" data-lead-modal data-ab-cta="cta-section-trial">🎁 Mulai Trial Gratis 7 Hari</a>
       <a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20request%20demo" class="btn btn-light btn-lg">📞 Request Demo</a>
     </div>
     <p class="final-cta-meta">Atau langsung WhatsApp kami di <strong style="color:#fff">+62 821-3975-8648</strong></p>
@@ -1315,7 +1355,7 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
 </footer>
 
 <!-- ============ STICKY CTA ============ -->
-<a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="sticky-cta" id="stickyCta" aria-label="Mulai trial WA AutoReply">
+<a href="https://wa.me/6282139758648?text=Halo%2C%20saya%20mau%20trial%20WA%20AutoReply" class="sticky-cta" id="stickyCta" data-lead-modal data-ab-cta="sticky-trial" aria-label="Mulai trial WA AutoReply">
   <span class="sticky-cta-pulse"></span>
   <span class="sticky-cta-icon">
     <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
@@ -1326,6 +1366,69 @@ footer{background:var(--slate-950);color:var(--slate-400);padding:60px 0 28px}
   </span>
   <span class="sticky-cta-arrow">→</span>
 </a>
+
+<!-- ============ LEAD FORM MODAL ============ -->
+<div class="lead-modal" id="leadModal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+  <div class="lead-modal-overlay" data-close></div>
+  <div class="lead-modal-card" role="document">
+    <button class="lead-modal-close" data-close aria-label="Tutup">×</button>
+    <div class="lead-modal-head">
+      <h3 class="lead-modal-title" id="leadModalTitle">🎁 Coba Gratis 7 Hari</h3>
+      <p class="lead-modal-sub">Isi form di bawah, kami setup bot kamu dalam 1×24 jam.</p>
+    </div>
+    <form id="leadFormModal" class="lead-form" novalidate>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" class="lead-form-honeypot" aria-hidden="true">
+      <div class="lead-form-grid">
+        <label class="lead-form-field">
+          <span>Nama kamu *</span>
+          <input name="name" type="text" required minlength="2" maxlength="100" placeholder="Budi Santoso">
+        </label>
+        <label class="lead-form-field">
+          <span>Nama bisnis *</span>
+          <input name="business" type="text" required minlength="2" maxlength="100" placeholder="Toko Budi">
+        </label>
+        <label class="lead-form-field">
+          <span>Email *</span>
+          <input name="email" type="email" required placeholder="kamu@email.com">
+        </label>
+        <label class="lead-form-field">
+          <span>WhatsApp aktif *</span>
+          <input name="whatsapp" type="tel" required pattern="(\+?62|0)[0-9]{9,13}" placeholder="081234567890">
+        </label>
+        <label class="lead-form-field lead-form-field-half">
+          <span>Jenis bisnis</span>
+          <select name="industry">
+            <option value="">Pilih...</option>
+            <option>Toko online</option>
+            <option>Restoran / Kafe</option>
+            <option>Jasa / Layanan</option>
+            <option>Produk digital</option>
+            <option>Lainnya</option>
+          </select>
+        </label>
+        <label class="lead-form-field lead-form-field-half">
+          <span>Pesan / hari</span>
+          <select name="volume">
+            <option value="">Pilih...</option>
+            <option>1–10</option>
+            <option>10–50</option>
+            <option>50–200</option>
+            <option>200+</option>
+          </select>
+        </label>
+      </div>
+      <div class="lead-form-error" id="leadFormError" hidden></div>
+      <button type="submit" class="lead-form-submit">🎁 Kirim & Mulai Trial</button>
+      <p class="lead-form-foot">Data kamu aman. Gak di-spam, gak dishare ke pihak ketiga.</p>
+    </form>
+    <div class="lead-modal-success" id="leadFormSuccess" hidden>
+      <div class="lead-modal-success-icon">✓</div>
+      <h3>Berhasil!</h3>
+      <p>Kami akan hubungi kamu via WhatsApp dalam 1×24 jam. Cek inbox WA kamu ya!</p>
+      <button type="button" class="lead-modal-success-btn" data-close>Oke</button>
+    </div>
+  </div>
+</div>
 
 <!-- A/B Testing -->
 <script src="/wa-autoreply/ab-test.js" defer></script>
@@ -1442,6 +1545,141 @@ if(stickyCta){
     start();
   }
 })();
+
+// ============ LEAD FORM MODAL ============
+(function(){
+  var modal = document.getElementById('leadModal');
+  var form = document.getElementById('leadFormModal');
+  var success = document.getElementById('leadFormSuccess');
+  var errorBox = document.getElementById('leadFormError');
+  if (!modal || !form) return;
+
+  var lastTrigger = null;
+
+  function openModal(triggerEl){
+    lastTrigger = triggerEl || null;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lead-modal-open');
+    // Track form_view event for A/B
+    try {
+      if (window.ABTest && window.ABTest.track) {
+        var source = triggerEl && triggerEl.getAttribute('data-ab-cta') || 'unknown';
+        window.ABTest.track('form_view', null, null, { source: source });
+      }
+    } catch(e) {}
+    // Focus first input
+    var firstInput = form.querySelector('input:not([type="hidden"]):not([tabindex="-1"])');
+    if (firstInput) setTimeout(function(){ firstInput.focus(); }, 100);
+  }
+
+  function closeModal(){
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lead-modal-open');
+    // Reset form view back to default
+    form.hidden = false;
+    success.hidden = true;
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+    form.reset();
+    if (lastTrigger && typeof lastTrigger.focus === 'function') lastTrigger.focus();
+  }
+
+  // Open: any element with data-lead-modal attribute
+  document.addEventListener('click', function(e){
+    var trigger = e.target.closest('[data-lead-modal]');
+    if (trigger) {
+      e.preventDefault();
+      openModal(trigger);
+    }
+  });
+
+  // Close: any [data-close] inside modal OR Escape key
+  modal.addEventListener('click', function(e){
+    if (e.target.closest('[data-close]')) {
+      closeModal();
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+
+  // Form submit
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    errorBox.hidden = true;
+    var submitBtn = form.querySelector('.lead-form-submit');
+    if (submitBtn.disabled) return;
+    submitBtn.disabled = true;
+    var originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Mengirim...';
+
+    var fd = new FormData(form);
+    var honeypot = fd.get('website');
+    if (honeypot) {
+      // Honeypot triggered — silently succeed (don't tip off spammer)
+      console.warn('Honeypot triggered');
+      form.hidden = true;
+      success.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      return;
+    }
+
+    var data = {
+      name: String(fd.get('name') || '').trim(),
+      business: String(fd.get('business') || '').trim(),
+      email: String(fd.get('email') || '').trim(),
+      whatsapp: String(fd.get('whatsapp') || '').trim(),
+      industry: String(fd.get('industry') || '').trim() || null,
+      volume: String(fd.get('volume') || '').trim() || null,
+      source: 'landing-modal'
+    };
+
+    try {
+      var res = await fetch('/api/wautoreply/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      var body = await res.json().catch(function(){ return {}; });
+      if (!res.ok) {
+        throw new Error(body.error || ('HTTP ' + res.status));
+      }
+      // Success
+      form.hidden = true;
+      success.hidden = false;
+      // Track conversion A/B
+      try {
+        if (window.ABTest && window.ABTest.trackConversion) {
+          window.ABTest.trackConversion('cta-text', 1);
+        }
+      } catch(e) {}
+    } catch (err) {
+      errorBox.textContent = err.message || 'Gagal mengirim. Coba lagi atau chat via WhatsApp.';
+      errorBox.hidden = false;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+
+  // Auto-open if URL hash is #form or #trial
+  function checkHash(){
+    var h = (location.hash || '').toLowerCase();
+    if (h === '#form' || h === '#trial' || h === '#coba') {
+      openModal(null);
+    }
+  }
+  window.addEventListener('hashchange', checkHash);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkHash);
+  } else {
+    checkHash();
+  }
+})();
+
 // Scroll reveal
 var reveals = document.querySelectorAll('.reveal');
 if('IntersectionObserver' in window){
