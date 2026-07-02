@@ -194,7 +194,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "60 Genesis Crystals", price: 12500, label: "60 💠", sku: "gi60" },
       { amount: "300+30 Genesis Crystals", price: 63200, label: "330 💠", sku: "gi300" },
-      { amount: "980+110 Genesis Crystals", price: 183300, label: "1090 💠", sku: "gi980" },
+      { amount: "980+110 Genesis Crystals", price: 276900, label: "1090 💠", sku: "gi980" },
       { amount: "1980+260 Genesis Crystals", price: 425700, label: "2240 💠", sku: "gi1980" },
       { amount: "3280+600 Genesis Crystals", price: 607500, label: "3880 💠", sku: "gi3280" },
       { amount: "6480+1600 Genesis Crystals", price: 1310200, label: "8080 💠", sku: "gi6480" },
