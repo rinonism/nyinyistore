@@ -95,7 +95,7 @@ export const games: Game[] = [
     image: "/games/free-fire.webp",
     description: "Diamond Top Up",
     denominations: [
-      { amount: "12 Diamonds", price: 1900, label: "12 💎", sku: "ff12" },
+      { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4500, label: "29 💎", sku: "ff29" },
       { amount: "50 Diamonds", price: 5500, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
@@ -142,7 +142,7 @@ export const games: Game[] = [
     image: "/games/free-fire-max.webp",
     description: "Diamond Top Up",
     denominations: [
-      { amount: "12 Diamonds", price: 1900, label: "12 💎", sku: "ff12" },
+      { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4500, label: "29 💎", sku: "ff29" },
       { amount: "50 Diamonds", price: 5500, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
