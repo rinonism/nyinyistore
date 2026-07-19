@@ -237,7 +237,7 @@ export const games: Game[] = [
       { amount: "565 UC", price: 148400, label: "565 UC", sku: "uc565" },
       { amount: "Royale Pass", price: 198500, label: "Royale Pass", sku: "purp" },
       { amount: "750 UC", price: 204000, label: "750 UC", sku: "uc750" },
-      { amount: "810 UC", price: 205400, label: "810 UC", sku: "uc810" },
+      { amount: "810 UC", price: 240400, label: "810 UC", sku: "uc810" },
       { amount: "900 UC", price: 230800, label: "900 UC", sku: "uc900" },
       { amount: "1015 UC", price: 271800, label: "1015 UC", sku: "uc1015" },
       { amount: "1105 UC", price: 280300, label: "1105 UC", sku: "uc1105" },
