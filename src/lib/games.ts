@@ -259,7 +259,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "475 VP", price: 54100, label: "475 VP", sku: "v475" },
       { amount: "950 VP", price: 108200, label: "950 VP", sku: "v950" },
-      { amount: "1.475 VP", price: 162400, label: "1.475 VP", sku: "v1475" },
+      { amount: "1.475 VP", price: 162500, label: "1.475 VP", sku: "v1475" },
       { amount: "2.050 VP", price: 215200, label: "2.050 VP", sku: "v2050" },
       { amount: "3.050 VP", price: 323100, label: "3.050 VP", sku: "v3050" },
       { amount: "3.650 VP", price: 374100, label: "3.650 VP", sku: "v3650" },
