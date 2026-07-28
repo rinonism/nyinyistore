@@ -242,7 +242,7 @@ export const games: Game[] = [
       { amount: "1015 UC", price: 271800, label: "1015 UC", sku: "uc1015" },
       { amount: "1105 UC", price: 280300, label: "1105 UC", sku: "uc1105" },
       { amount: "1250 UC", price: 330800, label: "1250 UC", sku: "uc1250" },
-      { amount: "1375 UC", price: 334400, label: "1375 UC", sku: "uc1375" },
+      { amount: "1375 UC", price: 367900, label: "1375 UC", sku: "uc1375" },
       { amount: "1573 UC", price: 401400, label: "1573 UC", sku: "uc1573" },
       { amount: "Elite Pass Plus", price: 487900, label: "Elite Pass Plus", sku: "puepp" },
     ],
