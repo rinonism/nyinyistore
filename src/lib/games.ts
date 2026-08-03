@@ -97,8 +97,8 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4400, label: "29 💎", sku: "ff29" },
-      { amount: "50 Diamonds", price: 5800, label: "50 💎", sku: "ff50" },
-      { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
+      { amount: "50 Diamonds", price: 6800, label: "50 💎", sku: "ff50" },
+      { amount: "70 Diamonds", price: 8500, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11400, label: "87 💎", sku: "ff87" },
       { amount: "140 Diamonds", price: 12100, label: "140 💎", sku: "ff140" },
       { amount: "106 Diamonds", price: 13800, label: "106 💎", sku: "ff106" },
@@ -144,8 +144,8 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4400, label: "29 💎", sku: "ff29" },
-      { amount: "50 Diamonds", price: 5800, label: "50 💎", sku: "ff50" },
-      { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
+      { amount: "50 Diamonds", price: 6800, label: "50 💎", sku: "ff50" },
+      { amount: "70 Diamonds", price: 8500, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11400, label: "87 💎", sku: "ff87" },
       { amount: "106 Diamonds", price: 13800, label: "106 💎", sku: "ff106" },
       { amount: "140 Diamonds", price: 12100, label: "140 💎", sku: "ff140" },
