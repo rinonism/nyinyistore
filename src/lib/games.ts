@@ -47,7 +47,7 @@ export const games: Game[] = [
       { amount: "210 Diamonds", price: 55700, label: "210 💎", sku: "ml210" },
       { amount: "225 Diamonds", price: 59600, label: "225 💎", sku: "ml225" },
       { amount: "252 Diamonds", price: 67000, label: "252 💎", sku: "ml252" },
-      { amount: "Monthly Epic Bundle", price: 69000, label: "Monthly Epic Bundle", sku: "mlbndle" },
+      { amount: "Monthly Epic Bundle", price: 69300, label: "Monthly Epic Bundle", sku: "mlbndle" },
       { amount: "275 Diamonds", price: 73400, label: "275 💎", sku: "ml275" },
       { amount: "Coupon Pass", price: 73900, label: "Coupon Pass", sku: "mlcoupon" },
       { amount: "284 Diamonds", price: 76200, label: "284 💎", sku: "ml284" },
@@ -97,7 +97,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4400, label: "29 💎", sku: "ff29" },
-      { amount: "50 Diamonds", price: 5500, label: "50 💎", sku: "ff50" },
+      { amount: "50 Diamonds", price: 5800, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11400, label: "87 💎", sku: "ff87" },
       { amount: "140 Diamonds", price: 12100, label: "140 💎", sku: "ff140" },
@@ -144,7 +144,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "12 Diamonds", price: 1800, label: "12 💎", sku: "ff12" },
       { amount: "29 Diamonds", price: 4400, label: "29 💎", sku: "ff29" },
-      { amount: "50 Diamonds", price: 5500, label: "50 💎", sku: "ff50" },
+      { amount: "50 Diamonds", price: 5800, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 9200, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11400, label: "87 💎", sku: "ff87" },
       { amount: "106 Diamonds", price: 13800, label: "106 💎", sku: "ff106" },
