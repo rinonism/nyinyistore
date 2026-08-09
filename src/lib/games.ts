@@ -96,7 +96,7 @@ export const games: Game[] = [
     description: "Diamond Top Up",
     denominations: [
       { amount: "12 Diamonds", price: 1900, label: "12 💎", sku: "ff12" },
-      { amount: "29 Diamonds", price: 4500, label: "29 💎", sku: "ff29" },
+      { amount: "29 Diamonds", price: 4600, label: "29 💎", sku: "ff29" },
       { amount: "50 Diamonds", price: 7000, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 8800, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11500, label: "87 💎", sku: "ff87" },
@@ -143,7 +143,7 @@ export const games: Game[] = [
     description: "Diamond Top Up",
     denominations: [
       { amount: "12 Diamonds", price: 1900, label: "12 💎", sku: "ff12" },
-      { amount: "29 Diamonds", price: 4500, label: "29 💎", sku: "ff29" },
+      { amount: "29 Diamonds", price: 4600, label: "29 💎", sku: "ff29" },
       { amount: "50 Diamonds", price: 7000, label: "50 💎", sku: "ff50" },
       { amount: "70 Diamonds", price: 8800, label: "70 💎", sku: "ff70" },
       { amount: "87 Diamonds", price: 11500, label: "87 💎", sku: "ff87" },
