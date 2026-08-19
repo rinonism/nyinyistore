@@ -47,7 +47,7 @@ export const games: Game[] = [
       { amount: "210 Diamonds", price: 61500, label: "210 💎", sku: "ml210" },
       { amount: "225 Diamonds", price: 65800, label: "225 💎", sku: "ml225" },
       { amount: "252 Diamonds", price: 67000, label: "252 💎", sku: "ml252" },
-      { amount: "Monthly Epic Bundle", price: 69300, label: "Monthly Epic Bundle", sku: "mlbndle" },
+      { amount: "Monthly Epic Bundle", price: 69200, label: "Monthly Epic Bundle", sku: "mlbndle" },
       { amount: "275 Diamonds", price: 80200, label: "275 💎", sku: "ml275" },
       { amount: "Coupon Pass", price: 73900, label: "Coupon Pass", sku: "mlcoupon" },
       { amount: "284 Diamonds", price: 76600, label: "284 💎", sku: "ml284" },
