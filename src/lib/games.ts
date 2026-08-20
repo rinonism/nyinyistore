@@ -68,7 +68,7 @@ export const games: Game[] = [
       { amount: "712 Diamonds", price: 209100, label: "712 💎", sku: "ml712" },
       { amount: "758 Diamonds", price: 228500, label: "758 💎", sku: "ml758" },
       { amount: "Starlight Member Plus", price: 198000, label: "Starlight Member Plus", sku: "mlslplus" },
-      { amount: "792 Diamonds", price: 206600, label: "792 💎", sku: "ml792" },
+      { amount: "792 Diamonds", price: 231400, label: "792 💎", sku: "ml792" },
       { amount: "841 Diamonds", price: 249300, label: "841 💎", sku: "ml841" },
       { amount: "870 Diamonds", price: 247900, label: "870 💎", sku: "ml870" },
       { amount: "888 Diamonds", price: 252300, label: "888 💎", sku: "ml888" },
