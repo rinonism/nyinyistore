@@ -30,7 +30,7 @@ export const games: Game[] = [
     region: "INDONESIA",
     needsServerId: true,
     denominations: [
-      { amount: "5 Diamonds", price: 1800, label: "5 💎", sku: "ml5" },
+      { amount: "5 Diamonds", price: 1600, label: "5 💎", sku: "ml5" },
       { amount: "10 Diamonds", price: 3300, label: "10 💎", sku: "ml10" },
       { amount: "12 Diamonds", price: 4100, label: "12 💎", sku: "ml12" },
       { amount: "42 Diamonds", price: 14000, label: "42 💎", sku: "ml42" },
@@ -50,7 +50,7 @@ export const games: Game[] = [
       { amount: "Monthly Epic Bundle", price: 85500, label: "Monthly Epic Bundle", sku: "mlbndle" },
       { amount: "275 Diamonds", price: 81300, label: "275 💎", sku: "ml275" },
       { amount: "Coupon Pass", price: 73900, label: "Coupon Pass", sku: "mlcoupon" },
-      { amount: "284 Diamonds", price: 82700, label: "284 💎", sku: "ml284" },
+      { amount: "284 Diamonds", price: 82900, label: "284 💎", sku: "ml284" },
       { amount: "305 Diamonds", price: 90100, label: "305 💎", sku: "ml305" },
       { amount: "Starlight Member", price: 89800, label: "Starlight Member", sku: "mlstar" },
       { amount: "344 Diamonds", price: 103400, label: "344 💎", sku: "ml344" },
