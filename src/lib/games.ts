@@ -31,8 +31,8 @@ export const games: Game[] = [
     needsServerId: true,
     denominations: [
       { amount: "5 Diamonds", price: 1600, label: "5 💎", sku: "ml5" },
-      { amount: "10 Diamonds", price: 3300, label: "10 💎", sku: "ml10" },
-      { amount: "12 Diamonds", price: 4100, label: "12 💎", sku: "ml12" },
+      { amount: "10 Diamonds", price: 3200, label: "10 💎", sku: "ml10" },
+      { amount: "12 Diamonds", price: 4000, label: "12 💎", sku: "ml12" },
       { amount: "42 Diamonds", price: 14000, label: "42 💎", sku: "ml42" },
       { amount: "Weekly Elite Bundle", price: 17300, label: "Weekly Elite Bundle", sku: "mlelite" },
       { amount: "Weekly Diamond Pass", price: 32100, label: "Weekly Diamond Pass", sku: "mlweek" },
