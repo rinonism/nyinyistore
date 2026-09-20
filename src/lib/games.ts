@@ -258,12 +258,12 @@ export const games: Game[] = [
     region: "INDONESIA",
     denominations: [
       { amount: "475 VP", price: 54100, label: "475 VP", sku: "v475" },
-      { amount: "950 VP", price: 107800, label: "950 VP", sku: "v950" },
-      { amount: "1.475 VP", price: 161700, label: "1.475 VP", sku: "v1475" },
+      { amount: "950 VP", price: 108900, label: "950 VP", sku: "v950" },
+      { amount: "1.475 VP", price: 163300, label: "1.475 VP", sku: "v1475" },
       { amount: "2.050 VP", price: 215200, label: "2.050 VP", sku: "v2050" },
       { amount: "3.050 VP", price: 323100, label: "3.050 VP", sku: "v3050" },
       { amount: "3.650 VP", price: 373300, label: "3.650 VP", sku: "v3650" },
-      { amount: "4.100 VP", price: 429000, label: "4.100 VP", sku: "v4100" },
+      { amount: "4.100 VP", price: 433500, label: "4.100 VP", sku: "v4100" },
     ],
   },
   {
