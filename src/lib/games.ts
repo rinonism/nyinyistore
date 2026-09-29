@@ -84,7 +84,7 @@ export const games: Game[] = [
       { amount: "1446 Diamonds", price: 418500, label: "1446 💎", sku: "ml1446" },
       { amount: "1516 Diamonds", price: 431300, label: "1516 💎", sku: "ml1516" },
       { amount: "1584 Diamonds", price: 447500, label: "1584 💎", sku: "ml1584" },
-      { amount: "1647 Diamonds", price: 470800, label: "1647 💎", sku: "ml1647" },
+      { amount: "1647 Diamonds", price: 470700, label: "1647 💎", sku: "ml1647" },
       { amount: "1672 Diamonds", price: 478200, label: "1672 💎", sku: "ml1672" },
     ],
   },
