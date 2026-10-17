@@ -32,7 +32,7 @@ export const games: Game[] = [
     denominations: [
       { amount: "5 Diamonds", price: 1700, label: "5 💎", sku: "ml5" },
       { amount: "10 Diamonds", price: 3200, label: "10 💎", sku: "ml10" },
-      { amount: "12 Diamonds", price: 4000, label: "12 💎", sku: "ml12" },
+      { amount: "12 Diamonds", price: 4100, label: "12 💎", sku: "ml12" },
       { amount: "42 Diamonds", price: 14000, label: "42 💎", sku: "ml42" },
       { amount: "Weekly Elite Bundle", price: 16900, label: "Weekly Elite Bundle", sku: "mlelite" },
       { amount: "Weekly Diamond Pass", price: 32600, label: "Weekly Diamond Pass", sku: "mlweek" },
@@ -50,7 +50,7 @@ export const games: Game[] = [
       { amount: "Monthly Epic Bundle", price: 85900, label: "Monthly Epic Bundle", sku: "mlbndle" },
       { amount: "275 Diamonds", price: 81600, label: "275 💎", sku: "ml275" },
       { amount: "Coupon Pass", price: 73900, label: "Coupon Pass", sku: "mlcoupon" },
-      { amount: "284 Diamonds", price: 83900, label: "284 💎", sku: "ml284" },
+      { amount: "284 Diamonds", price: 83400, label: "284 💎", sku: "ml284" },
       { amount: "305 Diamonds", price: 89800, label: "305 💎", sku: "ml305" },
       { amount: "Starlight Member", price: 89800, label: "Starlight Member", sku: "mlstar" },
       { amount: "344 Diamonds", price: 103300, label: "344 💎", sku: "ml344" },
