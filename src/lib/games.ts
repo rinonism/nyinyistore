@@ -62,7 +62,7 @@ export const games: Game[] = [
       { amount: "453 Diamonds", price: 134000, label: "453 💎", sku: "ml453" },
       { amount: "516 Diamonds", price: 154400, label: "516 💎", sku: "ml516" },
       { amount: "565 Diamonds", price: 162800, label: "565 💎", sku: "ml565" },
-      { amount: "Twilight Pass", price: 173800, label: "Twilight Pass", sku: "mltwig" },
+      { amount: "Twilight Pass", price: 173300, label: "Twilight Pass", sku: "mltwig" },
       { amount: "659 Diamonds", price: 190300, label: "659 💎", sku: "ml569" },
       { amount: "702 Diamonds", price: 204500, label: "702 💎", sku: "ml702" },
       { amount: "712 Diamonds", price: 207000, label: "712 💎", sku: "ml712" },
